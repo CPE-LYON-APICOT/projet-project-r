@@ -1,25 +1,34 @@
 package r.project;
-import java.util.EnumMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Hero {
     private String nom;
     private String description;
     private String image;
     private Faction faction;
-    public Hero(String pNom,String pDescription,String pImage,Faction pFaction){
+    public Hero(String pNom,String pDescription,String pImage,@SuppressWarnings("exports") Faction pFaction){
         nom=pNom;
         description=pDescription;
         image=pImage;
         faction=pFaction;
+
+    }
+    public String GetNom(){
+        return nom;
+    }
+    public String GetDescription(){
+        return description;
+    }
+    public String GetImage(){
+        return image;
     }
     @SuppressWarnings("exports")
-    public void AjouterInMap(EnumMap<EnumHeroes, Object> pLstHeroes){
-        pLstHeroes.put(EnumHeroes.NOM, this.nom);
-        pLstHeroes.put(EnumHeroes.DESCRIPTION, this.description);
-        pLstHeroes.put(EnumHeroes.IMAGE, this.image);
-        pLstHeroes.put(EnumHeroes.FACTION, this.faction);
+    public Faction GetFaction(){
+        return faction;
     }
+
 }
 
 @IaPourFaction(aPourFaction = FOrdre.class)
@@ -28,6 +37,7 @@ public class Hero {
     public HeroOrdre(String pNom, String pDescription,String pImage, Faction pFaction) {
         super(pNom, pDescription,pImage, pFaction);
     }
+    
  }
 
  @IaPourFaction(aPourFaction = FChaos.class)
