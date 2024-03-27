@@ -6,14 +6,16 @@ public abstract class carte {
     private int cout;
     private String description;
     private int attaque;
+    private String lienImage;
 
     
     // Constructor
-    public carte(String name, int cost, String desc, int attack) {
+    public carte(String name, int cost, String desc, int attack, String lienImage) {
         this.nom = name;
         this.cout = cost;
         this.description = desc;
         this.attaque = attack;
+        this.lienImage = lienImage;
     }
     
     // Getter and Setter methods
@@ -47,11 +49,17 @@ public abstract class carte {
         this.attaque = attaque;
     }
 
-    
+    public String getLienImage() {
+        return lienImage;
+    }
+
+    public void setLienImage(String lienImage) {
+        this.lienImage = lienImage;
+    }
     
     // Common methods
     public abstract void jouer();
-    public abstract void afficher();
+    public abstract String afficher();
 }
 
 
