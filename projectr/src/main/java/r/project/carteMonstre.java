@@ -6,8 +6,8 @@ class carteMonstre extends carte {
     private int PV;    
     
     // Constructor
-    public carteMonstre(String name, int cost, String desc, int attack, int pv, String lienImage) {
-        super( name, cost,  desc, attack, lienImage);
+    public carteMonstre(String name, int cost, String desc, int attack, int pv, String lienImage, Faction faction) {
+        super( name, cost,  desc, attack, lienImage, faction);
         this.PV = pv;
     }
 
@@ -28,7 +28,8 @@ class carteMonstre extends carte {
             "Coût: " + super.getCout() + "\n" +
             "Description: " + super.getDescription() + "\n" +
             "Attaque: " + super.getAttaque() + "\n" +
-            "Points de vie: " + getPV() + "\n";
+            "Points de vie: " + getPV() + "\n" +
+            "Faction: " + super.getFaction().GetNom() + "\n";
         return details;
     }
 }

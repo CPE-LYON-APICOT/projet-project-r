@@ -32,7 +32,7 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        //launch();
+        launch();
         EnumMap<EnumHeroes, Object> LstHeroes = new EnumMap<>(EnumHeroes.class);
         Faction Chaos=new FChaos("Chaos", "Que du sale", "rouge");
         Faction Neant=new FNeant("Neant", "Que du Vide", "Violet");
