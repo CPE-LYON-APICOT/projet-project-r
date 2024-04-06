@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
@@ -14,9 +15,26 @@ public class InventoryController {
 
     @FXML
     private ComboBox<String> cardComboBox;
-
+    @FXML
+    private TextField  cardDescriptionTextField;
+    @FXML
+    private TextField  cardNameTextField;
     @FXML
     private Label detailsLabel;
+    @FXML
+    private TextField costTextField;
+    @FXML
+    private TextField hpTextField;
+    @FXML
+    private TextField attackTextField;
+    @FXML
+    private TextField imageNameTextField;
+    
+    
+    
+
+    @FXML
+    private ComboBox<String> factionComboBox;
     @FXML
     private ImageView imageView;
     
@@ -34,7 +52,8 @@ public class InventoryController {
       
 
         setCartesEtFaction();
-
+        factionComboBox.setItems(FXCollections.observableArrayList("Orde", "Neant", "Chaos"));
+        factionComboBox.setPromptText("Sélectionner une faction");
          cardComboBox.setItems(FXCollections.observableArrayList(cardNames));
          cardComboBox.setPromptText("Sélectionner une carte");
          ImageController imageController = new ImageController();
@@ -119,6 +138,42 @@ protected void sortCardsByFactionNeant() {
 
      cardComboBox.setItems(FXCollections.observableArrayList(cardNames));
      cardComboBox.setPromptText("Sélectionner une carte du Neant");}
+     
+
+
+
+     @FXML
+     protected void createNewCard() {
+             // Code to create a new card
+            String nom = cardNameTextField.getText();
+            String description = cardDescriptionTextField.getText();
+            String faction = factionComboBox.getValue();
+            int cout = Integer.parseInt(costTextField.getText());
+            int attaque = Integer.parseInt(attackTextField.getText());
+            int vie = Integer.parseInt(hpTextField.getText());
+            String image = imageNameTextField.getText();
+            carte newCard;
+            switch (faction) {
+                case "Orde":
+                     newCard = new carteMonstre(nom, cout, description , attaque, vie, "imageProjet/"+image+".jpeg", fact.get(0));
+                case "Neant":
+                     newCard = new carteMonstre(nom, cout, description , attaque, vie, "imageProjet/"+image+".jpeg", fact.get(1));
+                case "Chaos":
+                     newCard = new carteMonstre(nom, cout, description , attaque, vie, "imageProjet/"+image+".jpeg", fact.get(2));
+                    break;
+            
+                default:
+                    newCard = new carteMonstre("non", 61, "non" , 56, 61, "imageProjet/Demon.jpeg", fact.get(0));
+                    break;
+            }
+            
+            cartes.add(newCard);
+            cardNames.add(newCard.getNom());
+            cardComboBox.setItems(FXCollections.observableArrayList(cardNames));
+            
+            
+            } 
+     
 
 @FXML
 protected void sortCardsByFactionChaos() {
@@ -206,7 +261,7 @@ protected void sortCardsByFactionChaos() {
         cartes.add(new carteMonstre("Esprit de la Lune", 31, "Un esprit bienveillant émergeant des douces lueurs de la lune, apportant la sérénité et la guérison à ceux qui croisent son chemin.", 26, 31, "imageProjet/esprit_lune.jpeg", orde));
 
         // Carte 22
-        cartes.add(new carteMonstre("Gargouille de la Nuit", 32, "Une gargouille maléfique, prenant vie sous le couvert de l'obscurité, terrorisant les villages endormis.", 27, 32, "imageProjet/gargouille_nuit.jpeg", neant));
+        cartes.add(new carteMonstre("Gargouille de la Nuit", 32, "Une gargouille maléfique, prenant vie sous le couvert de l'obscurité, terrorisant les villages endormis.Une gargouille maléfique, prenant vie sous le couvert de l'obscurité, terrorisant les villages endormis.", 27, 32, "imageProjet/gargouille_nuit.jpeg", neant));
 
         // Carte 23
         cartes.add(new carteMonstre("Banshee Hurleuse", 33, "Une banshee spectral, hurlant des lamentations funèbres qui glacent le sang et annoncent la mort imminente.", 28, 33, "imageProjet/banshee_hurleuse.jpeg", chaos));
@@ -289,7 +344,9 @@ protected void sortCardsByFactionChaos() {
 
         // Carte 50
         cartes.add(new carteMonstre("Dragon des Abysses", 60, "Un dragon colossal, régnant sur les abysses avec une puissance incommensurable, gardien des secrets les plus sombres de l'océan.", 55, 60, "imageProjet/dragon_abysses.jpeg", chaos));
- 
+        
+        // Carte spéciale
+        cartes.add(new carteMonstre("Igris, le commandant rouge", 60, "Un guerrier féroce et puissant, portant une aura de feu et démontrant une habileté redoutable au combat.", 55, 60, "imageProjet/igris.jpeg", neant));
         for (carte carte : cartes) {
            cardNames.add(carte.getNom());
         } 
