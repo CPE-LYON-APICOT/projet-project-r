@@ -8,6 +8,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import java.util.Random;
+import javafx.scene.Parent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.collections.ObservableList;
 
 
 import java.util.ArrayList;
@@ -104,10 +108,21 @@ public class InventoryController {
     
     @FXML
     protected void addToDeck() {
-    String selectedCard = cardComboBox.getValue();
-    if (selectedCard != null && !selectedCard.isEmpty()) {
-        selectedCardsListView.getItems().add(selectedCard);
-    }
+        int indexAleatoire1=0;
+        String selectedCard = cardComboBox.getValue();
+        ObservableList<String> items = selectedCardsListView.getItems();
+        if (selectedCard != null && !selectedCard.isEmpty() && selectedCardsListView.getItems().size() <= 30){
+            for ( String carte : items ){
+                if (carte == selectedCard ){
+                    indexAleatoire1+=1;
+                }
+            }
+            if (indexAleatoire1 <3){
+                selectedCardsListView.getItems().add(selectedCard);
+            }
+        }
+
+
 }
     
     @FXML
@@ -125,7 +140,12 @@ public class InventoryController {
     
     @FXML
     protected void saveDeck() {
-        
+        //debut du code pour crée un joueur et qu'il lance sa partie avec son deck
+        // player joueur= new player(5,new DeckBuilder(cartes).build(),5);
+        // FXMLLoader loader = new FXMLLoader(getClass().getResource("vue.fxml"));
+        // Parent root = loader.load();
+        // VueController controller = loader.getController();
+        // controller.setObjet(joueur);
 }
 
     @FXML
@@ -170,12 +190,23 @@ protected void sortCardsByFactionNeant() {
 @FXML
 protected void creatFactionChaos() {
     int i;
+    int index=0;
+    ObservableList<String> items = selectedCardsListView.getItems();
     for(i = 0; i < 5; i++){
         int indexAleatoire = rand.nextInt(cartesChaos.size());
 
         carte objetAleatoire = cartesChaos.get(indexAleatoire);
+        if (selectedCardsListView.getItems().size() <=30){
+            for ( String carte : items ){
+                if (carte == objetAleatoire.getNom() ){
+                    index+=1;
+                }
+            }
+            if (index <3){
+            selectedCardsListView.getItems().add(objetAleatoire.getNom());
+            }
+        }
     
-        selectedCardsListView.getItems().add(objetAleatoire.getNom());
     }}
 
 
@@ -184,12 +215,26 @@ protected void creatFactionChaos() {
 @FXML
 protected void createFactionNeant() {
     int i;
+    int index=0;
+    ObservableList<String> items = selectedCardsListView.getItems();
+
     for(i = 0; i < 5; i++){
     int indexAleatoire = rand.nextInt(cartesNeant.size());
 
     carte objetAleatoire = cartesNeant.get(indexAleatoire);
+    if (selectedCardsListView.getItems().size() <=30){
+        for ( String carte : items ){
+            if (carte == objetAleatoire.getNom() ){
+                index+=1;
+            }
+        }
+        if (index <3){
+            selectedCardsListView.getItems().add(objetAleatoire.getNom());
+        }
+    }
+}
+}
 
-    selectedCardsListView.getItems().add(objetAleatoire.getNom());}}
 
 
 
@@ -197,12 +242,25 @@ protected void createFactionNeant() {
 protected void createFactionOrdre() {
     
     int i;
+    int index=0;
+    ObservableList<String> items = selectedCardsListView.getItems();
+
     for(i = 0; i < 5; i++){
     int indexAleatoire = rand.nextInt(cartesOrdre.size());
 
     carte objetAleatoire = cartesOrdre.get(indexAleatoire);
 
-    selectedCardsListView.getItems().add(objetAleatoire.getNom());}}
+    if (selectedCardsListView.getItems().size() <=30){
+        for ( String carte : items ){
+            if (carte == objetAleatoire.getNom() ){
+                index+=1;
+            }
+        }
+        if (index <3){
+        selectedCardsListView.getItems().add(objetAleatoire.getNom());}}
+    }
+
+    }
 
 
 @FXML

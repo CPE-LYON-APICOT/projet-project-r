@@ -4,22 +4,20 @@ import java.util.Collection;
 import java.util.stream.Stream;
 
 public class player {
-    private Deck deckJoueur;
     private int pv;
-    private Stream<Deck> lstDeck;
-    public player(int pId, Deck pDeckJoueur,int pPv,Stream<Deck> pLstDeck)
+    private Collection<carte> lstDeck;
+    
+    public player(int pId,Collection<carte> pLstDeck, int pPv)
     {
-        deckJoueur=pDeckJoueur;
-        pv=pPv;
-        lstDeck=pLstDeck;
+        this.pv=pPv;
+        this.lstDeck=pLstDeck;
+
     }
-    public Deck getDeck(){
-        return deckJoueur;
-    }
+    
     public int getPv(){
         return pv;
     }
-    public Stream<Deck> getLstDeck(){
+    public Collection<carte> getLstDeck(){
         return lstDeck;
     }
     
