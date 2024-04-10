@@ -112,11 +112,7 @@ public class App extends Application {
             System.err.println("Faction: "+unHero.GetFaction().GetNom()+"\n");
         }
 
-        /*for (EnumMap.Entry<EnumHeroes, Object> entry : LstHeroes.entrySet())
-        {
-            System.out.println(entry.getKey());
-            System.out.println(entry.getValue());
-        }*/
+        
     }
 
 
