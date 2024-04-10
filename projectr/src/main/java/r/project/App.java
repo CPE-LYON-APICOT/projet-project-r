@@ -17,15 +17,16 @@ public class App extends Application {
     private static Scene scene;
 
     @Override
+
     public void start(@SuppressWarnings("exports") Stage stage) throws IOException {
         scene = new Scene(loadFXML("primary"), 640, 480);
+
         stage.setScene(scene);
         stage.show();
+       
     }
 
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-    }
+   
 
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
@@ -33,9 +34,8 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        //launch();
 
-
+        launch();
         ArrayList<Hero> LstHeroes = new ArrayList<>();
         Faction Chaos=new FChaos("Chaos", "Que du sale", "rouge");
         Faction Neant=new FNeant("Neant", "Que du Vide", "Violet");
