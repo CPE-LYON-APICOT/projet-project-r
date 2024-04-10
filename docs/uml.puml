@@ -97,3 +97,33 @@ interface Iattaque{
     void attaque()
 }
 @enduml
+
+abstract class Combat{
+
+}
+
+class CombatBoss extends combat{
+    
+}
+
+class CombatPetit extends combat{
+    
+}
+
+abstract class Creature{
+    int pv
+    int attaque
+    void competences()
+}
+
+abstract class CreaBoss extends Creature{
+
+}
+
+class RoiOrq extends CreaBoss{
+    
+}
+
+class CreaMonstre extends Creature{
+    
+}
