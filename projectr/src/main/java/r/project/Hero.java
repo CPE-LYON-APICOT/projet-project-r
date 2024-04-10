@@ -1,6 +1,5 @@
 package r.project;
 import java.util.EnumMap;
-import java.util.Map;
 
 public class Hero {
     private String nom;

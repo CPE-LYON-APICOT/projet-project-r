@@ -152,6 +152,13 @@ protected void sortCardsByFactionNeant() {
             int attaque = Integer.parseInt(attackTextField.getText());
             int vie = Integer.parseInt(hpTextField.getText());
             String image = imageNameTextField.getText();
+            cardNameTextField.clear();
+            cardDescriptionTextField.clear();
+            costTextField.clear();
+            attackTextField.clear();
+            hpTextField.clear();
+            imageNameTextField.clear();
+            
             carte newCard;
             switch (faction) {
                 case "Orde":
