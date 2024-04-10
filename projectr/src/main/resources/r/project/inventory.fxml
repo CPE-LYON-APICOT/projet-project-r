@@ -12,6 +12,8 @@
 <?import javafx.geometry.Pos?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.ListView?>
+
+
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="r.project.InventoryController">
@@ -34,7 +36,7 @@
                         <Label text="Sélectionnez un hero:"/>
                         <ComboBox fx:id="heroComboBox"/>
                         <ImageView fx:id="imageHero" fitWidth="200" fitHeight="200"/>
-                        <Label fx:id="detailsLabel"/>
+                        <Label fx:id="detailsLabelHere"/>
                     </VBox>
                 </Tab>
             </tabs>

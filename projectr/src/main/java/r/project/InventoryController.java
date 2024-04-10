@@ -33,7 +33,8 @@ public class InventoryController {
     @FXML
     private TextField imageNameTextField;
     
-    
+    @FXML
+    private Label detailsLabelHere;
     
 
     @FXML
@@ -93,7 +94,7 @@ public class InventoryController {
             for (Hero hero : LstHeroes) {
                 if (hero.GetNom() == NomDuHero){
                     String details = hero.afficher();
-                    detailsLabel.setText(details);
+                    detailsLabelHere.setText(details);
                     imageController.afficherImage(imageHero, hero.GetImage());
                 }
                }
@@ -127,9 +128,6 @@ public class InventoryController {
         
 }
 
-    
-  
-    
     @FXML
     protected void exit() {
     System.exit(0);
@@ -315,6 +313,9 @@ protected void sortCardsByFactionChaos() {
         LstHeroes.add(new Hero("Nemesis", "Châtiment implacable, destin des déchus", "imageProjet/Nemesis.jpeg", Chaos));
         LstHeroes.add(new Hero("Xeno", "Inconnu aux origines mystérieuses", "imageProjet/Xeno.jpeg", Chaos));
      
+        for (Hero hero : LstHeroes) {
+            heroNames.add(hero.GetNom());
+        }   
         for (carte carte : cartes) {
            cardNames.add(carte.getNom());
 
