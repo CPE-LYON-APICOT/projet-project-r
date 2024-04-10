@@ -18,6 +18,7 @@ public class InventoryController {
     @FXML
     private ComboBox<String> cardComboBox;
     @FXML
+    private ComboBox<String> heroComboBox;
     private TextField  cardDescriptionTextField;
     @FXML
     private TextField  cardNameTextField;
@@ -39,7 +40,10 @@ public class InventoryController {
     private ComboBox<String> factionComboBox;
     @FXML
     private ImageView imageView;
+    @FXML
+    private ImageView imageHero;
     
+
     Random rand = new Random();
     private ArrayList<carte> cartes = new ArrayList<>();
     private ArrayList<Faction> fact = new ArrayList<>();
@@ -48,7 +52,10 @@ public class InventoryController {
     private ArrayList<carte> cartesChaos = new ArrayList<>();
 
     private ArrayList<String> cardNames  = new ArrayList<>();    
-    @FXML
+    private ArrayList<Hero> LstHeroes= new ArrayList<>();
+    private ArrayList<String> heroNames = new ArrayList<>();   
+
+  @FXML
     private ListView<String> selectedCardsListView;
     
         
@@ -56,11 +63,17 @@ public class InventoryController {
     @FXML
     public void initialize() {
       
+
         
         setCartesEtFaction();
         
+
+        factionComboBox.setItems(FXCollections.observableArrayList("Ordre", "Neant", "Chaos"));
+        factionComboBox.setPromptText("Sélectionner une faction");
          cardComboBox.setItems(FXCollections.observableArrayList(cardNames));
          cardComboBox.setPromptText("Sélectionner une carte");
+         heroComboBox.setItems(FXCollections.observableArrayList(heroNames));
+         heroComboBox.setPromptText("Sélectionner un hero");
          ImageController imageController = new ImageController();
 
       
@@ -75,6 +88,18 @@ public class InventoryController {
                 }
              
          });
+
+         heroComboBox.setOnAction(event -> {
+            String NomDuHero = heroComboBox.getValue();
+            for (Hero hero : LstHeroes) {
+                if (hero.GetNom() == NomDuHero){
+                    String details = hero.afficher();
+                    detailsLabel.setText(details);
+                    imageController.afficherImage(imageHero, hero.GetImage());
+                }
+               }
+            
+        });
     }
     
     @FXML
@@ -102,6 +127,7 @@ public class InventoryController {
     protected void saveDeck() {
         
 }
+
     
   
     
@@ -110,11 +136,11 @@ public class InventoryController {
     System.exit(0);
 }
 @FXML
-protected void sortCardsByFactionOrde() {
+protected void sortCardsByFactionOrdre() {
     cardNames.clear();
 
     for (carte carte : cartes) {
-        if (carte.getFaction().GetNom() == "Orde"){
+        if (carte.getFaction().GetNom() == "Ordre"){
             cardNames.add(carte.getNom());
 
         }
@@ -122,7 +148,7 @@ protected void sortCardsByFactionOrde() {
      cardComboBox.getItems().clear();
 
      cardComboBox.setItems(FXCollections.observableArrayList(cardNames));
-     cardComboBox.setPromptText("Sélectionner une carte de l'Orde");
+     cardComboBox.setPromptText("Sélectionner une carte de l'Ordre");
      
 }
 
@@ -142,10 +168,6 @@ protected void sortCardsByFactionNeant() {
      cardComboBox.setPromptText("Sélectionner une carte du Neant");}
      
 
-
-
-    
-     
 
 
 @FXML
@@ -192,12 +214,12 @@ protected void sortCardsByFactionChaos() {
     for (carte carte : cartes) {
         if (carte.getFaction().GetNom() == "Chaos"){
             cardNames.add(carte.getNom());
-
         }
      }
      cardComboBox.getItems().clear();
      cardComboBox.setItems(FXCollections.observableArrayList(cardNames));
      cardComboBox.setPromptText("Sélectionner une carte du Chaos");}
+
 
 
      public void setCartesEtFaction() {
@@ -260,6 +282,40 @@ protected void sortCardsByFactionChaos() {
         cartes.add(new carteMonstre("Dragon des Abysses", 60, "Un dragon colossal, régnant sur les abysses avec une puissance incommensurable, gardien des secrets les plus sombres de l'océan.", 55, 60, "imageProjet/dragon_abysses.jpeg", chaos));
         cartes.add(new carteMonstre("Igris, le commandant rouge", 60, "Un guerrier féroce et puissant, portant une aura de feu et démontrant une habileté redoutable au combat.", 55, 60, "imageProjet/igris.jpeg", neant));
        
+
+        //Hero
+
+        LstHeroes.add(new Hero("Aetheris", "Protecteur des royaumes aériens", "imageProjet/Aetheris.jpeg", Ordre));
+        LstHeroes.add(new Hero("Sylveria", "Maîtresse de la forêt et des embuscades", "imageProjet/Sylveria.jpeg", Ordre));
+        LstHeroes.add(new Hero("Valdar", "Forgeron légendaire et guerrier intrépide", "imageProjet/Valdar.jpeg", Ordre));
+        LstHeroes.add(new Hero("Lyra", "Traqueuse des ténèbres et des créatures nocturnes", "imageProjet/Lyra.jpg", Ordre));
+        LstHeroes.add(new Hero("Ignatius", "Purificateur des maléfices et chasseur de démons", "imageProjet/Ignatius.jpg", Ordre));
+        LstHeroes.add(new Hero("Elara", "Protectrice des constellations et guide des voyageurs", "imageProjet/Elara.jpg", Ordre));
+        LstHeroes.add(new Hero("Drakon", "Dompteur de dragons et protecteur des terres reculées", "imageProjet/Drakon.jpg", Ordre));
+        LstHeroes.add(new Hero("Aurora", "Porteuse de lumière et championne de l'aube naissante", "imageProjet/Aurora.jpg", Ordre));
+        LstHeroes.add(new Hero("Thaldir", "Navigateur des mers brumeuses et protecteur des marins", "imageProjet/Thaldir.jpg", Ordre));
+        LstHeroes.add(new Hero("Gaia", "Protectrice de la faune et de la flore, équilibre naturel", "imageProjet/Gaia.jpg", Ordre));
+        LstHeroes.add(new Hero("Vesper", "Explorateur des dimensions parallèles et gardien des portails", "imageProjet/Vesper.jpg", Neant));
+        LstHeroes.add(new Hero("Argentia", "Protectrice des cieux et des âmes égarées", "imageProjet/Argentia.jpg", Neant));
+        LstHeroes.add(new Hero("Hélios", "Répandeur de chaleur et purificateur des ténèbres", "imageProjet/Hélios.jpg", Neant));
+        LstHeroes.add(new Hero("Nyx", "Silencieuse et furtive, elle traque les ennemis de la nuit", "imageProjet/Nyx.jpg", Neant));
+        LstHeroes.add(new Hero("Ragnar", "Libérateur des opprimés et défenseur des faibles", "imageProjet/Ragnar.jpg", Neant));
+        LstHeroes.add(new Hero("Seraphina", "Gardienne du feu sacré et inspiratrice des cœurs", "imageProjet/Seraphina.jpeg", Neant));
+        LstHeroes.add(new Hero("Tundra", "Protectrice des terres gelées et maîtresse des tempêtes", "imageProjet/Tundra.jpeg", Neant));
+        LstHeroes.add(new Hero("Orion", "Explorateur des galaxies et protecteur des secrets cosmiques", "imageProjet/Orion.jpeg", Neant));
+        LstHeroes.add(new Hero("Selene", "Messagère des songes et guide dans l'obscurité", "imageProjet/Selene.jpeg", Neant));
+        LstHeroes.add(new Hero("Typhoon", "Maître des vents et déchaîneur de tempêtes", "imageProjet/Typhoon.jpeg", Neant));
+        LstHeroes.add(new Hero("Zephyr", "Silhouette éthérée, maître des courants d'air", "imageProjet/Zephyr.jpeg", Chaos));
+        LstHeroes.add(new Hero("Cyrus", "Manipulateur des flammes, Chaos incarné", "imageProjet/Cyrus.jpeg", Chaos));
+        LstHeroes.add(new Hero("Xanthe", "Illusionniste impitoyable, maître de la confusion", "imageProjet/Xanthe.jpeg", Chaos));
+        LstHeroes.add(new Hero("Maelstrom", "Tourbillon destructeur, invoqué par la colère", "imageProjet/Maelstrom.jpeg", Chaos));
+        LstHeroes.add(new Hero("Nebula", "Entité cosmique, forgeur de réalités alternatives", "imageProjet/Nebula.jpeg", Chaos));
+        LstHeroes.add(new Hero("Eclipse", "Éclipse des âmes, apporteur de désespoir", "imageProjet/Eclipse.jpeg", Chaos));
+        LstHeroes.add(new Hero("Oblivion", "Avatar de l'oubli, qui efface toute mémoire", "imageProjet/Oblivion.jpeg", Chaos));
+        LstHeroes.add(new Hero("Vortex", "Dévoreur d'énergies, perturbateur des équilibres", "imageProjet/Vortex.jpeg", Chaos));
+        LstHeroes.add(new Hero("Nemesis", "Châtiment implacable, destin des déchus", "imageProjet/Nemesis.jpeg", Chaos));
+        LstHeroes.add(new Hero("Xeno", "Inconnu aux origines mystérieuses", "imageProjet/Xeno.jpeg", Chaos));
+     
         for (carte carte : cartes) {
            cardNames.add(carte.getNom());
 

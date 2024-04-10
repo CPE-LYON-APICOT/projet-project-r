@@ -18,18 +18,40 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="r.project.InventoryController">
     <center>
-       
+
+                </Tab>
+                <Tab text="Sélectionner un héros">
                     <VBox spacing="10" alignment="CENTER">
-                        <Label text="Sélectionnez une carte:"/>
-                        <ComboBox fx:id="cardComboBox"/>
-                        <ImageView fx:id="imageView" fitWidth="200" fitHeight="200"/>
+                        <Label text="Sélectionnez un hero:"/>
+                        <ComboBox fx:id="heroComboBox"/>
+                        <ImageView fx:id="imageHero" fitWidth="200" fitHeight="200"/>
                         <Label fx:id="detailsLabel"/>
-                        <Button text="Ajouter au deck" onAction="#addToDeck"/>
                     </VBox>
-                    
-               
-                
-        
+                </Tab>
+                <Tab text="Créer une nouvelle carte">
+                    <VBox spacing="10" alignment="CENTER">
+                    <HBox spacing="10">
+                         <Label text="Nom de la carte:"/>
+                        <TextField fx:id="cardNameTextField"/>
+                        <Label text="Description de la carte:"/>
+                        <TextField fx:id="cardDescriptionTextField"/>
+                        
+                            <Label text="Faction:"/>
+                            <ComboBox fx:id="factionComboBox"/>
+                            <Label text="Coût:"/>
+                            <TextField fx:id="costTextField"/>
+                            <Label text="PV:"/>
+                            <TextField fx:id="hpTextField"/>
+                            <Label text="Attaque:"/>
+                            <TextField fx:id="attackTextField"/>
+                            <Label text="Nom de l'image:"/>
+                            <TextField fx:id="imageNameTextField"/>
+                        </HBox>
+                        <Button text="Créer la carte" onAction="#createNewCard"/>
+                    </VBox>
+                </Tab>
+            </tabs>
+        </TabPane>
     </center>
     <top>
         <VBox spacing="10" alignment="TOP_LEFT">
@@ -41,7 +63,7 @@
                 <Button text="Sauvegarder le deck et lancer la partie" onAction="#saveDeck"/>
 *            </HBox>
             <HBox spacing="10">
-                <Button text="Trier par Faction : Orde" onAction="#sortCardsByFactionOrde"/>
+                <Button text="Trier par Faction : Ordre" onAction="#sortCardsByFactionOrdre"/>
                 <Button text="Trier par Faction : Neant" onAction="#sortCardsByFactionNeant"/>
                 <Button text="Trier par Faction : Chaos" onAction="#sortCardsByFactionChaos"/>
                 <Button text="crée un deck orde" onAction="#createFactionOrde"/>

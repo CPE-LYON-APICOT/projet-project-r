@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 public class Hero {
     private String nom;
     private String description;
@@ -29,6 +30,13 @@ public class Hero {
     public Faction GetFaction(){
         return faction;
     }
+
+    public String afficher() {
+        String details = "Nom: " + this.GetNom() + "\n" +
+        "Description: " + this.GetDescription() + "\n" +
+        "Faction:" + this.GetFaction()+ "\n";
+    return details;
+}
 
 }
 
