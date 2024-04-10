@@ -18,16 +18,7 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="r.project.InventoryController">
     <center>
-        <TabPane>
-            <tabs>
-                <Tab text="Sélectionner une carte">
-                    <VBox spacing="10" alignment="CENTER">
-                        <Label text="Sélectionnez une carte:"/>
-                        <ComboBox fx:id="cardComboBox"/>
-                        <ImageView fx:id="imageView" fitWidth="200" fitHeight="200"/>
-                        <Label fx:id="detailsLabel"/>
-                        <Button text="Ajouter au deck" onAction="#addToDeck"/>
-                    </VBox>
+
                 </Tab>
                 <Tab text="Sélectionner un héros">
                     <VBox spacing="10" alignment="CENTER">
@@ -69,13 +60,15 @@
             <HBox spacing="10">
                 <Button text="Enlever du deck" onAction="#removeFromDeck"/>
                 <Button text="Vider le deck" onAction="#clearDeck"/>
-                <Button text="Sauvegarder le deck" onAction="#saveDeck"/>
-                <Button text="Charger le deck" onAction="#loadDeck"/>
-            </HBox>
+                <Button text="Sauvegarder le deck et lancer la partie" onAction="#saveDeck"/>
+*            </HBox>
             <HBox spacing="10">
                 <Button text="Trier par Faction : Ordre" onAction="#sortCardsByFactionOrdre"/>
                 <Button text="Trier par Faction : Neant" onAction="#sortCardsByFactionNeant"/>
                 <Button text="Trier par Faction : Chaos" onAction="#sortCardsByFactionChaos"/>
+                <Button text="crée un deck orde" onAction="#createFactionOrde"/>
+                <Button text="crée un deck neant" onAction="#createFactionNeant"/>
+                <Button text="crée un deck chaos" onAction="#creatFactionChaos"/>            
             </HBox>
         </VBox>
     </top>

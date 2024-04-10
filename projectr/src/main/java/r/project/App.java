@@ -20,6 +20,7 @@ public class App extends Application {
 
     public void start(@SuppressWarnings("exports") Stage stage) throws IOException {
         scene = new Scene(loadFXML("inventory"), 640, 480);
+
         stage.setScene(scene);
         stage.show(); 
     }
@@ -39,7 +40,9 @@ public class App extends Application {
             System.err.println("Description: "+unHero.GetDescription());
             System.err.println("Image: "+unHero.GetImage());
             System.err.println("Faction: "+unHero.GetFaction().GetNom()+"\n");
+
         }*/
+
 
     }
 

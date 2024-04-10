@@ -1,5 +1,9 @@
 package r.project;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 
 public class Hero {
     private String nom;
