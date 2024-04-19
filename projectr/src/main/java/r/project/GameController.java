@@ -24,18 +24,21 @@ public class GameController {
     private ArrayList<CreaMonstre> lstMonster = new ArrayList<>();
     private ArrayList<CreaBoss> lstBoss = new ArrayList<>();
 
-    private player dataObject;
+    private player JoueurActuel;
+    private ArrayList<Faction> fact = new ArrayList<>();
 
-    public GameController(player dataObject) {
-        this.dataObject = dataObject;
+    public GameController(player dataObject,ArrayList<Faction> dataList) {
+        this.JoueurActuel = dataObject;
+        this.fact = dataList;
     }
     // Méthode pour l'action de jouer une carte
     @FXML
     private void playCardAction() {
-        for (carte card : dataObject.getLstDeck()) {
+        for (carte card : JoueurActuel.getLstDeck()) {
             // Perform actions for playing the card
             selectedCardsListViewPlayer.getItems().add(card.getNom());
         }
+        selectedCardsListViewPlayer.getItems().add(fact.get(0).GetNom());
        
     }
 
