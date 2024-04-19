@@ -1,17 +1,25 @@
 package r.project;
+import java.util.Collection;
+// import java.util.ArrayList;
+
+// import java.util.stream.Stream;
 
 public class player {
-    private Deck deckJoueur;
     private int pv;
-    public player(int pId, Deck pDeckJoueur,int pPv)
+    private Collection<carte> lstDeck;
+    
+    public player(int pId,Collection<carte> pLstDeck, int pPv)
     {
-        deckJoueur=pDeckJoueur;
-        pv=pPv;
+        this.pv=pPv;
+        this.lstDeck=pLstDeck;
+
     }
-    public Deck getDeck(){
-        return deckJoueur;
-    }
+    
     public int getPv(){
         return pv;
     }
+    public Collection<carte> getLstDeck(){
+        return lstDeck;
+    }
+    
 }
