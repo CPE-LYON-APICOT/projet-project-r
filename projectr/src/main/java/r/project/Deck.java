@@ -10,8 +10,11 @@ public class Deck {
     public Deck(Cards cartesInitiales,Hero pHero){
         this.lstCartes = cartesInitiales.list.stream();
         hero=pHero;
+        /*DebuffObservable.getInstance().addObserver((e,f)->{
+            lstCartes.findFirst().get().
+        });  #ToDO debuff*/
+            
     }
-
     public Stream<Carte> getLstCarte(){
         return lstCartes;
     }

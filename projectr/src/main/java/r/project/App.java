@@ -40,7 +40,6 @@ public class App extends Application {
             System.err.println("Description: "+unHero.GetDescription());
             System.err.println("Image: "+unHero.GetImage());
             System.err.println("Faction: "+unHero.GetFaction().GetNom()+"\n");
-
         }*/
 
 
