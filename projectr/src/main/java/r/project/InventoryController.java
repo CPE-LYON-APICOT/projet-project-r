@@ -2,18 +2,26 @@ package r.project;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import java.util.Random;
-import javafx.scene.Parent;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
+
+
+// import javafx.scene.Parent;
+// import javafx.fxml.FXMLLoader;
+// import javafx.scene.control.Button;
 import javafx.collections.ObservableList;
 
-
+import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 
 
@@ -23,7 +31,6 @@ public class InventoryController {
     private ComboBox<String> cardComboBox;
     @FXML
     private ComboBox<String> heroComboBox;
-    private TextField  cardDescriptionTextField;
     @FXML
     private TextField  cardNameTextField;
     @FXML
@@ -55,6 +62,7 @@ public class InventoryController {
     private ArrayList<carte> cartesOrdre = new ArrayList<>();
     private ArrayList<carte> cartesNeant = new ArrayList<>();
     private ArrayList<carte> cartesChaos = new ArrayList<>();
+    private ArrayList<carte> DeckPlayer= new ArrayList<>();
 
     private ArrayList<String> cardNames  = new ArrayList<>();    
     private ArrayList<Hero> LstHeroes= new ArrayList<>();
@@ -62,7 +70,7 @@ public class InventoryController {
 
   @FXML
     private ListView<String> selectedCardsListView;
-    
+    private static Scene scene;
         
 
     @FXML
@@ -139,19 +147,40 @@ public class InventoryController {
 }
     
     @FXML
-    protected void saveDeck() {
+    protected void saveDeck() throws IOException {
         //debut du code pour crée un joueur et qu'il lance sa partie avec son deck
-        // player joueur= new player(5,new DeckBuilder(cartes).build(),5);
-        // FXMLLoader loader = new FXMLLoader(getClass().getResource("vue.fxml"));
-        // Parent root = loader.load();
-        // VueController controller = loader.getController();
-        // controller.setObjet(joueur);
+        for (carte carte : cartes) {
+            for (String cartep : selectedCardsListView.getItems()){
+                if (cartep == carte.getNom()){
+                    DeckPlayer.add(carte);
+                }
+            }
+            
+           }
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("Game.fxml"));
+        player dataObject =  new player(5,new DeckBuilder(DeckPlayer).build(),5); // Créez votre objet avec les données nécessaires
+        fxmlLoader.setControllerFactory(controllerClass -> {
+        try {
+            Constructor<?> constructor = controllerClass.getConstructor(player.class);
+         return constructor.newInstance(dataObject);
+        } catch (Exception exc) {
+            throw new RuntimeException(exc);
+        }
+        });
+        scene = new Scene(fxmlLoader.load(), 640, 480);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+
+       
 }
 
     @FXML
     protected void exit() {
     System.exit(0);
 }
+
+
 @FXML
 protected void sortCardsByFactionOrdre() {
     cardNames.clear();
@@ -322,7 +351,7 @@ protected void sortCardsByFactionChaos() {
         cartes.add(new carteMonstre("Champion de la Tempête", 45, "Un guerrier intrépide, maîtrisant les éléments déchaînés de la tempête pour terrasser ses ennemis avec une force dévastatrice.", 40, 45, "imageProjet/champion_tempete.jpeg", Neant));
         cartes.add(new carteMonstre("Reine des Ombres", 46, "Une souveraine impitoyable, régnant sur un royaume d'ombres et de cauchemars, orchestrant les ténèbres avec une main de fer.", 41, 46, "imageProjet/reine_ombres.jpeg", Chaos));
         cartes.add(new carteMonstre("Élémentaire de Terre", 47, "Un titan de terre gigantesque, émergeant des profondeurs de la terre pour défendre les terres sacrées contre toute menace.", 42, 47, "imageProjet/elementaire_terre.jpeg", Ordre));
-        cartes.add(new carteMonstre("Esprit Vengeur", 48, "Un esprit tourmenté, revenant des limbes pour traquer et punir ceux qui lui ont fait du tort de son vivant.", 43, 48, "imageProjet/  .jpeg", Neant));
+        cartes.add(new carteMonstre("Esprit Vengeur", 48, "Un esprit tourmenté, revenant des limbes pour traquer et punir ceux qui lui ont fait du tort de son vivant.", 43, 48, "imageProjet/Esprit_Vengeur.jpeg", Neant));
         cartes.add(new carteMonstre("Bête Rampante", 49, "Une créature reptilienne monstrueuse, se glissant dans les ténèbres pour chasser ses proies avec une agilité mortelle.", 44, 49, "imageProjet/bete_rampante.jpeg", Chaos));
         cartes.add(new carteMonstre("Paladin de la Justice", 50, "Un chevalier saint, portant une armure étincelante et brandissant une épée de justice pour punir les méchants et protéger les innocents.", 45, 50, "imageProjet/paladin_justice.jpeg", Ordre));
         cartes.add(new carteMonstre("Ange Déchu", 51, "Un ange autrefois céleste, corrompu par les ténèbres et devenu un être déchu, semant la destruction et la désolation.", 46, 51, "imageProjet/ange_dechu.jpeg", Chaos));

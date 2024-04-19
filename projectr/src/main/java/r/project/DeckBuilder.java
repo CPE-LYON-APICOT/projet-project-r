@@ -3,6 +3,8 @@ package r.project;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Stream;
+import java.util.stream.Collectors;
+
 
 @Component
 public class DeckBuilder {
@@ -21,7 +23,9 @@ public class DeckBuilder {
     }
 
     public Collection<carte> build(){
-        return this.stream.toList();
+        // return this.stream.toList();
+        return this.stream.collect(Collectors.toList());
+        
     }
 
     
