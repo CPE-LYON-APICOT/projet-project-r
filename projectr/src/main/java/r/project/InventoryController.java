@@ -161,8 +161,8 @@ public class InventoryController {
         player dataObject =  new player(5,new DeckBuilder(DeckPlayer).build(),5); // Créez votre objet avec les données nécessaires
         fxmlLoader.setControllerFactory(controllerClass -> {
         try {
-            Constructor<?> constructor = controllerClass.getConstructor(player.class);
-         return constructor.newInstance(dataObject);
+            Constructor<?> constructor = controllerClass.getConstructor(player.class,fact.getClass());
+         return constructor.newInstance(dataObject,fact);
         } catch (Exception exc) {
             throw new RuntimeException(exc);
         }
