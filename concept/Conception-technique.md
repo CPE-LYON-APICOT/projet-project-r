@@ -1,8 +1,8 @@
 
 # Retro-conception
 
-**Binome 1 : [Nom Prénom]**
-**Binome 2 : [Nom Prénom]**
+**Binome 1 : [Languebien Theo]**
+**Binome 2 : [Bourcet Thomas]**
 
 Complétez ce document pour décrire votre projet, les difficultés rencontrées, les design patterns mis en oeuvre, les améliorations possibles, et en quoi la POO vous a été utile.
 
