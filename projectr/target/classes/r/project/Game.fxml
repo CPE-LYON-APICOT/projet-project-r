@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="yourControllerClass">
+    <!-- Zone du joueur -->
+    <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+        <Label text="Joueur" />
+        <HBox spacing="10" alignment="CENTER">
+            <!-- Zone des cartes du joueur -->
+            <FlowPane fx:id="playerCardPane" alignment="CENTER" HBox.hgrow="ALWAYS" />
+        </HBox>
+        <HBox spacing="10" alignment="CENTER">
+            <!-- Zone des points de vie et autres informations du joueur -->
+            <Label text="Points de vie: " />
+            <Label fx:id="playerHealthLabel" />
+            <!-- Autres informations du joueur -->
+        </HBox>
+    </VBox>
+
+    <!-- Zone centrale pour le plateau de jeu -->
+    <StackPane BorderPane.alignment="CENTER">
+        <ImageView fitWidth="400" fitHeight="400" preserveRatio="true">
+           <image>
+            <Image url="@path/vers/mon_image.png" />
+        </image>
+        </ImageView>
+        <!-- Autres éléments du plateau de jeu -->
+    </StackPane>
+
+    <!-- Zone du monstre -->
+    <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+        <Label text="Monstre" />
+        <HBox spacing="10" alignment="CENTER">
+            <!-- Zone des cartes du monstre -->
+            <FlowPane fx:id="monsterCardPane" alignment="CENTER" HBox.hgrow="ALWAYS" />
+        </HBox>
+        <HBox spacing="10" alignment="CENTER">
+            <!-- Zone des points de vie et autres informations du monstre -->
+            <Label text="Points de vie: " />
+            <Label fx:id="monsterHealthLabel" />
+            <!-- Autres informations du monstre -->
+        </HBox>
+    </VBox>
+</BorderPane>

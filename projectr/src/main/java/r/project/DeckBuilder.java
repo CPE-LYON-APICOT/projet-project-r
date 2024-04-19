@@ -3,13 +3,15 @@ package r.project;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Stream;
+import java.util.stream.Collectors;
+
 
 @Component
 public class DeckBuilder {
-    private Stream<Carte> stream;
+    private Stream<carte> stream;
 
-    public DeckBuilder(Cards cartesInitiales){
-        this.stream = cartesInitiales.list.stream();
+    public DeckBuilder(ArrayList<carte> cartesInitiales){
+        this.stream = cartesInitiales.stream();
     }
     public DeckBuilder filterByFaction(String faction){
         this.stream = this.stream.filter(carte -> true);
@@ -20,21 +22,13 @@ public class DeckBuilder {
         return this;
     }
 
-    public Collection<Carte> build(){
-        return this.stream.toList();
-    }
-
-    @Component
-    public static class Cards {
-        public final ArrayList<Carte> list;
-    
-        public Cards(){
-            this.list = new ArrayList<Carte>();
-        }
-    }
-
-    public static class Carte{
+    public Collection<carte> build(){
+        // return this.stream.toList();
+        return this.stream.collect(Collectors.toList());
         
     }
+
+    
+
 }
 
