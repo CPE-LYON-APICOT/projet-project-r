@@ -3,43 +3,80 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Pos?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.ListView?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="r.project.GameController">
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="r.project.GameController" >
+
+    <!-- Zone du monstre -->
     <top>
-        <HBox spacing="10" alignment="CENTER">
-            <!-- Joueur -->
-            <VBox alignment="CENTER">
-                <Label text="Joueur" />
-                <HBox spacing="10" alignment="CENTER">
-                    <!-- Cartes du joueur -->
-                    <ListView fx:id="selectedCardsListViewPlayer"/>
-
-                    <FlowPane fx:id="playerCardPane" alignment="CENTER" HBox.hgrow="ALWAYS" />
-                </HBox>
-            </VBox>
-
-            <!-- Monstre -->
-            <VBox alignment="CENTER">
-                <Label text="Monstre" />
-                <HBox spacing="10" alignment="CENTER">
-                    <!-- Cartes du monstre -->
-                    <FlowPane fx:id="monsterCardPane" alignment="CENTER" HBox.hgrow="ALWAYS" />
-                </HBox>
-            </VBox>
-        </HBox>
+        <VBox alignment="CENTER" spacing="10">
+            <Label text="Monstre" />
+            <!-- Cartes du monstre -->
+            <FlowPane fx:id="monsterCardPane" HBox.hgrow="ALWAYS" />
+            <!-- Points de vie du monstre -->
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Points de vie: " />
+                <Label fx:id="monsterHealthLabel" />
+            </HBox>
+        </VBox>
     </top>
-    
-    <center>
-        <!-- Plateau de jeu -->
-        <StackPane fx:id="gameBoard" alignment="CENTER">
-            <!-- Éléments du plateau (peuvent inclure les cartes jouées, etc.) -->
-        </StackPane>
-    </center>
-    
-    <bottom>
-        <HBox spacing="10" alignment="CENTER">
-            <!-- Zone pour les boutons d'action, par exemple, pour jouer une carte -->
-            <Button text="Jouer une carte" onAction="#playCardAction" />
-        </HBox>
-    </bottom>
+
+    <!-- Zone du joueur -->
+  <bottom>
+    <HBox alignment="CENTER">
+        <GridPane alignment="CENTER" hgap="10">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" />
+                <ColumnConstraints hgrow="ALWAYS" />
+                <ColumnConstraints hgrow="ALWAYS" />
+                <ColumnConstraints hgrow="ALWAYS" />
+                <ColumnConstraints hgrow="ALWAYS" />
+            </columnConstraints>
+            <Label fx:id="card1LabelNom" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <ImageView fx:id="card1Image" fitWidth="100" fitHeight="150" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <Label fx:id="card1LabelPV" GridPane.columnIndex="0" GridPane.rowIndex="2" >  
+            <Label fx:id="card1LabelAttaque" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <Label fx:id="card2LabelNom" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <ImageView fx:id="card2Image" fitWidth="100" fitHeight="150" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1"  />
+            <Label fx:id="card2LabelPV" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="card2LabelAttaque" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+            <Label fx:id="card3LabelNom" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+            <ImageView fx:id="card3Image" fitWidth="100" fitHeight="150" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1"  />
+            <Label fx:id="card3LabelPV" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label fx:id="card3LabelAttaque" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+
+            <Label fx:id="card4LabelNom" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+            <ImageView fx:id="card4Image" fitWidth="100" fitHeight="150" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+            <Label fx:id="card4LabelPV" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Label fx:id="card4LabelAttaque" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+
+            <Label fx:id="card5LabelNom" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+            <ImageView fx:id="card5Image" fitWidth="100" fitHeight="150" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <Label fx:id="card5LabelPV" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <Label fx:id="card5LabelAttaque" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+        </GridPane>
+        <!-- Points de vie du joueur -->
+        <VBox alignment="CENTER" spacing="10">
+            <Label text="Points de vie: " />
+            <Label fx:id="playerHealthLabel" />
+        </VBox>
+    </HBox>
+</bottom>
+
+
 </BorderPane>
+
