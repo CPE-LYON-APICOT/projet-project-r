@@ -1,5 +1,6 @@
 package r.project;
 
+
 public abstract class carte {
     // Properties
     private String nom;
@@ -7,15 +8,18 @@ public abstract class carte {
     private String description;
     private int attaque;
     private String lienImage;
+    private Faction faction;
+
 
     
     // Constructor
-    public carte(String name, int cost, String desc, int attack, String lienImage) {
+    public carte(String name, int cost, String desc, int attack, String lienImage, Faction faction) {
         this.nom = name;
         this.cout = cost;
         this.description = desc;
         this.attaque = attack;
         this.lienImage = lienImage;
+        this.faction = faction;
     }
     
     // Getter and Setter methods
@@ -55,6 +59,10 @@ public abstract class carte {
 
     public void setLienImage(String lienImage) {
         this.lienImage = lienImage;
+    }
+
+    public Faction getFaction() {
+        return faction;
     }
     
     // Common methods

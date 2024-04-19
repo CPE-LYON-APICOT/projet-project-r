@@ -4,10 +4,10 @@
 Montrez qu'il mobilise des techniques de POO avancée
 
 Comment allez-vous utiliser les patrons de conception ?
-    - Observer / Observable : lorsque une carte arrive a 50 d'attaque et attaque avec 
-    - Stratégie : methode de pioche aléatoire ou dans l'ordre que l'utilisateur a mis les cartes dans le deck
+    - Observer / Observable : lorsque une carte arrive a 50 d'attaque envoie une petite notification 
+    - Stratégie : methode de distribution aléatoire ou dans l'ordre que l'utilisateur a mis les cartes dans le deck
     - Fabrique : 
-    - Singleton : 
+    - Singleton : Bord lors de rejouer la partie
     - Décorateur :
     - Builder : possibiliter de crée des decks (possibliter)
 

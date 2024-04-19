@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="r.project.GameController">
+    <top>
+        <HBox spacing="10" alignment="CENTER">
+            <!-- Joueur -->
+            <VBox alignment="CENTER">
+                <Label text="Joueur" />
+                <HBox spacing="10" alignment="CENTER">
+                    <!-- Cartes du joueur -->
+                    <ListView fx:id="selectedCardsListViewPlayer"/>
+
+                    <FlowPane fx:id="playerCardPane" alignment="CENTER" HBox.hgrow="ALWAYS" />
+                </HBox>
+            </VBox>
+
+            <!-- Monstre -->
+            <VBox alignment="CENTER">
+                <Label text="Monstre" />
+                <HBox spacing="10" alignment="CENTER">
+                    <!-- Cartes du monstre -->
+                    <FlowPane fx:id="monsterCardPane" alignment="CENTER" HBox.hgrow="ALWAYS" />
+                </HBox>
+            </VBox>
+        </HBox>
+    </top>
+    
+    <center>
+        <!-- Plateau de jeu -->
+        <StackPane fx:id="gameBoard" alignment="CENTER">
+            <!-- Éléments du plateau (peuvent inclure les cartes jouées, etc.) -->
+        </StackPane>
+    </center>
+    
+    <bottom>
+        <HBox spacing="10" alignment="CENTER">
+            <!-- Zone pour les boutons d'action, par exemple, pour jouer une carte -->
+            <Button text="Jouer une carte" onAction="#playCardAction" />
+        </HBox>
+    </bottom>
+</BorderPane>
