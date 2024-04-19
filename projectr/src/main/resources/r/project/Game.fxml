@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="r.project.GameController">
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="r.project.GameController" fx:id="gamePane" styleClass="gamePane">
     <top>
         <HBox spacing="10" alignment="CENTER">
             <!-- Joueur -->
@@ -12,7 +12,7 @@
                 <Label text="Joueur" />
                 <HBox spacing="10" alignment="CENTER">
                     <!-- Cartes du joueur -->
-                    <ListView fx:id="selectedCardsListViewPlayer"/>
+                    <ListView fx:id="selectedCardsListViewPlayer" styleClass="gamePane"/>
 
                     <FlowPane fx:id="playerCardPane" alignment="CENTER" HBox.hgrow="ALWAYS" />
                 </HBox>

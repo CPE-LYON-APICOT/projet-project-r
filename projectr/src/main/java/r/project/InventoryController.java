@@ -168,6 +168,8 @@ public class InventoryController {
         }
         });
         scene = new Scene(fxmlLoader.load(), 640, 480);
+        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.show();

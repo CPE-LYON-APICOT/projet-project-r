@@ -38,7 +38,6 @@ public class GameController {
             // Perform actions for playing the card
             selectedCardsListViewPlayer.getItems().add(card.getNom());
         }
-        selectedCardsListViewPlayer.getItems().add(fact.get(0).GetNom());
        
     }
 
