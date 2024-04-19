@@ -47,9 +47,8 @@
             </columnConstraints>
             <Label fx:id="card1LabelNom" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <ImageView fx:id="card1Image" fitWidth="100" fitHeight="150" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <Label fx:id="card1LabelPV" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-            <Label fx:id="card1LabelAttaque" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-
+            <Label fx:id="card1LabelPV" GridPane.columnIndex="0" GridPane.rowIndex="2" >  
+            <Label fx:id="card1LabelAttaque" GridPane.columnIndex="0" GridPane.rowIndex="2" />
             <Label fx:id="card2LabelNom" GridPane.columnIndex="1" GridPane.rowIndex="0" />
             <ImageView fx:id="card2Image" fitWidth="100" fitHeight="150" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1"  />
             <Label fx:id="card2LabelPV" GridPane.columnIndex="1" GridPane.rowIndex="2" />
