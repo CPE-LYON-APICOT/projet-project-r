@@ -149,16 +149,28 @@ public class InventoryController {
     @FXML
     protected void saveDeck() throws IOException {
         //debut du code pour crée un joueur et qu'il lance sa partie avec son deck
+        Hero heroChoisi = null;
         for (carte carte : cartes) {
             for (String cartep : selectedCardsListView.getItems()){
                 if (cartep == carte.getNom()){
                     DeckPlayer.add(carte);
                 }
             }
+    
             
            }
+        for (Hero hero : LstHeroes) {
+            
+                if (heroComboBox.getValue() == hero.GetNom()){
+                    heroChoisi = hero;
+                }
+            
+            }
+        
+
+
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("Game.fxml"));
-        player dataObject =  new player(5,new DeckBuilder(DeckPlayer).build(),5); // Créez votre objet avec les données nécessaires
+        player dataObject =  new player(5,new DeckBuilder(DeckPlayer).build(),heroChoisi); // Créez votre objet avec les données nécessaires
         fxmlLoader.setControllerFactory(controllerClass -> {
         try {
             Constructor<?> constructor = controllerClass.getConstructor(player.class,fact.getClass());
@@ -168,7 +180,7 @@ public class InventoryController {
         }
         });
         scene = new Scene(fxmlLoader.load(), 640, 480);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        //scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 
         Stage stage = new Stage();
         stage.setScene(scene);

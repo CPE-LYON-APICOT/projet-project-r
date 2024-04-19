@@ -3,7 +3,7 @@
    
     /* CSS pour définir une image de fond */
 
-    -fx-background-image: url('imageProjet/Plateau-Jinx.jpeg');
+    /* -fx-background-image: url('imageProjet/Plateau-Jinx.jpeg');
     -fx-background-size: cover; /* Pour ajuster la taille de l'image à celle du conteneur */
     -fx-background-repeat: no-repeat; /* Pour éviter la répétition de l'image */
     -fx-background-position: center; /* Pour centrer l'image dans le conteneur */
