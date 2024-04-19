@@ -3,7 +3,7 @@ package r.project;
 public class Aria extends CreaBoss{
     public Aria(int pPv, int pAttaque,String pNom, String pDescription, String pLienImage, Faction pFaction,String pSousNom) {
         super(pPv, pAttaque,pNom, pDescription, pLienImage, pFaction,pSousNom);
-        setMolock();
+        setAria();
     }
 
     @Override
@@ -12,7 +12,7 @@ public class Aria extends CreaBoss{
         setAttaque(getAttaque() * 2); 
     }
 
-    public void setMolock(){
+    public void setAria(){
         super.setNom("Aria");
         super.setSousNom("la Reine des Tempêtes Éternelles");
         super.SetDescription("Aria est une entité céleste majestueuse, dont la présence est précédée par des bourrasques de vent et des éclairs déchirant le ciel. Sa peau est constellée de motifs lumineux, rappelant les étoiles, et ses yeux sont aussi éblouissants que le soleil. Elle contrôle les éléments déchaînés, invoquant des tornades, des éclairs et des tempêtes d'une puissance inégalée. Aria se considère comme la gardienne des cieux, défendant farouchement leur intégrité contre toute intrusion.");
