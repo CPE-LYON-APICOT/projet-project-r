@@ -73,6 +73,8 @@ public class GameController {
     private HBox selectedCardsContainer;
     @FXML
     private HBox mainDuJoueur;
+    @FXML
+    private HBox statDuJoueur;
     
     @FXML
     private  ImageView card1Image;
@@ -104,13 +106,29 @@ public class GameController {
        
         
     }
-
+    
+    
     @FXML
     public void initialize(){
         ArrayList<carte> cartesList = new ArrayList<>(JoueurActuel.getLstDeck());
         ArrayList<Integer> chosenIndices = new ArrayList<>(); // Keep track of chosen card indices
         setCreature();
+        paquet.addAll(JoueurActuel.getLstDeck());
+
+        Button piocherButton = new Button("Piocher");
+        piocherButton.setOnAction(event -> piocherCartes());
         
+        // Ajoutez le bouton "Piocher" à mainDuJoueur
+        statDuJoueur.getChildren().add(piocherButton);
+        Button piocherAllButton = new Button("Piocher aléatoirement");
+        piocherAllButton.setOnAction(event -> piocheAléatoire());
+        
+        // Ajoutez le bouton "Piocher" à mainDuJoueur
+        statDuJoueur.getChildren().add(piocherAllButton);
+        Label playerHealthLabel = new Label("Points de vie du joueur: "+JoueurActuel.getPv());
+
+        statDuJoueur.getChildren().add(playerHealthLabel);
+
         for (int i = 0; i < 5; i++) {
             int randomIndex;
             do {
@@ -120,6 +138,7 @@ public class GameController {
             chosenIndices.add(randomIndex); // Add the chosen index to the list
             carte currentCard = cartesList.get(i);
             main.add(currentCard);
+            paquet.remove(currentCard); 
             if (mainDuJoueur.getChildren().size() < 5) {
                 // Créez un VBox pour contenir les informations de la carte
                 VBox cardInfo = new VBox();
@@ -162,53 +181,14 @@ public class GameController {
                 mainDuJoueur.getChildren().add(cardContainer);
             }
         }
-        Button piocherButton = new Button("Piocher");
-        piocherButton.setOnAction(event -> piocherCartes());
-        
-        // Ajoutez le bouton "Piocher" à mainDuJoueur
-        mainDuJoueur.getChildren().add(piocherButton);
-        Label playerHealthLabel = new Label("Points de vie du joueur: "+JoueurActuel.getPv());
-
-        mainDuJoueur.getChildren().add(playerHealthLabel);
+      
        
         
 
     }
 
    
-        public void piocheAléatoire(ArrayList<carte> lesCartes) {
-            // Mélanger aléatoirement les cartes
-            Collections.shuffle(lesCartes);
-        
-            // Sélectionner les 5 premières cartes de la liste mélangée
-            if (lesCartes.size() > 5) {
-                lesCartes.subList(0, 5);
-            }
-        }
-    @FXML
-    public void piocherCartes() {
-            // Vérifier si la main est pleine (contient déjà 5 cartes)
-        if (main.size() >= 5) {
-                // Ajouter les cartes du paquet dans la défausse
-            defausse.addAll(paquet);
-             
-        } else {
-                // Calculer combien de cartes peuvent être piochées
-            int cartesRestantes = 5 - main.size();
-                // Piocher les cartes restantes du paquet
-            for (int i = 0; i < cartesRestantes; i++) {
-                    // Vérifier si le paquet est vide
-                if (!paquet.isEmpty()) {
-                        // Retirer la première carte du paquet et l'ajouter à la main
-                    carte cartePiochee = paquet.remove(0);
-                    main.add(cartePiochee);
-                } else {
-                        // Si le paquet est vide, arrêter la pioche
-                    break;
-                }
-            }
-        }
-    }
+    
         
 
     
@@ -280,16 +260,83 @@ public class GameController {
         
             // Ajoutez le VBox contenant l'image et les informations de la carte à selectedCardsContainer
             selectedCardsContainer.getChildren().add(cardContainer);
+            ChargeMain(cartejouer.getNom());
         }
+       
     }
     
+    public void ChargeMain(String nomcarte){
+        if (nomcarte != null) {
+            // Retirer la carte de la main
+            int cartearetirer = getIndexCarteDansMain(nomcarte);
+
+            if (cartearetirer != -1) {
+                main.remove(cartearetirer);
+            }
+        }
+        mainDuJoueur.getChildren().clear();
+        for (int i = 0; i < main.size(); i++) {
+            carte currentCard = main.get(i);
+        
+            // Recréer le contenu du VBox pour chaque carte dans la main
+            VBox cardInfo = new VBox();
+            cardInfo.setAlignment(Pos.CENTER);
+            cardInfo.setSpacing(5);
+        
+            Label nomLabel = new Label(currentCard.getNom());
+            nomLabel.setId("nomLabel_" + i); // Identifiant unique pour nomLabel
+        
+            Label pvLabel = new Label("PV: " + currentCard.getPV());
+            pvLabel.setId("pvLabel_" + i); // Identifiant unique pour pvLabel
+        
+            Label attaqueLabel = new Label("Attaque: " + currentCard.getAttaque());
+            attaqueLabel.setId("attaqueLabel_" + i); // Identifiant unique pour attaqueLabel
+        
+            // Ajouter les labels au VBox
+            cardInfo.getChildren().addAll(nomLabel, pvLabel, attaqueLabel);
+        
+            // Charger l'image de la carte
+            Image image = new Image(getClass().getResourceAsStream(currentCard.getLienImage()));
+        
+            // Créer une ImageView pour afficher l'image de la carte
+            ImageView selectedCardView = new ImageView(image);
+        
+            // Définir la taille souhaitée
+            selectedCardView.setFitWidth(130); // Largeur souhaitée
+            selectedCardView.setFitHeight(150); // Hauteur souhaitée
+            selectedCardView.setId("selectedCardView_" + i); // Identifiant unique pour selectedCardView
+            selectedCardView.setOnMouseClicked(event -> onCardClicked(event));
+        
+            // Créer un VBox pour contenir l'image et les informations de la carte
+            VBox cardContainer = new VBox();
+            cardContainer.setAlignment(Pos.CENTER);
+            cardContainer.setSpacing(5);
+        
+            // Ajouter l'image et les informations de la carte au VBox
+            cardContainer.getChildren().addAll(selectedCardView, cardInfo);
+        
+            // Ajouter le VBox contenant l'image et les informations de la carte à mainDuJoueur
+            mainDuJoueur.getChildren().add(cardContainer);
+        }
+    }
+
+
+    private int getIndexCarteDansMain(String nomCarte) {
+        for (int i = 0; i < main.size(); i++) {
+            carte carte = main.get(i);
+            if (carte.getNom().equals(nomCarte)) {
+                return i; // Retourne l'index de la carte si le nom correspond
+            }
+        }
+        return -1; // Retourne -1 si la carte n'est pas trouvée dans la main
+    }
+
     public void onSelectedCardClicked(MouseEvent event) {
         // Action à effectuer lorsqu'une carte sélectionnée est cliquée
         // Vous pouvez mettre ici le code pour supprimer la carte sélectionnée, par exemple
         VBox cardContainer = (VBox) ((ImageView) event.getSource()).getParent();
         mainDuJoueur.getChildren().remove(cardContainer);
     }
-    
     
     private carte getCarteFromLabel(String label) {
         for (carte card : JoueurActuel.getLstDeck()) {
@@ -313,6 +360,41 @@ public class GameController {
         selectedCardsListViewPlayer.getItems().add(JoueurActuel.getHero().GetNom());
        
     }
+
+    @FXML
+    public void piocherCartes() {
+            // Vérifier si la main est pleine (contient déjà 5 cartes)
+        if (main.size() >= 5) {
+                // Ajouter les cartes du paquet dans la défausse
+            
+             
+        } else {
+             
+            carte cartePiochee = paquet.get(0);
+            paquet.remove(0);
+            main.add(cartePiochee);
+            
+            ChargeMain(null);
+        }
+        
+    }
+    public void piocheAléatoire() {
+        // Mélanger aléatoirement les cartes
+        Collections.shuffle(paquet);
+        if (main.size() >= 5) {
+            // Ajouter les cartes du paquet dans la défausse
+        
+         
+        } else {
+         
+            carte cartePiochee = paquet.get(0);
+            paquet.remove(0);
+            main.add(cartePiochee);
+        
+            ChargeMain(null);
+        }
+    
+}
 
     public void setCreature(){
         //Monster

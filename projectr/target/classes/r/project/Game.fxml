@@ -45,11 +45,24 @@
     </center>
 
     <!-- Zone du joueur -->
-  <bottom>
-    <HBox fx:id="mainDuJoueur" alignment="CENTER">
         
-    </HBox>
+    
+       
+    <bottom>
+    <HBox  alignment="CENTER">
+    
+        <HBox fx:id="mainDuJoueur" alignment="CENTER">
+        <!-- Vous pouvez ajouter dynamiquement les cartes de la main du joueur ici -->
+           
+        </HBox>
+          <HBox fx:id="statDuJoueur" alignment="CENTER">
+        <!-- Vous pouvez ajouter ici les statistiques du joueur, telles que les points de vie -->
+            </HBox>
+    </HBox >
+   
 </bottom>
+       
+    
 
 
 </BorderPane>
