@@ -34,48 +34,36 @@
         </VBox>
     </top>
 
+   
+    <!-- Zone de jeu -->
+    <center>
+        <StackPane>
+            <HBox fx:id="selectedCardsContainer" spacing="10" alignment="CENTER">
+                <!-- Contenu des cartes sélectionnées -->
+            </HBox>
+        </StackPane>
+    </center>
+
+
     <!-- Zone du joueur -->
-  <bottom>
-    <HBox alignment="CENTER">
-        <GridPane alignment="CENTER" hgap="10">
-            <columnConstraints>
-                <ColumnConstraints hgrow="ALWAYS" />
-                <ColumnConstraints hgrow="ALWAYS" />
-                <ColumnConstraints hgrow="ALWAYS" />
-                <ColumnConstraints hgrow="ALWAYS" />
-                <ColumnConstraints hgrow="ALWAYS" />
-            </columnConstraints>
-            <Label fx:id="card1LabelNom" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <ImageView fx:id="card1Image" fitWidth="100" fitHeight="150" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <Label fx:id="card1LabelPV" GridPane.columnIndex="0" GridPane.rowIndex="2" />  
-            <Label fx:id="card1LabelAttaque" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-            <Label fx:id="card2LabelNom" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-            <ImageView fx:id="card2Image" fitWidth="100" fitHeight="150" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1"  />
-            <Label fx:id="card2LabelPV" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label fx:id="card2LabelAttaque" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-
-            <Label fx:id="card3LabelNom" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-            <ImageView fx:id="card3Image" fitWidth="100" fitHeight="150" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1"  />
-            <Label fx:id="card3LabelPV" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <Label fx:id="card3LabelAttaque" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-
-            <Label fx:id="card4LabelNom" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-            <ImageView fx:id="card4Image" fitWidth="100" fitHeight="150" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-            <Label fx:id="card4LabelPV" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <Label fx:id="card4LabelAttaque" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-
-            <Label fx:id="card5LabelNom" GridPane.columnIndex="4" GridPane.rowIndex="0" />
-            <ImageView fx:id="card5Image" fitWidth="100" fitHeight="150" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-            <Label fx:id="card5LabelPV" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-            <Label fx:id="card5LabelAttaque" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-        </GridPane>
-        <!-- Points de vie du joueur -->
-        <VBox alignment="CENTER" spacing="10">
-            <Label text="Points de vie: " />
-            <Label fx:id="playerHealthLabel" />
-        </VBox>
-    </HBox>
+        
+    
+       
+    <bottom>
+    <HBox  alignment="CENTER">
+    
+        <HBox fx:id="mainDuJoueur" alignment="CENTER">
+        <!-- Vous pouvez ajouter dynamiquement les cartes de la main du joueur ici -->
+           
+        </HBox>
+          <HBox fx:id="statDuJoueur" alignment="CENTER">
+        <!-- Vous pouvez ajouter ici les statistiques du joueur, telles que les points de vie -->
+            </HBox>
+    </HBox >
+   
 </bottom>
+       
+    
 
 
 </BorderPane>
