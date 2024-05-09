@@ -23,13 +23,7 @@
     <!-- Zone du monstre -->
     <top>
         <VBox alignment="CENTER" spacing="10">
-            <Label text="Monstre" />
-            <!-- Cartes du monstre -->
-            <FlowPane fx:id="monsterCardPane" HBox.hgrow="ALWAYS" />
-            <!-- Points de vie du monstre -->
-            <HBox spacing="10" alignment="CENTER">
-                <Label text="Points de vie: " />
-                <Label fx:id="monsterHealthLabel" />
+            <HBox fx:id="creature" alignment="CENTER">
             </HBox>
         </VBox>
     </top>

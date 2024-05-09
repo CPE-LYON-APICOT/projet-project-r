@@ -75,7 +75,8 @@ public class GameController {
     private HBox mainDuJoueur;
     @FXML
     private HBox statDuJoueur;
-    
+    @FXML
+    private HBox creature;
     @FXML
     private  ImageView card1Image;
     @FXML
@@ -179,18 +180,30 @@ public class GameController {
             
                 // Ajoutez le VBox contenant l'image et les informations de la carte à mainDuJoueur
                 mainDuJoueur.getChildren().add(cardContainer);
+        
             }
         }
-      
-       
-        
-
+        afficherBossAleatoire();                
     }
 
-   
-    
-        
-
+    public void afficherBossAleatoire() {
+        Random random = new Random();
+        int randomIndex = random.nextInt(lstBoss.size());
+        CreaBoss bossSelectionne = lstBoss.get(randomIndex);
+        VBox bossInfo = new VBox();
+        bossInfo.setAlignment(Pos.CENTER);
+        bossInfo.setSpacing(10);
+        Image imageBoss = new Image(getClass().getResourceAsStream(bossSelectionne.getLienImage()));
+        ImageView bossImageView = new ImageView(imageBoss);
+        bossImageView.setFitWidth(200); 
+        bossImageView.setFitHeight(200); 
+        bossInfo.getChildren().add(bossImageView);
+        Label nomBossLabel = new Label("Nom: " + bossSelectionne.getNom());
+        Label pvBossLabel = new Label("PV: " + bossSelectionne.getPv());
+        Label attaqueBossLabel = new Label("Attaque: " + bossSelectionne.getAttaque());
+        bossInfo.getChildren().addAll(nomBossLabel, pvBossLabel, attaqueBossLabel);
+        creature.getChildren().add(bossInfo);
+    }
     
 
     // Méthode pour l'action de jouer une carte
