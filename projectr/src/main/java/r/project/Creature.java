@@ -32,6 +32,9 @@ public abstract class Creature {
     public String getNom(){
         return nom;
     }
+    public String getLienImage(){
+        return lienImage;
+    }
     public void setNom(String pNom){
         nom=pNom;
     }

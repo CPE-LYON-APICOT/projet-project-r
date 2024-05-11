@@ -27,4 +27,8 @@ class carteSort extends carte {
     public int getPV() {
         return 0;
     }
+    @Override
+    public void setPV(int pv) {
+
+    }
 }

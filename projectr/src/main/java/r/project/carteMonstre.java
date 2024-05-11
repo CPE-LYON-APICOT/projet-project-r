@@ -15,6 +15,7 @@ class carteMonstre extends carte {
     public int getPV() {
         return PV;
     }
+    @Override
     public void setPV(int pv) {
         this.PV = pv;
     }
