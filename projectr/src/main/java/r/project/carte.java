@@ -69,6 +69,7 @@ public abstract class carte {
     public abstract void jouer();
     public abstract String afficher();
     public abstract int getPV();
+    public abstract void setPV(int pv);
         
     
 }
