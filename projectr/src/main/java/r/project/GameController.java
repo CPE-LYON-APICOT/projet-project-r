@@ -120,14 +120,20 @@ public class GameController {
 
         Button piocherButton = new Button("Piocher");
         piocherButton.setOnAction(event -> piocherCartes());
-        
+       
         // Ajoutez le bouton "Piocher" à mainDuJoueur
         statDuJoueur.getChildren().add(piocherButton);
+        
         Button piocherAllButton = new Button("Piocher aléatoirement");
         piocherAllButton.setOnAction(event -> piocheAléatoire());
-        
-        // Ajoutez le bouton "Piocher" à mainDuJoueur
+         
         statDuJoueur.getChildren().add(piocherAllButton);
+        // Ajoutez le bouton "Piocher" à mainDuJoueur
+
+        Button attaqueBoss = new Button("tour du boss");
+        attaqueBoss.setOnAction(event -> attaqueBoss());
+        statDuJoueur.getChildren().add(attaqueBoss);
+       
         Label playerHealthLabel = new Label("Points de vie du joueur: "+JoueurActuel.getPv());
 
         statDuJoueur.getChildren().add(playerHealthLabel);
@@ -359,7 +365,6 @@ public class GameController {
             }else{
                 lstBoss.add(bossSelectione);
                 ChargerBoss(bossSelectione);
-
             }
             if (carteSelectionne.getPV() <= 0) {
                 selectedCardsContainer.getChildren().clear();
@@ -542,7 +547,49 @@ public class GameController {
         }
     }
 
+     public void attaqueBoss(){
+        Label monstre = (Label) creature.lookup("#nomLabelBoss");
+        CreaBoss bossSelectione2 = getBossFromLabel(monstre.getText());
+        lstBoss.remove(bossSelectione2);
+        carte test = null;
+        // Effectuez le combat entre le joueur et le monstre
+        for (int i = 0; i < plateau.size(); i++) {
+            if (plateau.get(i).getAttaque() < bossSelectione2.getPv() ){
+                if(plateau.get(i).getPV() < bossSelectione2.getAttaque() ){
+                    test = plateau.get(i); 
+                    break;
+                }
 
+            }
+        }
+        if (test == null) {
+            test = plateau.get(0);
+           
+        }
+        bossSelectione2.setPv(bossSelectione2.getPv() - test.getAttaque());
+        test.setPV(test.getPV() - bossSelectione2.getAttaque()); 
+
+        plateau.remove(test);
+        if (bossSelectione2.getPv() <= 0) {
+
+            creature.getChildren().clear();
+            afficherBossAleatoire();
+        }else{
+            lstBoss.add(bossSelectione2);
+            ChargerBoss(bossSelectione2);
+        }
+        if (test.getPV() <= 0) {
+            
+            selectedCardsContainer.getChildren().clear();
+            Chargeplateau();
+        }else{
+            plateau.add(test);
+            Chargeplateau();
+            
+        }
+        
+
+     }
     private int getIndexCarteDansMain(String nomCarte) {
         for (int i = 0; i < main.size(); i++) {
             carte carte = main.get(i);
