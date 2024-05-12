@@ -1,13 +1,19 @@
 package r.project;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
@@ -17,6 +23,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.geometry.Pos;
 
 
@@ -60,6 +68,12 @@ public class GameController {
     private Label card5LabelNom;
     
     @FXML
+    private Label manaTour;
+    @FXML
+    private Label manaJoueur;
+
+
+    @FXML
     private StackPane selectedCardPane;
     @FXML
     private FlowPane playerCardPane;
@@ -101,6 +115,9 @@ public class GameController {
     ArrayList<carte> main= new ArrayList<>();
     ArrayList<carte> defausse= new ArrayList<>();
     ArrayList<carte> plateau= new ArrayList<>();
+
+    private int manaparTour;
+    private int manaDuJoueur;
 
     public GameController(player dataObject,ArrayList<Faction> dataList) {
         this.JoueurActuel = dataObject;
@@ -153,11 +170,14 @@ public class GameController {
                 VBox cardInfo = new VBox();
                 cardInfo.setAlignment(Pos.CENTER);
                 cardInfo.setSpacing(5);
-            
+                
+                Label manaLabel = new Label("Mana: " + currentCard.getCout());
+                manaLabel.setId("manaLabel_" + i); // Identifiant unique pour attaqueLabel
+
                 Label nomLabel = new Label(currentCard.getNom());
                 nomLabel.setId("nomLabel_" + i); // Identifiant unique pour nomLabel
 
-                    Label pvLabel = new Label("PV: " + currentCard.getPV());
+                Label pvLabel = new Label("PV: " + currentCard.getPV());
                 pvLabel.setId("pvLabel_"+ i); // Identifiant unique pour pvLabel
 
                 Label attaqueLabel = new Label("Attaque: " + currentCard.getAttaque());
@@ -165,7 +185,7 @@ public class GameController {
 
             
                 // Ajoutez les labels au VBox
-                cardInfo.getChildren().addAll(nomLabel,pvLabel, attaqueLabel);
+                cardInfo.getChildren().addAll(manaLabel,nomLabel,pvLabel, attaqueLabel);
             
                 // Chargez l'image de la carte
                 Image image = new Image(getClass().getResourceAsStream(currentCard.getLienImage()));
@@ -191,8 +211,23 @@ public class GameController {
         
             }
         }
-        afficherBossAleatoire();                
+        afficherBossAleatoire();
+        manaparTour=0;
+        incrementationManaTour();   
+        manaDuJoueur=0;    
+        determinerManaJoueur();  
     }
+
+    private void incrementationManaTour(){
+        manaparTour+=1;
+        manaTour.setText("Tour: "+ String.valueOf(manaparTour));
+    }
+
+    private void determinerManaJoueur(){
+        manaDuJoueur+=1;
+        manaJoueur.setText("Mana Joueur: "+ String.valueOf(manaDuJoueur));
+    }
+
 
     public void afficherBossAleatoire() {
         Random random = new Random();
@@ -206,18 +241,14 @@ public class GameController {
         
         bossImageView.setFitWidth(200); 
         bossImageView.setFitHeight(200);
-        bossImageView.setId("selectedCardBoss_"); // Identifiant unique pour selectedCardView
+        bossImageView.setId("selectedCardBoss_"); 
         bossImageView.setOnMouseClicked(event -> {
 
-            // Obtenez la carte joueur
             Label monstre = (Label) creature.lookup("#nomLabelBoss");
             bossSelectione = getBossFromLabel(monstre.getText());
-    
-           
-            
-            // Effectuez le combat entre le joueur et le monstre
             combat();
         }); 
+
         bossInfo.getChildren().add(bossImageView);
         Label nomLabel = new Label(bossSelectionne.getNom());
         nomLabel.setId("nomLabelBoss");
@@ -275,11 +306,12 @@ public class GameController {
             nomLabel.setVisible(false);
 
             // Affichez les informations de la carte
+            Label manaLabel =new Label("Mana: " +cartejouer.getCout());
             Label pvLabel = new Label("PV: " + cartejouer.getPV());
             Label attaqueLabel = new Label("Attaque: " + cartejouer.getAttaque());
         
             // Ajoutez les labels au VBox
-            cardInfo.getChildren().addAll(pvLabel, attaqueLabel,nomLabel);
+            cardInfo.getChildren().addAll(manaLabel,pvLabel, attaqueLabel,nomLabel);
         
             // Chargez l'image de la carte
             Image image = new Image(getClass().getResourceAsStream(cartejouer.getLienImage()));
@@ -361,7 +393,7 @@ public class GameController {
             carteSelectionne.setPV(carteSelectionne.getPV() - degatsMonstre);
             if (bossSelectione.getPv() <= 0) {
                 creature.getChildren().clear();
-                afficherBossAleatoire();
+                afficherPopupVictoire();
             }else{
                 lstBoss.add(bossSelectione);
                 ChargerBoss(bossSelectione);
@@ -381,6 +413,28 @@ public class GameController {
         }
         
     }
+    private Alert alertVictoire;
+
+    private void afficherPopupVictoire() {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Victoire !");
+        alert.setHeaderText(null);
+        alert.setContentText("Félicitations, vous avez gagné le combat !");
+    
+        ButtonType buttonTypeOk = new ButtonType("OK");
+        alert.getButtonTypes().setAll(buttonTypeOk);
+    
+        alert.setOnCloseRequest(event -> {
+            if (alert.getResult() == buttonTypeOk) {
+                Stage stage = (Stage) alertVictoire.getDialogPane().getScene().getWindow();
+                stage.close();
+            }
+        });
+    }
+
+
+        
+
     public void ChargerBoss(CreaBoss bossSelectionne){
         creature.getChildren().clear();
         VBox bossInfo = new VBox();
@@ -424,11 +478,12 @@ public class GameController {
         nomLabel.setVisible(false);
 
         // Affichez les informations de la carte
+        Label manaLabel = new Label("Mana: "+ plateau.get(i).getCout());
         Label pvLabel = new Label("PV: " + plateau.get(i).getPV());
         Label attaqueLabel = new Label("Attaque: " + plateau.get(i).getAttaque());
     
         // Ajoutez les labels au VBox
-        cardInfo.getChildren().addAll(pvLabel, attaqueLabel,nomLabel);
+        cardInfo.getChildren().addAll(manaLabel,pvLabel, attaqueLabel,nomLabel);
     
         // Chargez l'image de la carte
         Image image = new Image(getClass().getResourceAsStream(plateau.get(i).getLienImage()));
@@ -509,6 +564,9 @@ public class GameController {
             VBox cardInfo = new VBox();
             cardInfo.setAlignment(Pos.CENTER);
             cardInfo.setSpacing(5);
+
+            Label manaLabel= new Label("Mana:" + currentCard.getCout());
+            manaLabel.setId("manaLabel_" + i);
         
             Label nomLabel = new Label(currentCard.getNom());
             nomLabel.setId("nomLabel_" + i); // Identifiant unique pour nomLabel
@@ -520,7 +578,7 @@ public class GameController {
             attaqueLabel.setId("attaqueLabel_" + i); // Identifiant unique pour attaqueLabel
         
             // Ajouter les labels au VBox
-            cardInfo.getChildren().addAll(nomLabel, pvLabel, attaqueLabel);
+            cardInfo.getChildren().addAll(manaLabel,nomLabel, pvLabel, attaqueLabel);
         
             // Charger l'image de la carte
             Image image = new Image(getClass().getResourceAsStream(currentCard.getLienImage()));

@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 
 
+
 // import javafx.scene.Parent;
 // import javafx.fxml.FXMLLoader;
 // import javafx.scene.control.Button;
@@ -170,7 +171,7 @@ public class InventoryController {
 
 
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("Game.fxml"));
-        player dataObject =  new player(5,new DeckBuilder(DeckPlayer).build(),heroChoisi); // Créez votre objet avec les données nécessaires
+        player dataObject =  new player(40,new DeckBuilder(DeckPlayer).build(),heroChoisi); // Créez votre objet avec les données nécessaires
         fxmlLoader.setControllerFactory(controllerClass -> {
         try {
             Constructor<?> constructor = controllerClass.getConstructor(player.class,fact.getClass());
@@ -181,8 +182,8 @@ public class InventoryController {
         });
         scene = new Scene(fxmlLoader.load(), 640, 480);
         //scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-
         Stage stage = new Stage();
+        stage.setFullScreen(true);
         stage.setScene(scene);
         stage.show();
 
