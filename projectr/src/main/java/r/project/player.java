@@ -22,6 +22,10 @@ public class player {
     public int getPv(){
         return pv;
     }
+
+    public void pertePv(int attaque){
+        this.pv=this.pv-attaque;
+    }
     public Collection<carte> getLstDeck(){
         return lstDeck;
     }

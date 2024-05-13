@@ -71,7 +71,8 @@ public class GameController {
     private Label manaTour;
     @FXML
     private Label manaJoueur;
-
+    @FXML
+    private Button finTour;
 
     @FXML
     private StackPane selectedCardPane;
@@ -101,6 +102,8 @@ public class GameController {
     private  ImageView card4Image;
     @FXML
     private  ImageView card5Image;
+    @FXML
+    private  Label playerHealthLabel;
     
     carte carteSelectionne = null;
     CreaBoss bossSelectione = null;
@@ -214,18 +217,34 @@ public class GameController {
         afficherBossAleatoire();
         manaparTour=0;
         incrementationManaTour();   
-        manaDuJoueur=0;    
-        determinerManaJoueur();  
+       //determinerManaJoueur();  
     }
 
     private void incrementationManaTour(){
-        manaparTour+=1;
-        manaTour.setText("Tour: "+ String.valueOf(manaparTour));
+        if (manaparTour<10){
+            manaparTour+=1;
+            manaTour.setText("Tour: "+ String.valueOf(manaparTour));
+        }
+        manaDuJoueur=manaparTour;
+        manaJoueur.setText("Mana Joueur: "+ String.valueOf(manaDuJoueur));
     }
 
-    private void determinerManaJoueur(){
-        manaDuJoueur+=1;
-        manaJoueur.setText("Mana Joueur: "+ String.valueOf(manaDuJoueur));
+    private Boolean determinerManaJoueur(int coutcarte){
+        if (manaDuJoueur-coutcarte>=0){
+            manaDuJoueur=manaDuJoueur-coutcarte;
+            manaJoueur.setText("Mana Joueur: "+ String.valueOf(manaDuJoueur));
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    @FXML
+    private void handleFinTour(){
+        attaqueBoss();
+        incrementationManaTour();
+        piocheAléatoire();
     }
 
 
@@ -295,7 +314,7 @@ public class GameController {
         }
        
         // Mettez à jour la carte sélectionnée
-        if (selectedCardsContainer.getChildren().size() < 5) {
+        if (selectedCardsContainer.getChildren().size() < 5 && cartejouer.getCout()<=manaDuJoueur) {
             // Créez un VBox pour contenir les informations de la carte
             VBox cardInfo = new VBox();
             cardInfo.setAlignment(Pos.CENTER);
@@ -374,6 +393,9 @@ public class GameController {
             // Ajoutez le VBox contenant l'image et les informations de la carte à selectedCardsContainer
             selectedCardsContainer.getChildren().add(cardContainer);
             ChargeMain(cartejouer.getNom());
+
+            //ajuste et actualise le mana après avoir joué une carte
+            determinerManaJoueur(cartejouer.getCout());
         }
        
     }
@@ -394,7 +416,8 @@ public class GameController {
             if (bossSelectione.getPv() <= 0) {
                 creature.getChildren().clear();
                 afficherPopupVictoire();
-            }else{
+            }
+            else{
                 lstBoss.add(bossSelectione);
                 ChargerBoss(bossSelectione);
             }
@@ -608,8 +631,16 @@ public class GameController {
      public void attaqueBoss(){
         Label monstre = (Label) creature.lookup("#nomLabelBoss");
         CreaBoss bossSelectione2 = getBossFromLabel(monstre.getText());
+        if (bossSelectione2 == null) {
+            return;
+        }
         lstBoss.remove(bossSelectione2);
         carte test = null;
+        if (plateau.isEmpty()) {
+            JoueurActuel.pertePv(bossSelectione2.getAttaque());
+            playerHealthLabel.setText("vie du joueur"+JoueurActuel.getPv());
+            return;
+        }
         // Effectuez le combat entre le joueur et le monstre
         for (int i = 0; i < plateau.size(); i++) {
             if (plateau.get(i).getAttaque() < bossSelectione2.getPv() ){

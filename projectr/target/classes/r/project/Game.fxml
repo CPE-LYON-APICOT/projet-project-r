@@ -43,6 +43,7 @@
             <HBox fx:id="mainDuJoueur" alignment="CENTER">
                 <!-- Vous pouvez ajouter dynamiquement les cartes de la main du joueur ici -->
             </HBox>
+            <Label fx:id="playerHealthLabel"/>
             <HBox fx:id="statDuJoueur" alignment="CENTER">
                 <!-- Vous pouvez ajouter ici les statistiques du joueur, telles que les points de vie -->
             </HBox>
@@ -52,7 +53,7 @@
     <!-- Bouton et label au milieu à gauche -->
     <right>
         <VBox alignment="CENTER" spacing="10" style="-fx-padding: 0 200 0 0;">
-            <Button text="Mon Bouton" />
+            <Button fx:id="finTour" text="Fin du Tour" onAction="#handleFinTour" />
             <Label fx:id="manaTour" />
             <Label fx:id="manaJoueur" />
         </VBox>
