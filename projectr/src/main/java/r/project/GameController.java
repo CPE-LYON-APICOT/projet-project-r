@@ -552,6 +552,7 @@ public class GameController {
         CreaBoss bossSelectione2 = getBossFromLabel(monstre.getText());
         lstBoss.remove(bossSelectione2);
         carte test = null;
+        if( plateau.size())
         // Effectuez le combat entre le joueur et le monstre
         for (int i = 0; i < plateau.size(); i++) {
             if (plateau.get(i).getAttaque() < bossSelectione2.getPv() ){
