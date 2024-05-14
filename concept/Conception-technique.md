@@ -63,7 +63,7 @@ Au niveau de la création des objets qui sont les cartes et des héros, il faudr
 
 #### 1. [Génération des cartes sort et monstre]
 
-J'ai commencé un jeu avec des cartes sort et des cartes monstre qui héritaient de la classe Carte, mais en fonction des cartes, la gestion n'était pas la même en jeu ou lors du passage dans le deck. Nous avons donc laissé les cartes monstres et mis de côté les cartes sort.
+Nous avions commencé un jeu avec des cartes sort et des cartes monstre qui héritaient de la classe Carte, mais en fonction des cartes, la gestion n'était pas la même en jeu ou lors du passage dans le deck. Nous avons donc laissé les cartes monstres et mis de côté les cartes sort.
 
 
 #### 2. [Gestion des collisions]
