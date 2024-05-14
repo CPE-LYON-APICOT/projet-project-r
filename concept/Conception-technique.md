@@ -77,16 +77,17 @@ Nous pouvons aussi notifier notre manque de connaissances sur le design Patern s
 
 Nous avions commencé un jeu avec des cartes sort et des cartes monstre qui héritaient de la classe Carte, mais en fonction des cartes, la gestion n'était pas la même en jeu ou lors du passage dans le deck. Nous avons donc laissé les cartes monstres et mis de côté les cartes sort.
 
+#### 2. [utilisation de javafx]
 
-#### 2. [Gestion des collisions]
+Notre difficulté principale concernait l'utilisation de javafx dont nous n'avions que très peu pratiqué en cours. Après s'être informé par l'intermédiaire de plusieurs guides et vidéos, nous avons pu surmonter nos difficultés. Bien que notre jeu n'est pas particulièrement beau, le javafx est fonctionnel.
 
-[Exemple : Nous n'avons pas réussi à gérer les collisions, PARCE QUE, mes objets n'héritaient pas d'une classe commune, car nos objets héirtaient de ... et nos personnages de ...]
+#### 3. [Distribution de cartes]
 
-1- Notre difficulté principale concernait l'utilisation de javafx dont nous n'avions que très peu pratiqué en cours. Après s'être informé par l'intermédiaire de plusieurs guides et vidéos, nous avons pu surmonter nos difficultés. Bien que notre jeu n'est pas particulièrement beau, le javafx est fonctionnel.
+Nous voulions proposer 2 manières de distribuer à nos joueurs pour rajouter de la diversité à notre jeu. Cependant, nous voulions éviter de faire 2 copier collé de code, nous avons donc opté pour un design patern builder pour régler le problème.
 
-2- Nous voulions proposer 2 manières de distribuer à nos joueurs pour rajouter de la diversité à notre jeu. Cependant, nous voulions éviter de faire 2 copier collé de code, nous avons donc opté pour un design patern builder pour régler le problème.
+#### 4. [organisation]
 
-3- Le projet était ambitieux donc nous avons commis une erreur d'organisation en voulant faire trop de fonctionnalités avant de nous occuper du corps du jeu. Ce qui nous a fait prendre du retard. Le corps du jeu est fini cependant un certain nombre de fonctionnalités ont était commencée mais pas implémentée.
+Le projet était ambitieux donc nous avons commis une erreur d'organisation en voulant faire trop de fonctionnalités avant de nous occuper du corps du jeu. Ce qui nous a fait prendre du retard. Le corps du jeu est fini cependant un certain nombre de fonctionnalités ont était commencée mais pas implémentée.
 
 ### *Design Patterns* mis en oeuvre
 
