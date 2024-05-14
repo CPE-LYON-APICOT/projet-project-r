@@ -154,9 +154,7 @@ public class GameController {
         // attaqueBoss.setOnAction(event -> attaqueBoss());
         // statDuJoueur.getChildren().add(attaqueBoss);
        
-        Label playerHealthLabel = new Label("Points de vie du joueur: "+JoueurActuel.getPv());
-
-        statDuJoueur.getChildren().add(playerHealthLabel);
+        playerHealthLabel.setText("Points de vie du joueur : "+JoueurActuel.getPv());
 
         for (int i = 0; i < 5; i++) {
             int randomIndex;
@@ -634,7 +632,7 @@ public class GameController {
         carte test = null;
         if (plateau.isEmpty()) {
             JoueurActuel.pertePv(bossSelectione2.getAttaque());
-            playerHealthLabel.setText("vie du joueur"+JoueurActuel.getPv());
+            playerHealthLabel.setText("Points de vie du joueur"+JoueurActuel.getPv());
             if (JoueurActuel.getPv()<=0){
                 afficherPopupDefaite();
             }
