@@ -73,9 +73,10 @@ Nous pouvons aussi notifier notre manque de connaissances sur le design Patern s
 
 ### Difficultés rencontrées
 
-#### 1. [Génération dynamique des ... pour ...]
+#### 1. [Génération des cartes sort et monstre]
 
-[Expliquez ici la difficulté rencontrée et comment vous l'avez contournée]
+Nous avions commencé un jeu avec des cartes sort et des cartes monstre qui héritaient de la classe Carte, mais en fonction des cartes, la gestion n'était pas la même en jeu ou lors du passage dans le deck. Nous avons donc laissé les cartes monstres et mis de côté les cartes sort.
+
 
 #### 2. [Gestion des collisions]
 
@@ -90,6 +91,7 @@ Nous pouvons aussi notifier notre manque de connaissances sur le design Patern s
 ### *Design Patterns* mis en oeuvre
 
 #### 1. [builder]
+Le design pattern présent ici permet de créer le deck et de l'ajouter à une collection de cartes. Cela facilite le passage des cartes du joueur de manière plus simple et évite de s'emmêler les pinceaux. 
 [Décrivez ici brièvement le design pattern utilisé et pourquoi]
 [Ajouter éventuellement des exemples de code pour montrer l'élégence de votre solution, pour cela vous pouvez écrire en Markdown votre code ainsi :
 

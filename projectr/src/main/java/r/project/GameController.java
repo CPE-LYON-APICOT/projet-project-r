@@ -118,6 +118,7 @@ public class GameController {
     ArrayList<carte> main= new ArrayList<>();
     ArrayList<carte> defausse= new ArrayList<>();
     ArrayList<carte> plateau= new ArrayList<>();
+    ArrayList<carte> carteAttaquer= new ArrayList<>();
 
     private int manaparTour;
     private int manaDuJoueur;
@@ -243,6 +244,7 @@ public class GameController {
         attaqueBoss();
         incrementationManaTour();
         piocheAléatoire();
+        carteAttaquer.clear();
     }
 
 
@@ -401,6 +403,13 @@ public class GameController {
     public void combat (){
   
         if (bossSelectione != null && carteSelectionne != null) {
+            for (int i = 0; i < carteAttaquer.size(); i++) {
+               if (carteSelectionne.getNom().equals(carteAttaquer.get(i).getNom())) {
+                    carteSelectionne = null;
+                    bossSelectione = null;
+                   return;
+               }
+            }
             // Une carte monstre est déjà sélectionnée, déclenchez le combat
             // Calculez les dégâts infligés par le joueur et le monstre
             int degatsJoueur = carteSelectionne.getAttaque();
@@ -427,7 +436,7 @@ public class GameController {
                 Chargeplateau();
                 
             }
-            
+            carteAttaquer.add(carteSelectionne);
             // Réinitialisez les cartes sélectionnées pour la prochaine itération
             carteSelectionne = null;
             bossSelectione = null;
