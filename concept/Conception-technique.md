@@ -135,6 +135,11 @@ public class DeckBuilder {
 [Par exemple, expliquez que vous auriez éprouvé des difficultés à gérer les collisions si vous n'aviez pas utilisé la POO, ou que vous avez pu facilement ajouter des fonctionnalités à votre jeu grâce à la POO
 Minimum 10 lignes (personnalisé en fonction de votre projet)]
 
+La Poo nous a permis de facilement dupliquer des objets Carte, ainsi que définir différents types de cartes directement grâce à l'héritage. Principe que l'on retrouve aussi dans la classe Creature, qui nous a permit de faire une différenciation entre monstre et boss. Grâce à l'héritage cela nous a permis de créer de nouveaux paramètres qu'on les boss mais pas les créatures. Le polymorphisme, unique à la POO nous a aussi permis de surcharger certaines méthodes comme par exemple le boss Neron qui peut surcharger sa méthode compétence (cela permet donc d'avoir des fonctions ayant des fonctionnalités similaires avec des classes n'ayant pas de rapport entre elles).
+La Poo me permet facilement de créer de nouveau boss à volonté, juste en créant une nouvelle classe, ce qui est beaucoup plus long et fastidieux sans.
+
 ### Conclusion
 
 [Décrivez ici si vous avez compris un concept particulier que vous n'aviez pas compris en cours, inversement si vous pensiez qu'il était possible de faire qqchose mais que cela ne s'est pas passé comme prévu]
+
+Thomas: personnellement j'ai compris la plupart des design patern vu en cours. Ainsi que les différences entre un stream, une arraylist et un enum. Car premièrement je voulais faire ma liste de héros en enum, mais il s'est avéré que ce n'était pas possible.
