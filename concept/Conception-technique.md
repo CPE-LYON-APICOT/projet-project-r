@@ -56,15 +56,15 @@ Il est possible d'ajouter les combats de monstres entre deux boss et de gagner q
 
 ### Faiblesses du code
 
-Aux niveau de la création des objets qui sont les cartes et la création des héros, il faudrait peut etre les faire la création de celle ci dans un fichier a part. 
-Une partie du code n'est pas forcement très maintenable car manque de temps part rapport au ambition du projet.  
+Au niveau de la création des objets qui sont les cartes et des héros, il faudrait peut-être les créer dans des fichiers séparés. Une partie du code n'est pas forcément très maintenable ni maniable en raison du manque de temps par rapport aux ambitions du projet.
 [C'est ici que vous me dites ce que vous savez que vous avez mal fait, expliquez pourquoi vous avez fait ce choix (manque de temps, manque de compétence, trop pénible à faire, etc.)]
 
 ### Difficultés rencontrées
 
-#### 1. [Génération dynamique des ... pour ...]
+#### 1. [Génération des cartes sort et monstre]
 
-[Expliquez ici la difficulté rencontrée et comment vous l'avez contournée]
+J'ai commencé un jeu avec des cartes sort et des cartes monstre qui héritaient de la classe Carte, mais en fonction des cartes, la gestion n'était pas la même en jeu ou lors du passage dans le deck. Nous avons donc laissé les cartes monstres et mis de côté les cartes sort.
+
 
 #### 2. [Gestion des collisions]
 
@@ -74,6 +74,7 @@ Une partie du code n'est pas forcement très maintenable car manque de temps par
 ### *Design Patterns* mis en oeuvre
 
 #### 1. [builder]
+Le design pattern présent ici permet de créer le deck et de l'ajouter à une collection de cartes. Cela facilite le passage des cartes du joueur de manière plus simple et évite de s'emmêler les pinceaux. 
 [Décrivez ici brièvement le design pattern utilisé et pourquoi]
 [Ajouter éventuellement des exemples de code pour montrer l'élégence de votre solution, pour cela vous pouvez écrire en Markdown votre code ainsi :
 

@@ -118,6 +118,7 @@ public class GameController {
     ArrayList<carte> main= new ArrayList<>();
     ArrayList<carte> defausse= new ArrayList<>();
     ArrayList<carte> plateau= new ArrayList<>();
+    ArrayList<carte> carteAttaquer= new ArrayList<>();
 
     private int manaparTour;
     private int manaDuJoueur;
@@ -243,6 +244,7 @@ public class GameController {
         attaqueBoss();
         incrementationManaTour();
         piocheAléatoire();
+        carteAttaquer.clear();
     }
 
 
@@ -401,6 +403,13 @@ public class GameController {
     public void combat (){
   
         if (bossSelectione != null && carteSelectionne != null) {
+            for (int i = 0; i < carteAttaquer.size(); i++) {
+               if (carteSelectionne.getNom().equals(carteAttaquer.get(i).getNom())) {
+                    carteSelectionne = null;
+                    bossSelectione = null;
+                   return;
+               }
+            }
             // Une carte monstre est déjà sélectionnée, déclenchez le combat
             // Calculez les dégâts infligés par le joueur et le monstre
             int degatsJoueur = carteSelectionne.getAttaque();
@@ -427,7 +436,7 @@ public class GameController {
                 Chargeplateau();
                 
             }
-            
+            carteAttaquer.add(carteSelectionne);
             // Réinitialisez les cartes sélectionnées pour la prochaine itération
             carteSelectionne = null;
             bossSelectione = null;
@@ -781,62 +790,6 @@ public class GameController {
         lstBoss.add(initializeMoloch);
 
     }
-    // Autres méthodes nécessaires pour le fonctionnement du jeu
-    public  List<CreaMonstre> rencontreMonstre(){
-        Random rand = new Random();
-        List<CreaMonstre> monstresRencontres = new ArrayList<>();
-        int nombreAleatoire = rand.nextInt(8);
-        monstresRencontres.add(lstMonster.get(nombreAleatoire));
-        return monstresRencontres;        
-    }
+    
 
-    public boolean combatMonstre(List<CreaMonstre> lstRencontreMonstre){
-        int nbMonstreBattu=0;
-        while (nbMonstreBattu<lstRencontreMonstre.size()){
-            nbMonstreBattu=0;
-            for (int i=0;i<lstRencontreMonstre.size();i++){
-                if (lstRencontreMonstre.get(i).getPv()==0){
-                    nbMonstreBattu+=1;
-                }
-
-            }
-            if (JoueurActuel.getPv()==0){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean combatBoss(CreaBoss pBoss){
-        while (pBoss.getPv()!=0 && JoueurActuel.getPv()!=0)
-        {
-            if (pBoss.getPv()==0){
-                return true;
-            }
-        }
-        return false;
-        
-    }
-
-    public boolean Game(){
-        Random rand = new Random();
-        int nbBossVaincu=0;
-        while (nbBossVaincu!=3){
-            for (int i = 0; i < 3; i++) {
-                int nbMonstreRencontree = rand.nextInt(3) + 1;
-                for(int j=0; j<nbMonstreRencontree;j++){
-                    if(combatMonstre(lstMonster)==false){
-                        return false;
-                    }
-                }
-                if(combatBoss(lstBoss.get(i))==false){
-                    return false;
-                }
-                else{
-                    nbBossVaincu+=1;
-                }
-            }
-        }
-        return true;
-    }
 }
