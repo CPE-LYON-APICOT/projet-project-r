@@ -150,6 +150,9 @@ public class InventoryController {
     @FXML
     protected void saveDeck() throws IOException {
         //debut du code pour crée un joueur et qu'il lance sa partie avec son deck
+        if (selectedCardsListView.getItems().size() < 30){
+            return;
+        }
         Hero heroChoisi = null;
         for (carte carte : cartes) {
             for (String cartep : selectedCardsListView.getItems()){
