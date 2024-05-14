@@ -41,7 +41,7 @@ Les objectifs atteint sont les suivants:
 
 [Avez vous atteint votre objectif ?]
 
-Nous avons préféré privilégier dans le temps qu'il nous était alloué la création d'un système de combat opérationnel ainsi que la possibilité de créer son propre deck. Nous avons donc délaissé la partie concernant les héros et ajouter certain talents à nos cartes. Nous ne pouvons aussi nous battre que contre des boss alors qu'à l'origine nous contions nous battre contre des monstres.
+Nous avons préféré privilégier avec le temps qu'il nous était alloué la création d'un système de combat opérationnel ainsi que la possibilité de créer son propre deck. Nous avons donc délaissé la partie concernant les héros et ajouter certain talents à nos cartes. Nous ne pouvons aussi nous battre que contre des boss alors qu'à l'origine nous contions nous battre contre des monstres.
 Cependant il est important de notifier que nous avons codé la partie sur les héros et les monstres. Ainsi que quelques talents. Nous ne les avons juste pas implémenté dans le rendu final.
 
 ### Améliorations possibles
@@ -51,8 +51,9 @@ Cependant il est important de notifier que nous avons codé la partie sur les h�
 - Implementer, la partie sur les monstres et les héros
 - Ajouter des talents à certaines cartes (piocher des cartes quand jouées, régénération, surpuissance etc) pour rajouter de la fluidité dans le gameplay
 - Faire un mode histoire ou le joueur naviguerait sur une carte monde en effectuant divers combats contre des monstres et affronterait les 3 boss du jeu 
-- diversifier le panel d'actions des boss
-- potentiellement des cartes de sort
+- Diversifier le panel d'actions des boss
+- Potentiellement des cartes de sort
+- Rendre le site plus beau
 
 ---
 # Partie "Développeur" (plus technique) :
