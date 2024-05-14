@@ -28,7 +28,7 @@ Dans ces documents, il ne s'agit pas de cacher la poussière sous le tapis, il f
 
 ## Objectif du projet
 
-L'objectif initial du projet de crée un jeux de cartes, avec un systèmes d'inventaire pour pouvoir choisir parmis une soisantaine de cartes. Ensuite pouvoir utiliser ses cartes pour combattre un ou plusieur monstre avec des moments contre des boss. Il y a un systemes de tour ainsi qu'un systemes de mana.
+L'objectif initial du projet de crée un jeux de cartes, avec un systèmes de créateur de deck ou le joueur à le choix de choisir parmis une soisantaine de cartes. Ensuite pouvoir utiliser ses cartes pour combattre un ou plusieur monstre avec des moments contre des boss. Il y a un systemes de tour ainsi qu'un systemes de mana. Nous prevoyons aussi d'avoir un systeme de héro à attribuer à un deck pour pouvoir lui ajouter des bonus.
 
 [Décrivez ici l'objectif initial du projet, ne cherchez pas à le minorer si vous n'avez pas tout fini, décrivez ce que vous avez voulu faire]
 
@@ -36,15 +36,23 @@ L'objectif initial du projet de crée un jeux de cartes, avec un systèmes d'inv
 
 Les objectifs atteint sont les suivants:
 - inventaire et choix des cartes pour la partie
-- systemes de combat contre les boss
+- systemes de combat opérationnel contre les boss
 - systemes de mana et de tour 
 
 [Avez vous atteint votre objectif ?]
 
+Nous avons préféré privilégier dans le temps qu'il nous était alloué la création d'un système de combat opérationnel ainsi que la possibilité de créer son propre deck. Nous avons donc délaissé la partie concernant les héros et ajouter certain talents à nos cartes. Nous ne pouvons aussi nous battre que contre des boss alors qu'à l'origine nous contions nous battre contre des monstres.
+Cependant il est important de notifier que nous avons codé la partie sur les héros et les monstres. Ainsi que quelques talents. Nous ne les avons juste pas implémenté dans le rendu final.
+
 ### Améliorations possibles
 
-Il est possible d'ajouter les combats de monstres entre deux boss et de gagner qu'à la fin d'avoir tué trois boss. Il faudrait ajouter des cartes de sorts avec un système de héros qui changerait un peu certaines cartes en fonction de leur faction.
 [Décrivez ici les améliorations que vous auriez pu apporter si vous aviez eu plus de temps]
+
+- Implementer, la partie sur les monstres et les héros
+- Ajouter des talents à certaines cartes (piocher des cartes quand jouées, régénération, surpuissance etc) pour rajouter de la fluidité dans le gameplay
+- Faire un mode histoire ou le joueur naviguerait sur une carte monde en effectuant divers combats contre des monstres et affronterait les 3 boss du jeu 
+- diversifier le panel d'actions des boss
+- potentiellement des cartes de sort
 
 ---
 # Partie "Développeur" (plus technique) :
@@ -56,9 +64,12 @@ Il est possible d'ajouter les combats de monstres entre deux boss et de gagner q
 
 ### Faiblesses du code
 
-Aux niveau de la création des objets qui sont les cartes et la création des héros, il faudrait peut etre les faire la création de celle ci dans un fichier a part. 
-Une partie du code n'est pas forcement très maintenable car manque de temps part rapport au ambition du projet.  
 [C'est ici que vous me dites ce que vous savez que vous avez mal fait, expliquez pourquoi vous avez fait ce choix (manque de temps, manque de compétence, trop pénible à faire, etc.)]
+
+Selon nous, nous aurions dû plus séparer notre code car en prenant l'exemple de notre fichier GameController qui fait 800 lignes, on se rend compte que le code est difficilement reprenable par un développeur externe au projet. Nous contions nettoyer le code à la fin du projet mais nous avons préféré nous concentrer sur d'autres fonctionnalités de notre jeu à la place pour rendre le jeu jouable et plaisant. En enlevant quelques bugs par exemple.
+Nous aurions aussi dû dissocier la création des objets de notre code. Ce qui aurait rendu le code plus propre.
+Nous pouvons aussi notifier notre manque de connaissances sur le design Patern singleton, que nous contions incorporer dans le plateau pour ne pas avoir à le recréer à chaque fois. Une partie du code n'est aussi pas forcément très maintenable car manque de temps par rapport.
+
 
 ### Difficultés rencontrées
 
@@ -70,6 +81,11 @@ Une partie du code n'est pas forcement très maintenable car manque de temps par
 
 [Exemple : Nous n'avons pas réussi à gérer les collisions, PARCE QUE, mes objets n'héritaient pas d'une classe commune, car nos objets héirtaient de ... et nos personnages de ...]
 
+1- Notre difficulté principale concernait l'utilisation de javafx dont nous n'avions que très peu pratiqué en cours. Après s'être informé par l'intermédiaire de plusieurs guides et vidéos, nous avons pu surmonter nos difficultés. Bien que notre jeu n'est pas particulièrement beau, le javafx est fonctionnel.
+
+2- Nous voulions proposer 2 manières de distribuer à nos joueurs pour rajouter de la diversité à notre jeu. Cependant, nous voulions éviter de faire 2 copier collé de code, nous avons donc opté pour un design patern builder pour régler le problème.
+
+3- Le projet était ambitieux donc nous avons commis une erreur d'organisation en voulant faire trop de fonctionnalités avant de nous occuper du corps du jeu. Ce qui nous a fait prendre du retard. Le corps du jeu est fini cependant un certain nombre de fonctionnalités ont était commencée mais pas implémentée.
 
 ### *Design Patterns* mis en oeuvre
 
