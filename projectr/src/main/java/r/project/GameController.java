@@ -138,21 +138,21 @@ public class GameController {
         setCreature();
         paquet.addAll(JoueurActuel.getLstDeck());
 
-        Button piocherButton = new Button("Piocher");
-        piocherButton.setOnAction(event -> piocherCartes());
+        // Button piocherButton = new Button("Piocher");
+        // piocherButton.setOnAction(event -> piocherCartes());
        
-        // Ajoutez le bouton "Piocher" à mainDuJoueur
-        statDuJoueur.getChildren().add(piocherButton);
+        // // Ajoutez le bouton "Piocher" à mainDuJoueur
+        // statDuJoueur.getChildren().add(piocherButton);
         
-        Button piocherAllButton = new Button("Piocher aléatoirement");
-        piocherAllButton.setOnAction(event -> piocheAléatoire());
+        // Button piocherAllButton = new Button("Piocher aléatoirement");
+        // piocherAllButton.setOnAction(event -> piocheAléatoire());
          
-        statDuJoueur.getChildren().add(piocherAllButton);
-        // Ajoutez le bouton "Piocher" à mainDuJoueur
+        // statDuJoueur.getChildren().add(piocherAllButton);
+        // // Ajoutez le bouton "Piocher" à mainDuJoueur
 
-        Button attaqueBoss = new Button("tour du boss");
-        attaqueBoss.setOnAction(event -> attaqueBoss());
-        statDuJoueur.getChildren().add(attaqueBoss);
+        // Button attaqueBoss = new Button("tour du boss");
+        // attaqueBoss.setOnAction(event -> attaqueBoss());
+        // statDuJoueur.getChildren().add(attaqueBoss);
        
         Label playerHealthLabel = new Label("Points de vie du joueur: "+JoueurActuel.getPv());
 
@@ -443,6 +443,7 @@ public class GameController {
         alert.setHeaderText(null);
         alert.setContentText("Félicitations, vous avez gagné le combat !");
         alert.showAndWait();
+        System.exit(0);
     }
 
     private void afficherPopupDefaite(){
@@ -451,6 +452,7 @@ public class GameController {
         alert.setHeaderText(null);
         alert.setContentText("Désolé, vous avez perdu le combat !");
         alert.showAndWait();
+        System.exit(0);
     }
 
 
