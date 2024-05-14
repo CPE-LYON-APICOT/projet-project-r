@@ -436,23 +436,21 @@ public class GameController {
         }
         
     }
-    private Alert alertVictoire;
 
     private void afficherPopupVictoire() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Victoire !");
         alert.setHeaderText(null);
         alert.setContentText("Félicitations, vous avez gagné le combat !");
-    
-        ButtonType buttonTypeOk = new ButtonType("OK");
-        alert.getButtonTypes().setAll(buttonTypeOk);
-    
-        alert.setOnCloseRequest(event -> {
-            if (alert.getResult() == buttonTypeOk) {
-                Stage stage = (Stage) alertVictoire.getDialogPane().getScene().getWindow();
-                stage.close();
-            }
-        });
+        alert.showAndWait();
+    }
+
+    private void afficherPopupDefaite(){
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Defaite !");
+        alert.setHeaderText(null);
+        alert.setContentText("Désolé, vous avez perdu le combat !");
+        alert.showAndWait();
     }
 
 
@@ -631,14 +629,13 @@ public class GameController {
      public void attaqueBoss(){
         Label monstre = (Label) creature.lookup("#nomLabelBoss");
         CreaBoss bossSelectione2 = getBossFromLabel(monstre.getText());
-        if (bossSelectione2 == null) {
-            return;
-        }
-        lstBoss.remove(bossSelectione2);
         carte test = null;
         if (plateau.isEmpty()) {
             JoueurActuel.pertePv(bossSelectione2.getAttaque());
             playerHealthLabel.setText("vie du joueur"+JoueurActuel.getPv());
+            if (JoueurActuel.getPv()<=0){
+                afficherPopupDefaite();
+            }
             return;
         }
         // Effectuez le combat entre le joueur et le monstre
@@ -662,7 +659,7 @@ public class GameController {
         if (bossSelectione2.getPv() <= 0) {
 
             creature.getChildren().clear();
-            afficherBossAleatoire();
+            afficherPopupVictoire();
         }else{
             lstBoss.add(bossSelectione2);
             ChargerBoss(bossSelectione2);
