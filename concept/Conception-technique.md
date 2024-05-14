@@ -28,14 +28,22 @@ Dans ces documents, il ne s'agit pas de cacher la poussière sous le tapis, il f
 
 ## Objectif du projet
 
+L'objectif initial du projet de crée un jeux de cartes, avec un systèmes d'inventaire pour pouvoir choisir parmis une soisantaine de cartes. Ensuite pouvoir utiliser ses cartes pour combattre un ou plusieur monstre avec des moments contre des boss. Il y a un systemes de tour ainsi qu'un systemes de mana.
+
 [Décrivez ici l'objectif initial du projet, ne cherchez pas à le minorer si vous n'avez pas tout fini, décrivez ce que vous avez voulu faire]
 
 ## Résultat
+
+Les objectifs atteint sont les suivants:
+- inventaire et choix des cartes pour la partie
+- systemes de combat contre les boss
+- systemes de mana et de tour 
 
 [Avez vous atteint votre objectif ?]
 
 ### Améliorations possibles
 
+Il est possible d'ajouter les combats de monstres entre deux boss et de gagner qu'à la fin d'avoir tué trois boss. Il faudrait ajouter des cartes de sorts avec un système de héros qui changerait un peu certaines cartes en fonction de leur faction.
 [Décrivez ici les améliorations que vous auriez pu apporter si vous aviez eu plus de temps]
 
 ---
@@ -48,6 +56,8 @@ Dans ces documents, il ne s'agit pas de cacher la poussière sous le tapis, il f
 
 ### Faiblesses du code
 
+Aux niveau de la création des objets qui sont les cartes et la création des héros, il faudrait peut etre les faire la création de celle ci dans un fichier a part. 
+Une partie du code n'est pas forcement très maintenable car manque de temps part rapport au ambition du projet.  
 [C'est ici que vous me dites ce que vous savez que vous avez mal fait, expliquez pourquoi vous avez fait ce choix (manque de temps, manque de compétence, trop pénible à faire, etc.)]
 
 ### Difficultés rencontrées
@@ -63,21 +73,35 @@ Dans ces documents, il ne s'agit pas de cacher la poussière sous le tapis, il f
 
 ### *Design Patterns* mis en oeuvre
 
-#### 1. [Factory]
+#### 1. [builder]
 [Décrivez ici brièvement le design pattern utilisé et pourquoi]
 [Ajouter éventuellement des exemples de code pour montrer l'élégence de votre solution, pour cela vous pouvez écrire en Markdown votre code ainsi :
 
 <pre>
 ```java
-public class Factory {
-    public static Object createObject(String type) {
-        if (type.equals("type1")) {
-            return new Type1();
-        } else if (type.equals("type2")) {
-            return new Type2();
-        }
-        return null;
+public class DeckBuilder {
+    private Stream<carte> stream;
+
+    public DeckBuilder(ArrayList<carte> cartesInitiales){
+        this.stream = cartesInitiales.stream();
     }
+    public DeckBuilder filterByFaction(String faction){
+        this.stream = this.stream.filter(carte -> true);
+        return this;
+    }
+    public DeckBuilder filterByType(String type){
+        this.stream = this.stream.filter(carte -> true);
+        return this;
+    }
+
+    public Collection<carte> build(){
+        // return this.stream.toList();
+        return this.stream.collect(Collectors.toList());
+        
+    }
+
+    
+
 }
 ```
 </pre>
