@@ -10,7 +10,7 @@ public class Hero {
     private String description;
     private String image;
     private Faction faction;
-    public Hero(String pNom,String pDescription,String pImage,@SuppressWarnings("exports") Faction pFaction){
+    public Hero(String pNom,String pDescription,String pImage,Faction pFaction){
         nom=pNom;
         description=pDescription;
         image=pImage;
@@ -26,7 +26,7 @@ public class Hero {
     public String GetImage(){
         return image;
     }
-    @SuppressWarnings("exports")
+
     public Faction GetFaction(){
         return faction;
     }

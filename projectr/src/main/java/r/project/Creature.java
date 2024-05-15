@@ -44,7 +44,7 @@ public abstract class Creature {
     public void SetDescription(String pDescription){
         description=pDescription;
     }
-    @SuppressWarnings("exports")
+    
     public Faction getFaction(){
         return faction;
     }
