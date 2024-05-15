@@ -55,7 +55,8 @@ public class GameController {
     ArrayList<carte> defausse= new ArrayList<>();
     ArrayList<carte> plateau= new ArrayList<>();
     ArrayList<carte> carteAttaquer= new ArrayList<>();
-
+    private List<IObserver> observers = new ArrayList<>();
+    
     private int manaparTour;
     private int manaDuJoueur;
 
@@ -139,7 +140,8 @@ public class GameController {
         afficherBossAleatoire();
         manaparTour=0;
         incrementationManaTour();   
-       //determinerManaJoueur();  
+        PopUpMusicOservable musicVictoire =new PopUpMusicOservable();
+        addObserver(new musicVictoire());
     }
 
     private void incrementationManaTour(){
@@ -205,6 +207,8 @@ public class GameController {
         Label attaqueBossLabel = new Label("Attaque: " + bossSelectionne.getAttaque());
         bossInfo.getChildren().addAll(nomBossLabel, pvBossLabel, attaqueBossLabel,nomLabel);
         creature.getChildren().add(bossInfo);
+
+
     }
     
 
@@ -378,7 +382,20 @@ public class GameController {
         
     }
 
+    public void addObserver(IObserver observer) {
+        observers.add(observer);
+    }
+
+    private void notifyObservers() {
+        for (IObserver observer : observers) {
+            observer.update();
+        }
+    }
+
+
+
     private void afficherPopupVictoire() {
+        notifyObservers();
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Victoire !");
         alert.setHeaderText(null);
@@ -753,11 +770,11 @@ public class GameController {
         lstMonster.add(new CreaMonstre(10, 4, "Behemoth des montagnes", "Une bête titanesque parcourant les sommets en détruisant tout sur son passage. Ses rugissements déclenchent des éboulements.", "lien_image_behemoth_des_montagnes", fact.get(0)));
         lstMonster.add(new CreaMonstre(3, 4, "Liche maudite", "Un sorcier mort-vivant ayant acquis un pouvoir sinistre. Il lance des malédictions et invoque des âmes tourmentées pour combattre.", "lien_image_liche_maudite", fact.get(1)));
         //Boss
-        Aria initializeAria=new Aria(230, 15, "", "", "imageProjet/Aria.jpeg", fact.get(0),"");
+        Aria initializeAria=new Aria(30, 15, "", "", "imageProjet/Aria.jpeg", fact.get(0),"");
         lstBoss.add(initializeAria);
-        Neron initializeNeron=new Neron(300, 30, "", "", "imageProjet/Neron.jpeg", fact.get(1), "");
+        Neron initializeNeron=new Neron(30, 30, "", "", "imageProjet/Neron.jpeg", fact.get(1), "");
         lstBoss.add(initializeNeron);
-        Moloch initializeMoloch=new Moloch(130,80,"","","imageProjet/Moloch.jpeg",fact.get(2),"");
+        Moloch initializeMoloch=new Moloch(30,80,"","","imageProjet/Moloch.jpeg",fact.get(2),"");
         lstBoss.add(initializeMoloch);
 
     }
