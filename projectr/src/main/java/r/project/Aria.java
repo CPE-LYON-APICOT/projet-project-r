@@ -12,6 +12,13 @@ public class Aria extends CreaBoss{
         setAttaque(getAttaque() * 2); 
     }
 
+    public void competence2(){
+        System.out.println("La Reine Aria se soigne de 20 pv");
+        setPv(getPv()+20);
+    }
+    
+
+
     public void setAria(){
         super.setNom("Aria");
         super.setSousNom("la Reine des Tempêtes Éternelles");

@@ -22,4 +22,13 @@ class carteSort extends carte {
             "Faction: " + super.getFaction().GetNom() + "\n";
         return details;
     }
+
+    @Override
+    public int getPV() {
+        return 0;
+    }
+    @Override
+    public void setPV(int pv) {
+
+    }
 }

@@ -1,18 +1,32 @@
 package r.project;
 
+import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.geometry.Pos;
+
 
 public class GameController {
 
@@ -53,7 +67,15 @@ public class GameController {
     @FXML
     private Label card5LabelNom;
     
+    @FXML
+    private Label manaTour;
+    @FXML
+    private Label manaJoueur;
+    @FXML
+    private Button finTour;
 
+    @FXML
+    private StackPane selectedCardPane;
     @FXML
     private FlowPane playerCardPane;
 
@@ -62,7 +84,14 @@ public class GameController {
 
     @FXML
     private StackPane gameBoard;
-
+    @FXML
+    private HBox selectedCardsContainer;
+    @FXML
+    private HBox mainDuJoueur;
+    @FXML
+    private HBox statDuJoueur;
+    @FXML
+    private HBox creature;
     @FXML
     private  ImageView card1Image;
     @FXML
@@ -73,11 +102,11 @@ public class GameController {
     private  ImageView card4Image;
     @FXML
     private  ImageView card5Image;
-    
-
     @FXML
-    private Label playerHealthLabel;
-
+    private  Label playerHealthLabel;
+    
+    carte carteSelectionne = null;
+    CreaBoss bossSelectione = null;
 
     @FXML
     private ListView<String> selectedCardsListViewPlayer;
@@ -85,6 +114,14 @@ public class GameController {
     private ArrayList<CreaBoss> lstBoss = new ArrayList<>();
     private player JoueurActuel;
     private ArrayList<Faction> fact = new ArrayList<>();
+    ArrayList<carte> paquet= new ArrayList<>();
+    ArrayList<carte> main= new ArrayList<>();
+    ArrayList<carte> defausse= new ArrayList<>();
+    ArrayList<carte> plateau= new ArrayList<>();
+    ArrayList<carte> carteAttaquer= new ArrayList<>();
+
+    private int manaparTour;
+    private int manaDuJoueur;
 
     public GameController(player dataObject,ArrayList<Faction> dataList) {
         this.JoueurActuel = dataObject;
@@ -93,44 +130,597 @@ public class GameController {
        
         
     }
-
+    
+    
     @FXML
     public void initialize(){
         ArrayList<carte> cartesList = new ArrayList<>(JoueurActuel.getLstDeck());
-
-        playerHealthLabel.setText(String.valueOf(JoueurActuel.getPv()));
+        ArrayList<Integer> chosenIndices = new ArrayList<>(); // Keep track of chosen card indices
         setCreature();
-        Image image = new Image(getClass().getResourceAsStream(cartesList.get(0).getLienImage()));
-        card1Image.setImage(image);
+        paquet.addAll(JoueurActuel.getLstDeck());
+
+        // Button piocherButton = new Button("Piocher");
+        // piocherButton.setOnAction(event -> piocherCartes());
+       
+        // // Ajoutez le bouton "Piocher" à mainDuJoueur
+        // statDuJoueur.getChildren().add(piocherButton);
         
-        card1LabelNom.setText(cartesList.get(0).getNom());
-        card1LabelAttaque.setText(String.valueOf(lstMonster.get(0).getAttaque()));
-        card1LabelPV.setText(String.valueOf(lstMonster.get(0).getPv()));
-        Image image2 = new Image(getClass().getResourceAsStream(cartesList.get(1).getLienImage()));
-        card2Image.setImage(image2);
-        card2LabelNom.setText(cartesList.get(1).getNom());
-        card2LabelAttaque.setText(String.valueOf(lstMonster.get(1).getAttaque()));
-        card2LabelPV.setText(String.valueOf(lstMonster.get(1).getPv()));
-        Image image3 = new Image(getClass().getResourceAsStream(cartesList.get(2).getLienImage()));
-        card3Image.setImage(image3);
-        card3LabelNom.setText(cartesList.get(2).getNom());
-        card3LabelAttaque.setText(String.valueOf(lstMonster.get(2).getAttaque()));
-        card3LabelPV.setText(String.valueOf(lstMonster.get(2).getPv()));
+        // Button piocherAllButton = new Button("Piocher aléatoirement");
+        // piocherAllButton.setOnAction(event -> piocheAléatoire());
+         
+        // statDuJoueur.getChildren().add(piocherAllButton);
+        // // Ajoutez le bouton "Piocher" à mainDuJoueur
 
-        Image image4 = new Image(getClass().getResourceAsStream(cartesList.get(3).getLienImage()));
-        card4Image.setImage(image4);
-        card4LabelNom.setText(cartesList.get(3).getNom());
-        card4LabelAttaque.setText(String.valueOf(lstMonster.get(3).getAttaque()));
-        card4LabelPV.setText(String.valueOf(lstMonster.get(3).getPv()));
-        Image image5 = new Image(getClass().getResourceAsStream(cartesList.get(4).getLienImage()));
-        card5Image.setImage(image5);
-        card5LabelNom.setText(cartesList.get(4).getNom());
-        card5LabelAttaque.setText(String.valueOf(lstMonster.get(4).getAttaque()));
-        card5LabelPV.setText(String.valueOf(lstMonster.get(4).getPv()));
+        // Button attaqueBoss = new Button("tour du boss");
+        // attaqueBoss.setOnAction(event -> attaqueBoss());
+        // statDuJoueur.getChildren().add(attaqueBoss);
+       
+        playerHealthLabel.setText("Points de vie du joueur : "+JoueurActuel.getPv());
 
+        for (int i = 0; i < 5; i++) {
+            int randomIndex;
+            do {
+                randomIndex = new Random().nextInt(cartesList.size());
+            } while (chosenIndices.contains(randomIndex)); // Check if the card has already been chosen
+
+            chosenIndices.add(randomIndex); // Add the chosen index to the list
+            carte currentCard = cartesList.get(i);
+            main.add(currentCard);
+            paquet.remove(currentCard); 
+            if (mainDuJoueur.getChildren().size() < 5) {
+                // Créez un VBox pour contenir les informations de la carte
+                VBox cardInfo = new VBox();
+                cardInfo.setAlignment(Pos.CENTER);
+                cardInfo.setSpacing(5);
+                
+                Label manaLabel = new Label("Mana: " + currentCard.getCout());
+                manaLabel.setId("manaLabel_" + i); // Identifiant unique pour attaqueLabel
+
+                Label nomLabel = new Label(currentCard.getNom());
+                nomLabel.setId("nomLabel_" + i); // Identifiant unique pour nomLabel
+
+                Label pvLabel = new Label("PV: " + currentCard.getPV());
+                pvLabel.setId("pvLabel_"+ i); // Identifiant unique pour pvLabel
+
+                Label attaqueLabel = new Label("Attaque: " + currentCard.getAttaque());
+                attaqueLabel.setId("attaqueLabel_" + i); // Identifiant unique pour attaqueLabel
+
+            
+                // Ajoutez les labels au VBox
+                cardInfo.getChildren().addAll(manaLabel,nomLabel,pvLabel, attaqueLabel);
+            
+                // Chargez l'image de la carte
+                Image image = new Image(getClass().getResourceAsStream(currentCard.getLienImage()));
+            
+                // Créez une ImageView pour afficher l'image de la carte
+                ImageView selectedCardView = new ImageView(image);
+            
+                // Définissez la taille souhaitée
+                selectedCardView.setFitWidth(130); // Largeur souhaitée
+                selectedCardView.setFitHeight(150); // Hauteur souhaitée
+                selectedCardView.setId("selectedCardView_" + i); // Identifiant unique pour selectedCardView
+                selectedCardView.setOnMouseClicked(event -> onCardClicked(event));
+                // Créez un VBox pour contenir l'image et les informations de la carte
+                VBox cardContainer = new VBox();
+                cardContainer.setAlignment(Pos.CENTER);
+                cardContainer.setSpacing(5);
+            
+                // Ajoutez l'image et les informations de la carte au VBox
+                cardContainer.getChildren().addAll(selectedCardView, cardInfo);
+            
+                // Ajoutez le VBox contenant l'image et les informations de la carte à mainDuJoueur
+                mainDuJoueur.getChildren().add(cardContainer);
+        
+            }
+        }
+        afficherBossAleatoire();
+        manaparTour=0;
+        incrementationManaTour();   
+       //determinerManaJoueur();  
     }
 
+    private void incrementationManaTour(){
+        if (manaparTour<10){
+            manaparTour+=1;
+            manaTour.setText("Tour: "+ String.valueOf(manaparTour));
+        }
+        manaDuJoueur=manaparTour;
+        manaJoueur.setText("Mana Joueur: "+ String.valueOf(manaDuJoueur));
+    }
+
+    private Boolean determinerManaJoueur(int coutcarte){
+        if (manaDuJoueur-coutcarte>=0){
+            manaDuJoueur=manaDuJoueur-coutcarte;
+            manaJoueur.setText("Mana Joueur: "+ String.valueOf(manaDuJoueur));
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    @FXML
+    private void handleFinTour(){
+        attaqueBoss();
+        incrementationManaTour();
+        piocheAléatoire();
+        carteAttaquer.clear();
+    }
+
+
+    public void afficherBossAleatoire() {
+        Random random = new Random();
+        int randomIndex = random.nextInt(lstBoss.size());
+        CreaBoss bossSelectionne = lstBoss.get(randomIndex);
+        VBox bossInfo = new VBox();
+        bossInfo.setAlignment(Pos.CENTER);
+        bossInfo.setSpacing(10);
+        Image imageBoss = new Image(getClass().getResourceAsStream(bossSelectionne.getLienImage()));
+        ImageView bossImageView = new ImageView(imageBoss);
+        
+        bossImageView.setFitWidth(200); 
+        bossImageView.setFitHeight(200);
+        bossImageView.setId("selectedCardBoss_"); 
+        bossImageView.setOnMouseClicked(event -> {
+
+            Label monstre = (Label) creature.lookup("#nomLabelBoss");
+            bossSelectione = getBossFromLabel(monstre.getText());
+            combat();
+        }); 
+
+        bossInfo.getChildren().add(bossImageView);
+        Label nomLabel = new Label(bossSelectionne.getNom());
+        nomLabel.setId("nomLabelBoss");
+        nomLabel.setVisible(false);
+        Label nomBossLabel = new Label("Nom: " + bossSelectionne.getNom());
+        Label pvBossLabel = new Label("PV: " + bossSelectionne.getPv());
+        Label attaqueBossLabel = new Label("Attaque: " + bossSelectionne.getAttaque());
+        bossInfo.getChildren().addAll(nomBossLabel, pvBossLabel, attaqueBossLabel,nomLabel);
+        creature.getChildren().add(bossInfo);
+    }
+    
+
     // Méthode pour l'action de jouer une carte
+    @FXML
+    public void onCardClicked(MouseEvent event) {
+        ImageView card = (ImageView) event.getSource();
+        carte cartejouer = null;
+       
+    
+        // Déterminez quelle carte a été sélectionnée en fonction de l'identifiant unique de l'ImageView
+        switch (card.getId()) {
+            case "selectedCardView_0":
+                Label nomLabel = (Label) mainDuJoueur.lookup("#nomLabel_0");
+                cartejouer = getCarteFromLabel(nomLabel.getText());
+                break;
+            case "selectedCardView_1":
+                Label nomLabel2 = (Label) mainDuJoueur.lookup("#nomLabel_1");
+                cartejouer = getCarteFromLabel(nomLabel2.getText());
+                break;
+            case "selectedCardView_2":
+                Label nomLabel3 = (Label) mainDuJoueur.lookup("#nomLabel_2");
+                cartejouer = getCarteFromLabel(nomLabel3.getText());
+                break;
+            case "selectedCardView_3":
+                Label nomLabel4 = (Label) mainDuJoueur.lookup("#nomLabel_3");
+                cartejouer = getCarteFromLabel(nomLabel4.getText());
+                break;
+            case "selectedCardView_4":
+                Label nomLabel5 = (Label) mainDuJoueur.lookup("#nomLabel_4");
+                cartejouer = getCarteFromLabel(nomLabel5.getText());
+                break;
+            default:
+                break;
+        }
+       
+        // Mettez à jour la carte sélectionnée
+        if (selectedCardsContainer.getChildren().size() < 5 && cartejouer.getCout()<=manaDuJoueur) {
+            // Créez un VBox pour contenir les informations de la carte
+            VBox cardInfo = new VBox();
+            cardInfo.setAlignment(Pos.CENTER);
+            cardInfo.setSpacing(5);
+
+            Label nomLabel = new Label(cartejouer.getNom());
+            nomLabel.setId("nomLabel_"  + plateau.size()); // Identifiant unique pour nomLabel
+            nomLabel.setVisible(false);
+
+            // Affichez les informations de la carte
+            Label manaLabel =new Label("Mana: " +cartejouer.getCout());
+            Label pvLabel = new Label("PV: " + cartejouer.getPV());
+            Label attaqueLabel = new Label("Attaque: " + cartejouer.getAttaque());
+        
+            // Ajoutez les labels au VBox
+            cardInfo.getChildren().addAll(manaLabel,pvLabel, attaqueLabel,nomLabel);
+        
+            // Chargez l'image de la carte
+            Image image = new Image(getClass().getResourceAsStream(cartejouer.getLienImage()));
+        
+            // Créez une ImageView pour afficher l'image de la carte
+            ImageView selectedCardView = new ImageView(image);
+        
+            // Définissez la taille souhaitée
+            selectedCardView.setId("selectedCardView_" + plateau.size()); // Identifiant unique pour selectedCardView
+            selectedCardView.setFitWidth(130); // Largeur souhaitée
+            selectedCardView.setFitHeight(150); // Hauteur souhaitée
+            selectedCardView.setOnMouseClicked(ev -> {
+                ImageView card2 = (ImageView) ev.getSource();
+                carte cartejouer2 = null;
+               
+            
+                // Déterminez quelle carte a été sélectionnée en fonction de l'identifiant unique de l'ImageView
+                switch (card2.getId()) {
+                    case "selectedCardView_0":
+                        Label nomLabel0 = (Label) selectedCardsContainer.lookup("#nomLabel_0");
+                        cartejouer2 = getCarteFromLabel(nomLabel0.getText());
+                        break;
+                    case "selectedCardView_1":
+                        Label nomLabel20 = (Label) selectedCardsContainer.lookup("#nomLabel_1");
+                        cartejouer2 = getCarteFromLabel(nomLabel20.getText());
+                        break;
+                    case "selectedCardView_2":
+                        Label nomLabel30 = (Label) selectedCardsContainer.lookup("#nomLabel_2");
+                        cartejouer2 = getCarteFromLabel(nomLabel30.getText());
+                        break;
+                    case "selectedCardView_3":
+                        Label nomLabel40 = (Label) selectedCardsContainer.lookup("#nomLabel_3");
+                        cartejouer2 = getCarteFromLabel(nomLabel40.getText());
+                        break;
+                    case "selectedCardView_4":
+                        Label nomLabel50 = (Label) selectedCardsContainer.lookup("#nomLabel_4");
+                        cartejouer2 = getCarteFromLabel(nomLabel50.getText());
+                        break;
+                    default:
+                        break;
+                }
+                // Obtenez la carte joueur
+                carteSelectionne = cartejouer2;
+        
+               
+                
+                // Effectuez le combat entre le joueur et le monstre
+                combat();
+                
+            });
+            plateau.add(cartejouer);
+            // Créez un VBox pour contenir l'image et les informations de la carte
+            VBox cardContainer = new VBox();
+            cardContainer.setAlignment(Pos.CENTER);
+            cardContainer.setSpacing(5);
+        
+            // Ajoutez l'image et les informations de la carte au VBox
+            cardContainer.getChildren().addAll(selectedCardView, cardInfo);
+        
+            // Ajoutez le VBox contenant l'image et les informations de la carte à selectedCardsContainer
+            selectedCardsContainer.getChildren().add(cardContainer);
+            ChargeMain(cartejouer.getNom());
+
+            //ajuste et actualise le mana après avoir joué une carte
+            determinerManaJoueur(cartejouer.getCout());
+        }
+       
+    }
+    
+    public void combat (){
+  
+        if (bossSelectione != null && carteSelectionne != null) {
+            for (int i = 0; i < carteAttaquer.size(); i++) {
+               if (carteSelectionne.getNom().equals(carteAttaquer.get(i).getNom())) {
+                    carteSelectionne = null;
+                    bossSelectione = null;
+                   return;
+               }
+            }
+            // Une carte monstre est déjà sélectionnée, déclenchez le combat
+            // Calculez les dégâts infligés par le joueur et le monstre
+            int degatsJoueur = carteSelectionne.getAttaque();
+            int degatsMonstre = bossSelectione.getAttaque();
+           
+            lstBoss.remove(bossSelectione);
+            plateau.remove(carteSelectionne);
+            // Mettez à jour les points de vie des cartes
+            bossSelectione.setPv(bossSelectione.getPv() - degatsJoueur);
+            carteSelectionne.setPV(carteSelectionne.getPV() - degatsMonstre);
+            if (bossSelectione.getPv() <= 0) {
+                creature.getChildren().clear();
+                afficherPopupVictoire();
+            }
+            else{
+                lstBoss.add(bossSelectione);
+                ChargerBoss(bossSelectione);
+            }
+            if (carteSelectionne.getPV() <= 0) {
+                selectedCardsContainer.getChildren().clear();
+                Chargeplateau();
+            }else{
+                plateau.add(carteSelectionne);
+                Chargeplateau();
+                
+            }
+            carteAttaquer.add(carteSelectionne);
+            // Réinitialisez les cartes sélectionnées pour la prochaine itération
+            carteSelectionne = null;
+            bossSelectione = null;
+        }
+        
+    }
+
+    private void afficherPopupVictoire() {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Victoire !");
+        alert.setHeaderText(null);
+        alert.setContentText("Félicitations, vous avez gagné le combat !");
+        alert.showAndWait();
+        System.exit(0);
+    }
+
+    private void afficherPopupDefaite(){
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Defaite !");
+        alert.setHeaderText(null);
+        alert.setContentText("Désolé, vous avez perdu le combat !");
+        alert.showAndWait();
+        System.exit(0);
+    }
+
+
+        
+
+    public void ChargerBoss(CreaBoss bossSelectionne){
+        creature.getChildren().clear();
+        VBox bossInfo = new VBox();
+        bossInfo.setAlignment(Pos.CENTER);
+        bossInfo.setSpacing(10);
+        Image imageBoss = new Image(getClass().getResourceAsStream(bossSelectionne.getLienImage()));
+        ImageView bossImageView = new ImageView(imageBoss);
+        
+        bossImageView.setFitWidth(200); 
+        bossImageView.setFitHeight(200);
+        bossImageView.setOnMouseClicked(event1 -> {
+
+            // Obtenez la carte joueur
+            Label monstre = (Label) creature.lookup("#nomLabelBoss");
+            bossSelectione = getBossFromLabel(monstre.getText());
+           
+            
+            // Effectuez le combat entre le joueur et le monstre
+            //combat();
+        }); 
+        bossInfo.getChildren().add(bossImageView);
+        Label nomLabel = new Label(bossSelectionne.getNom());
+        nomLabel.setId("nomLabelBoss");
+        nomLabel.setVisible(false);
+        Label nomBossLabel = new Label("Nom: " + bossSelectionne.getNom());
+        Label pvBossLabel = new Label("PV: " + bossSelectionne.getPv());
+        Label attaqueBossLabel = new Label("Attaque: " + bossSelectionne.getAttaque());
+        bossInfo.getChildren().addAll(nomBossLabel, pvBossLabel, attaqueBossLabel,nomLabel);
+        creature.getChildren().add(bossInfo);
+    }
+    public void Chargeplateau(){
+        selectedCardsContainer.getChildren().clear();
+        for (int i = 0; i < plateau.size(); i++) {
+        // Créez un VBox pour contenir les informations de la carte
+        VBox cardInfo = new VBox();
+        cardInfo.setAlignment(Pos.CENTER);
+        cardInfo.setSpacing(5);
+
+        Label nomLabel = new Label(plateau.get(i).getNom());
+        nomLabel.setId("nomLabel_"  + i); // Identifiant unique pour nomLabel
+        nomLabel.setVisible(false);
+
+        // Affichez les informations de la carte
+        Label manaLabel = new Label("Mana: "+ plateau.get(i).getCout());
+        Label pvLabel = new Label("PV: " + plateau.get(i).getPV());
+        Label attaqueLabel = new Label("Attaque: " + plateau.get(i).getAttaque());
+    
+        // Ajoutez les labels au VBox
+        cardInfo.getChildren().addAll(manaLabel,pvLabel, attaqueLabel,nomLabel);
+    
+        // Chargez l'image de la carte
+        Image image = new Image(getClass().getResourceAsStream(plateau.get(i).getLienImage()));
+    
+        // Créez une ImageView pour afficher l'image de la carte
+        ImageView selectedCardView = new ImageView(image);
+    
+        // Définissez la taille souhaitée
+        selectedCardView.setId("selectedCardView_" + i); // Identifiant unique pour selectedCardView
+        selectedCardView.setFitWidth(130); // Largeur souhaitée
+        selectedCardView.setFitHeight(150); // Hauteur souhaitée
+        selectedCardView.setOnMouseClicked(ev -> {
+            ImageView card2 = (ImageView) ev.getSource();
+            carte cartejouer2 = null;
+           
+        
+            // Déterminez quelle carte a été sélectionnée en fonction de l'identifiant unique de l'ImageView
+            switch (card2.getId()) {
+                case "selectedCardView_0":
+                    Label nomLabel0 = (Label) selectedCardsContainer.lookup("#nomLabel_0");
+                    cartejouer2 = getCarteFromLabel(nomLabel0.getText());
+                    break;
+                case "selectedCardView_1":
+                    Label nomLabel20 = (Label) selectedCardsContainer.lookup("#nomLabel_1");
+                    cartejouer2 = getCarteFromLabel(nomLabel20.getText());
+                    break;
+                case "selectedCardView_2":
+                    Label nomLabel30 = (Label) selectedCardsContainer.lookup("#nomLabel_2");
+                    cartejouer2 = getCarteFromLabel(nomLabel30.getText());
+                    break;
+                case "selectedCardView_3":
+                    Label nomLabel40 = (Label) selectedCardsContainer.lookup("#nomLabel_3");
+                    cartejouer2 = getCarteFromLabel(nomLabel40.getText());
+                    break;
+                case "selectedCardView_4":
+                    Label nomLabel50 = (Label) selectedCardsContainer.lookup("#nomLabel_4");
+                    cartejouer2 = getCarteFromLabel(nomLabel50.getText());
+                    break;
+                default:
+                    break;
+            }
+            // Obtenez la carte joueur
+            carteSelectionne = cartejouer2;
+    
+           
+            
+            // Effectuez le combat entre le joueur et le monstre
+            combat();
+            
+        });
+        // Créez un VBox pour contenir l'image et les informations de la carte
+        VBox cardContainer = new VBox();
+        cardContainer.setAlignment(Pos.CENTER);
+        cardContainer.setSpacing(5);
+    
+        // Ajoutez l'image et les informations de la carte au VBox
+        cardContainer.getChildren().addAll(selectedCardView, cardInfo);
+    
+        // Ajoutez le VBox contenant l'image et les informations de la carte à selectedCardsContainer
+        selectedCardsContainer.getChildren().add(cardContainer);
+        }
+    }
+
+    public void ChargeMain(String nomcarte){
+        if (nomcarte != null) {
+            // Retirer la carte de la main
+            int cartearetirer = getIndexCarteDansMain(nomcarte);
+
+            if (cartearetirer != -1) {
+                main.remove(cartearetirer);
+            }
+        }
+        mainDuJoueur.getChildren().clear();
+        for (int i = 0; i < main.size(); i++) {
+            carte currentCard = main.get(i);
+        
+            // Recréer le contenu du VBox pour chaque carte dans la main
+            VBox cardInfo = new VBox();
+            cardInfo.setAlignment(Pos.CENTER);
+            cardInfo.setSpacing(5);
+
+            Label manaLabel= new Label("Mana:" + currentCard.getCout());
+            manaLabel.setId("manaLabel_" + i);
+        
+            Label nomLabel = new Label(currentCard.getNom());
+            nomLabel.setId("nomLabel_" + i); // Identifiant unique pour nomLabel
+        
+            Label pvLabel = new Label("PV: " + currentCard.getPV());
+            pvLabel.setId("pvLabel_" + i); // Identifiant unique pour pvLabel
+        
+            Label attaqueLabel = new Label("Attaque: " + currentCard.getAttaque());
+            attaqueLabel.setId("attaqueLabel_" + i); // Identifiant unique pour attaqueLabel
+        
+            // Ajouter les labels au VBox
+            cardInfo.getChildren().addAll(manaLabel,nomLabel, pvLabel, attaqueLabel);
+        
+            // Charger l'image de la carte
+            Image image = new Image(getClass().getResourceAsStream(currentCard.getLienImage()));
+        
+            // Créer une ImageView pour afficher l'image de la carte
+            ImageView selectedCardView = new ImageView(image);
+        
+            // Définir la taille souhaitée
+            selectedCardView.setFitWidth(130); // Largeur souhaitée
+            selectedCardView.setFitHeight(150); // Hauteur souhaitée
+            selectedCardView.setId("selectedCardView_" + i); // Identifiant unique pour selectedCardView
+            selectedCardView.setOnMouseClicked(event -> onCardClicked(event));
+            
+            // Créer un VBox pour contenir l'image et les informations de la carte
+            VBox cardContainer = new VBox();
+            cardContainer.setAlignment(Pos.CENTER);
+            cardContainer.setSpacing(5);
+        
+            // Ajouter l'image et les informations de la carte au VBox
+            cardContainer.getChildren().addAll(selectedCardView, cardInfo);
+        
+            // Ajouter le VBox contenant l'image et les informations de la carte à mainDuJoueur
+            mainDuJoueur.getChildren().add(cardContainer);
+        }
+    }
+
+     public void attaqueBoss(){
+        Label monstre = (Label) creature.lookup("#nomLabelBoss");
+        CreaBoss bossSelectione2 = getBossFromLabel(monstre.getText());
+        carte test = null;
+        if (plateau.isEmpty()) {
+            JoueurActuel.pertePv(bossSelectione2.getAttaque());
+            playerHealthLabel.setText("Points de vie du joueur"+JoueurActuel.getPv());
+            if (JoueurActuel.getPv()<=0){
+                afficherPopupDefaite();
+            }
+            return;
+        }
+        // Effectuez le combat entre le joueur et le monstre
+        for (int i = 0; i < plateau.size(); i++) {
+            if (plateau.get(i).getAttaque() < bossSelectione2.getPv() ){
+                if(plateau.get(i).getPV() < bossSelectione2.getAttaque() ){
+                    test = plateau.get(i); 
+                    break;
+                }
+
+            }
+        }
+        if (test == null) {
+            test = plateau.get(0);
+           
+        }
+        bossSelectione2.setPv(bossSelectione2.getPv() - test.getAttaque());
+        test.setPV(test.getPV() - bossSelectione2.getAttaque()); 
+
+        plateau.remove(test);
+        if (bossSelectione2.getPv() <= 0) {
+
+            creature.getChildren().clear();
+            afficherPopupVictoire();
+        }else{
+            lstBoss.add(bossSelectione2);
+            ChargerBoss(bossSelectione2);
+        }
+        if (test.getPV() <= 0) {
+            
+            selectedCardsContainer.getChildren().clear();
+            Chargeplateau();
+        }else{
+            plateau.add(test);
+            Chargeplateau();
+            
+        }
+        
+
+     }
+    private int getIndexCarteDansMain(String nomCarte) {
+        for (int i = 0; i < main.size(); i++) {
+            carte carte = main.get(i);
+            if (carte.getNom().equals(nomCarte)) {
+                return i; // Retourne l'index de la carte si le nom correspond
+            }
+        }
+        return -1; // Retourne -1 si la carte n'est pas trouvée dans la main
+    }
+
+    
+
+    public void onSelectedCardClicked(MouseEvent event) {
+        // Action à effectuer lorsqu'une carte sélectionnée est cliquée
+        // Vous pouvez mettre ici le code pour supprimer la carte sélectionnée, par exemple
+        VBox cardContainer = (VBox) ((ImageView) event.getSource()).getParent();
+        mainDuJoueur.getChildren().remove(cardContainer);
+    }
+    
+    private CreaBoss getBossFromLabel(String label) {
+        for (CreaBoss monster : lstBoss) {
+            if (monster.getNom().equals(label)) {
+                return monster;
+            }
+        }
+        return null;
+    }
+    private carte getCarteFromLabel(String label) {
+        for (carte card : JoueurActuel.getLstDeck()) {
+            if (card.getNom().equals(label)) {
+                return card;
+            }
+        }
+        return null;
+    }
+    
     @FXML
     private void playCardAction() {
 
@@ -145,6 +735,41 @@ public class GameController {
        
     }
 
+    @FXML
+    public void piocherCartes() {
+            // Vérifier si la main est pleine (contient déjà 5 cartes)
+        if (main.size() >= 5) {
+                // Ajouter les cartes du paquet dans la défausse
+            
+             
+        } else {
+             
+            carte cartePiochee = paquet.get(0);
+            paquet.remove(0);
+            main.add(cartePiochee);
+            
+            ChargeMain(null);
+        }
+        
+    }
+    public void piocheAléatoire() {
+        // Mélanger aléatoirement les cartes
+        Collections.shuffle(paquet);
+        if (main.size() >= 5) {
+            // Ajouter les cartes du paquet dans la défausse
+        
+         
+        } else {
+         
+            carte cartePiochee = paquet.get(0);
+            paquet.remove(0);
+            main.add(cartePiochee);
+        
+            ChargeMain(null);
+        }
+    
+}
+
     public void setCreature(){
         //Monster
         lstMonster.add(new CreaMonstre(2, 2, "Gobelin des marais", "Un petit être verdâtre, agile et sournois, vivant dans les marais.", "image1", fact.get(2)));
@@ -157,70 +782,12 @@ public class GameController {
         lstMonster.add(new CreaMonstre(10, 4, "Behemoth des montagnes", "Une bête titanesque parcourant les sommets en détruisant tout sur son passage. Ses rugissements déclenchent des éboulements.", "lien_image_behemoth_des_montagnes", fact.get(0)));
         lstMonster.add(new CreaMonstre(3, 4, "Liche maudite", "Un sorcier mort-vivant ayant acquis un pouvoir sinistre. Il lance des malédictions et invoque des âmes tourmentées pour combattre.", "lien_image_liche_maudite", fact.get(1)));
         //Boss
-        Aria initializeAria=new Aria(230, 15, "", "", "image", fact.get(0),"");
+        Aria initializeAria=new Aria(230, 15, "", "", "imageProjet/Aria.jpeg", fact.get(0),"");
         lstBoss.add(initializeAria);
-        Neron initializeNeron=new Neron(300, 30, "", "", "image2", fact.get(1), "");
+        Neron initializeNeron=new Neron(300, 30, "", "", "imageProjet/Neron.jpeg", fact.get(1), "");
         lstBoss.add(initializeNeron);
-        Moloch initializeMoloch=new Moloch(130,80,"","","image3",fact.get(2),"");
+        Moloch initializeMoloch=new Moloch(130,80,"","","imageProjet/Moloch.jpeg",fact.get(2),"");
         lstBoss.add(initializeMoloch);
 
-    }
-    // Autres méthodes nécessaires pour le fonctionnement du jeu
-    public  List<CreaMonstre> rencontreMonstre(){
-        Random rand = new Random();
-        List<CreaMonstre> monstresRencontres = new ArrayList<>();
-        int nombreAleatoire = rand.nextInt(8);
-        monstresRencontres.add(lstMonster.get(nombreAleatoire));
-        return monstresRencontres;        
-    }
-
-    public boolean combatMonstre(List<CreaMonstre> lstRencontreMonstre){
-        int nbMonstreBattu=0;
-        while (nbMonstreBattu<lstRencontreMonstre.size()){
-            nbMonstreBattu=0;
-            for (int i=0;i<lstRencontreMonstre.size();i++){
-                if (lstRencontreMonstre.get(i).getPv()==0){
-                    nbMonstreBattu+=1;
-                }
-
-            }
-            if (JoueurActuel.getPv()==0){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean combatBoss(CreaBoss pBoss){
-        while (pBoss.getPv()!=0 && JoueurActuel.getPv()!=0)
-        {
-            if (pBoss.getPv()==0){
-                return true;
-            }
-        }
-        return false;
-        
-    }
-
-    public boolean Game(){
-        Random rand = new Random();
-        int nbBossVaincu=0;
-        while (nbBossVaincu!=3){
-            for (int i = 0; i < 3; i++) {
-                int nbMonstreRencontree = rand.nextInt(3) + 1;
-                for(int j=0; j<nbMonstreRencontree;j++){
-                    if(combatMonstre(lstMonster)==false){
-                        return false;
-                    }
-                }
-                if(combatBoss(lstBoss.get(i))==false){
-                    return false;
-                }
-                else{
-                    nbBossVaincu+=1;
-                }
-            }
-        }
-        return true;
     }
 }
