@@ -645,6 +645,7 @@ public class GameController {
             playerHealthLabel.setText("Points de vie du joueur"+JoueurActuel.getPv());
             if (JoueurActuel.getPv()<=0){
                 afficherPopupDefaite();
+
             }
             return;
         }
