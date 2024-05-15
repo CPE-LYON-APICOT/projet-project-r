@@ -13,7 +13,7 @@ public class musicVictoire implements IObserver{
             MediaPlayer mediaPlayer = new MediaPlayer(sound);
             mediaPlayer.play();
         } catch (Exception e) {
-            System.out.println("Une erreur s'est produite lors de la lecture de la musique : ");
+            System.out.println("Une erreur s'est produite lors de la lecture de la musique : "+e.getMessage());
         }
     }
 }
