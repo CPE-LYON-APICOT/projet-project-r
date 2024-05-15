@@ -4,8 +4,6 @@ import java.util.Collection;
 import java.util.List;
 
 
-// import java.util.stream.Stream;
-
 public class player implements IKeyObservable{
     private int pv;
     private Collection<carte> lstDeck;

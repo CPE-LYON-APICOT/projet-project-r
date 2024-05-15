@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import java.util.Random;
 import javafx.stage.Stage;
@@ -25,32 +24,15 @@ public class InventoryController {
     @FXML
     private ComboBox<String> heroComboBox;
     @FXML
-    private TextField  cardNameTextField;
-    @FXML
-    private Label detailsLabel;
-    @FXML
-    private TextField costTextField;
-    @FXML
-    private TextField hpTextField;
-    @FXML
-    private TextField attackTextField;
-    @FXML
-    private TextField imageNameTextField;
-    
+    private Label detailsLabel;    
     @FXML
     private Label detailsLabelHere;
-    
-
-    @FXML
-    private ComboBox<String> factionComboBox;
     @FXML
     private ImageView imageView;
     @FXML
     private ImageView imageHero;
-    
     @FXML
     private ComboBox<String> comboBoxPioche;
-
     @FXML
     private Label selectedCardCountLabel;
 
@@ -67,7 +49,7 @@ public class InventoryController {
     private ArrayList<String> heroNames = new ArrayList<>();
     private ArrayList<String> pioche = new ArrayList<>();   
 
-  @FXML
+    @FXML
     private ListView<String> selectedCardsListView;
     private static Scene scene;
         
@@ -179,7 +161,7 @@ public class InventoryController {
 
 
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("Game.fxml"));
-        player dataObject =  new player(40,new DeckBuilder(DeckPlayer).build(),heroChoisi); // Créez votre objet avec les données nécessaires
+        player dataObject =  new player(40,new DeckBuilder(DeckPlayer).build(),heroChoisi); 
         fxmlLoader.setControllerFactory(controllerClass -> {
         try {
             Constructor<?> constructor = controllerClass.getConstructor(player.class,fact.getClass(),comboBoxPioche.getValue().getClass());
@@ -322,6 +304,8 @@ protected void createFactionOrdre() {
     protected void NbCarte() {
         selectedCardCountLabel.setText("Nombre de cartes dans le deck: " + selectedCardsListView.getItems().size());
     }
+
+
 @FXML
 protected void sortCardsByFactionChaos() {
         cardNames.clear();

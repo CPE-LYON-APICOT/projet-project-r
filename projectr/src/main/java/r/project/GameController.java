@@ -15,51 +15,13 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
 
 
 public class GameController {
 
-    @FXML
-    private Label card1LabelPV;
-
-    @FXML
-    private Label card2LabelPV;
-    
-    @FXML
-    private Label card3LabelPV;
-    
-    @FXML
-    private Label card4LabelPV;
-    
-    @FXML
-    private Label card5LabelPV;
-    
-    @FXML
-    private Label card1LabelAttaque;
-    @FXML
-    private Label card2LabelAttaque;
-    @FXML
-    private Label card3LabelAttaque;
-    @FXML
-    private Label card4LabelAttaque;
-    @FXML
-    private Label card5LabelAttaque;
-
-    @FXML
-    private Label card1LabelNom;
-    @FXML
-    private Label card2LabelNom;
-    @FXML
-    private Label card3LabelNom;
-    @FXML
-    private Label card4LabelNom;
-    @FXML
-    private Label card5LabelNom;
     
     @FXML
     private Label manaTour;
@@ -69,37 +31,14 @@ public class GameController {
     private Button finTour;
     @FXML
     private Label commentaireCombat;
-
-    @FXML
-    private StackPane selectedCardPane;
-    @FXML
-    private FlowPane playerCardPane;
-
-    @FXML
-    private FlowPane monsterCardPane;
-
-    @FXML
-    private StackPane gameBoard;
     @FXML
     private HBox selectedCardsContainer;
     @FXML
     private HBox mainDuJoueur;
     @FXML
-    private HBox statDuJoueur;
-    @FXML
     private HBox creature;
     @FXML
-    private  ImageView card1Image;
-    @FXML
-    private  ImageView card2Image;
-    @FXML
-    private  ImageView card3Image;
-    @FXML
-    private  ImageView card4Image;
-    @FXML
-    private  ImageView card5Image;
-    @FXML
-    private  Label playerHealthLabel;
+    private Label playerHealthLabel;
     
     carte carteSelectionne = null;
     CreaBoss bossSelectione = null;
