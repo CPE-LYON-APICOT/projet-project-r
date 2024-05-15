@@ -73,6 +73,8 @@ public class GameController {
     private Label manaJoueur;
     @FXML
     private Button finTour;
+    @FXML
+    private Label commentaireCombat;
 
     @FXML
     private StackPane selectedCardPane;
@@ -443,6 +445,7 @@ public class GameController {
                 
             }
             carteAttaquer.add(carteSelectionne);
+            commentaireCombat.setText(carteSelectionne.getNom()+" effectue "+String.valueOf(carteSelectionne.getAttaque()) + "degats à "+bossSelectione.getNom());
             // Réinitialisez les cartes sélectionnées pour la prochaine itération
             carteSelectionne = null;
             bossSelectione = null;
@@ -650,61 +653,69 @@ public class GameController {
             playerHealthLabel.setText("Points de vie du joueur"+JoueurActuel.getPv());
             if (JoueurActuel.getPv()<=0){
                 afficherPopupDefaite();
+
             }
             return;
         }
-        // Effectuez le combat entre le joueur et le monstre
-        for (int i = 0; i < plateau.size(); i++) {
-            if (plateau.get(i).getAttaque() < bossSelectione2.getPv() ){
-                if(plateau.get(i).getPV() < bossSelectione2.getAttaque() ){
-                    test = plateau.get(i); 
-                    break;
-                }
-
-            }
-        }
-        if (test == null) {
-            test = plateau.get(0);
-           
-        }
-        bossSelectione2.setPv(bossSelectione2.getPv() - test.getAttaque());
-        test.setPV(test.getPV() - bossSelectione2.getAttaque()); 
-
-        plateau.remove(test);
-        if (bossSelectione2.getPv() <= 0) {
-
-            creature.getChildren().clear();
-            afficherPopupVictoire();
-        }else{
-            lstBoss.add(bossSelectione2);
-            ChargerBoss(bossSelectione2);
-        }
-        if (test.getPV() <= 0) {
-            
-           
-            for (int i = 0; i < paquet.size(); i++) {
-                System.out.println(paquet.get(i).getNom());
-
-                if (paquet.get(i).getNom().equals(test.getNom())) {
-                    System.out.println(paquet.get(i).getNom());
-                    if (paquet.get(i).getPV() <= 0){
-                        System.out.println("effacer");
-
-                        paquet.remove(i);
-                        break;
+        else{
+            Random rand = new Random();
+            int randomNumber = rand.nextInt(100) + 1;
+            if (randomNumber>25){
+                // Effectuez le combat entre le joueur et le monstre
+                commentaireCombat.setText(bossSelectione2.getNom()+" effectue une attaque ciblée");
+                for (int i = 0; i < plateau.size(); i++) {
+                    if (plateau.get(i).getAttaque() < bossSelectione2.getPv() ){
+                        if(plateau.get(i).getPV() < bossSelectione2.getAttaque() ){
+                            test = plateau.get(i); 
+                            break;
+                        }
 
                     }
                 }
+                if (test == null) {
+                    test = plateau.get(0);
+                
+                }
+                bossSelectione2.setPv(bossSelectione2.getPv() - test.getAttaque());
+                test.setPV(test.getPV() - bossSelectione2.getAttaque()); 
+
+                plateau.remove(test);
+                if (bossSelectione2.getPv() <= 0) {
+
+
+                    creature.getChildren().clear();
+                    afficherPopupVictoire();
+                }else{
+                    lstBoss.add(bossSelectione2);
+                    ChargerBoss(bossSelectione2);
+                }
+                if (test.getPV() <= 0) {
+                    
+                    selectedCardsContainer.getChildren().clear();
+                    Chargeplateau();
+                }else{
+                    plateau.add(test);
+                    Chargeplateau();
+                    
+                }
             }
-            selectedCardsContainer.getChildren().clear();
-            
-            ChargePlateau();
-        }else{
-            plateau.add(test);
-            ChargePlateau();
-            
+            else{
+                //attaque de zone
+                commentaireCombat.setText(bossSelectione2.getNom()+" effectue une attaque de zone");
+                List<carte> copiePlateau = new ArrayList<>(plateau); // Copie de la liste plateau
+                for ( carte selectCarte : copiePlateau) {
+                    selectCarte.setPV(selectCarte.getPV() - bossSelectione2.getAttaque());
+                    if (selectCarte.getPV() <= 0) {
+                        plateau.remove(selectCarte); 
+                        selectedCardsContainer.getChildren().clear();
+                        Chargeplateau();
+                    } else {
+                        Chargeplateau();
+                    }
+                }
+            }
+
         }
-        
 
      }
     private int getIndexCarteDansMain(String nomCarte) {
