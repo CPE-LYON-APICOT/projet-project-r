@@ -18,17 +18,16 @@
 <?import javafx.scene.control.ListView?>
 
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="r.project.GameController" >
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="r.project.GameController">
 
     <!-- Zone du monstre -->
     <top>
-        <VBox alignment="CENTER" spacing="10">
+        <VBox alignment="CENTER" spacing="10" style="-fx-padding: 50 0 0 0;">
             <HBox fx:id="creature" alignment="CENTER">
             </HBox>
         </VBox>
     </top>
 
-   
     <!-- Zone de jeu -->
     <center>
         <StackPane>
@@ -38,25 +37,33 @@
         </StackPane>
     </center>
 
-
     <!-- Zone du joueur -->
-        
     <bottom>
-    <HBox  alignment="CENTER">
-    
-        <HBox fx:id="mainDuJoueur" alignment="CENTER">
-        <!-- Vous pouvez ajouter dynamiquement les cartes de la main du joueur ici -->
-           
-        </HBox>
-          <HBox fx:id="statDuJoueur" alignment="CENTER">
-        <!-- Vous pouvez ajouter ici les statistiques du joueur, telles que les points de vie -->
+        <HBox alignment="CENTER">
+            <HBox fx:id="mainDuJoueur" alignment="CENTER">
+                <!-- Vous pouvez ajouter dynamiquement les cartes de la main du joueur ici -->
             </HBox>
-    </HBox >
-   
-</bottom>
-       
-    
+            <Label fx:id="playerHealthLabel"/>
+            <HBox fx:id="statDuJoueur" alignment="CENTER">
+                <!-- Vous pouvez ajouter ici les statistiques du joueur, telles que les points de vie -->
+            </HBox>
+        </HBox>
+    </bottom>
 
+    <!-- Bouton et label au milieu à gauche -->
+    <right>
+        <VBox alignment="CENTER" spacing="10" style="-fx-padding: 0 200 0 0;">
+            <Button fx:id="finTour" text="Fin du Tour" onAction="#handleFinTour" />
+            <Label fx:id="manaTour" />
+            <Label fx:id="manaJoueur" />
+        </VBox>
+    </right>
+
+    <left>
+        <VBox alignment="CENTER" spacing="10" style="-fx-padding: 0 0 0 100px;">
+            <Label fx:id="commentaireCombat" />
+        </VBox>
+    </left>
 
 </BorderPane>
 

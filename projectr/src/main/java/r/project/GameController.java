@@ -1,13 +1,19 @@
 package r.project;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
@@ -17,6 +23,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.geometry.Pos;
 
 
@@ -60,6 +68,15 @@ public class GameController {
     private Label card5LabelNom;
     
     @FXML
+    private Label manaTour;
+    @FXML
+    private Label manaJoueur;
+    @FXML
+    private Button finTour;
+    @FXML
+    private Label commentaireCombat;
+
+    @FXML
     private StackPane selectedCardPane;
     @FXML
     private FlowPane playerCardPane;
@@ -87,6 +104,8 @@ public class GameController {
     private  ImageView card4Image;
     @FXML
     private  ImageView card5Image;
+    @FXML
+    private  Label playerHealthLabel;
     
     carte carteSelectionne = null;
     CreaBoss bossSelectione = null;
@@ -101,6 +120,10 @@ public class GameController {
     ArrayList<carte> main= new ArrayList<>();
     ArrayList<carte> defausse= new ArrayList<>();
     ArrayList<carte> plateau= new ArrayList<>();
+    ArrayList<carte> carteAttaquer= new ArrayList<>();
+
+    private int manaparTour;
+    private int manaDuJoueur;
 
     public GameController(player dataObject,ArrayList<Faction> dataList) {
         this.JoueurActuel = dataObject;
@@ -117,26 +140,8 @@ public class GameController {
         ArrayList<Integer> chosenIndices = new ArrayList<>(); // Keep track of chosen card indices
         setCreature();
         paquet.addAll(JoueurActuel.getLstDeck());
-
-        Button piocherButton = new Button("Piocher");
-        piocherButton.setOnAction(event -> piocherCartes());
        
-        // Ajoutez le bouton "Piocher" à mainDuJoueur
-        statDuJoueur.getChildren().add(piocherButton);
-        
-        Button piocherAllButton = new Button("Piocher aléatoirement");
-        piocherAllButton.setOnAction(event -> piocheAléatoire());
-         
-        statDuJoueur.getChildren().add(piocherAllButton);
-        // Ajoutez le bouton "Piocher" à mainDuJoueur
-
-        Button attaqueBoss = new Button("tour du boss");
-        attaqueBoss.setOnAction(event -> attaqueBoss());
-        statDuJoueur.getChildren().add(attaqueBoss);
-       
-        Label playerHealthLabel = new Label("Points de vie du joueur: "+JoueurActuel.getPv());
-
-        statDuJoueur.getChildren().add(playerHealthLabel);
+        playerHealthLabel.setText("Points de vie du joueur : "+JoueurActuel.getPv());
 
         for (int i = 0; i < 5; i++) {
             int randomIndex;
@@ -153,11 +158,14 @@ public class GameController {
                 VBox cardInfo = new VBox();
                 cardInfo.setAlignment(Pos.CENTER);
                 cardInfo.setSpacing(5);
-            
+                
+                Label manaLabel = new Label("Mana: " + currentCard.getCout());
+                manaLabel.setId("manaLabel_" + i); // Identifiant unique pour attaqueLabel
+
                 Label nomLabel = new Label(currentCard.getNom());
                 nomLabel.setId("nomLabel_" + i); // Identifiant unique pour nomLabel
 
-                    Label pvLabel = new Label("PV: " + currentCard.getPV());
+                Label pvLabel = new Label("PV: " + currentCard.getPV());
                 pvLabel.setId("pvLabel_"+ i); // Identifiant unique pour pvLabel
 
                 Label attaqueLabel = new Label("Attaque: " + currentCard.getAttaque());
@@ -165,7 +173,7 @@ public class GameController {
 
             
                 // Ajoutez les labels au VBox
-                cardInfo.getChildren().addAll(nomLabel,pvLabel, attaqueLabel);
+                cardInfo.getChildren().addAll(manaLabel,nomLabel,pvLabel, attaqueLabel);
             
                 // Chargez l'image de la carte
                 Image image = new Image(getClass().getResourceAsStream(currentCard.getLienImage()));
@@ -191,8 +199,40 @@ public class GameController {
         
             }
         }
-        afficherBossAleatoire();                
+        afficherBossAleatoire();
+        manaparTour=0;
+        incrementationManaTour();   
+       //determinerManaJoueur();  
     }
+
+    private void incrementationManaTour(){
+        if (manaparTour<10){
+            manaparTour+=1;
+            manaTour.setText("Tour: "+ String.valueOf(manaparTour));
+        }
+        manaDuJoueur=manaparTour;
+        manaJoueur.setText("Mana Joueur: "+ String.valueOf(manaDuJoueur));
+    }
+
+    private Boolean determinerManaJoueur(int coutcarte){
+        if (manaDuJoueur-coutcarte>=0){
+            manaDuJoueur=manaDuJoueur-coutcarte;
+            manaJoueur.setText("Mana Joueur: "+ String.valueOf(manaDuJoueur));
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    @FXML
+    private void handleFinTour(){
+        attaqueBoss();
+        incrementationManaTour();
+        piocheAléatoire();
+        carteAttaquer.clear();
+    }
+
 
     public void afficherBossAleatoire() {
         Random random = new Random();
@@ -206,18 +246,14 @@ public class GameController {
         
         bossImageView.setFitWidth(200); 
         bossImageView.setFitHeight(200);
-        bossImageView.setId("selectedCardBoss_"); // Identifiant unique pour selectedCardView
+        bossImageView.setId("selectedCardBoss_"); 
         bossImageView.setOnMouseClicked(event -> {
 
-            // Obtenez la carte joueur
             Label monstre = (Label) creature.lookup("#nomLabelBoss");
             bossSelectione = getBossFromLabel(monstre.getText());
-    
-           
-            
-            // Effectuez le combat entre le joueur et le monstre
             combat();
         }); 
+
         bossInfo.getChildren().add(bossImageView);
         Label nomLabel = new Label(bossSelectionne.getNom());
         nomLabel.setId("nomLabelBoss");
@@ -264,7 +300,7 @@ public class GameController {
         }
        
         // Mettez à jour la carte sélectionnée
-        if (selectedCardsContainer.getChildren().size() < 5) {
+        if (selectedCardsContainer.getChildren().size() < 5 && cartejouer.getCout()<=manaDuJoueur) {
             // Créez un VBox pour contenir les informations de la carte
             VBox cardInfo = new VBox();
             cardInfo.setAlignment(Pos.CENTER);
@@ -275,11 +311,12 @@ public class GameController {
             nomLabel.setVisible(false);
 
             // Affichez les informations de la carte
+            Label manaLabel =new Label("Mana: " +cartejouer.getCout());
             Label pvLabel = new Label("PV: " + cartejouer.getPV());
             Label attaqueLabel = new Label("Attaque: " + cartejouer.getAttaque());
         
             // Ajoutez les labels au VBox
-            cardInfo.getChildren().addAll(pvLabel, attaqueLabel,nomLabel);
+            cardInfo.getChildren().addAll(manaLabel,pvLabel, attaqueLabel,nomLabel);
         
             // Chargez l'image de la carte
             Image image = new Image(getClass().getResourceAsStream(cartejouer.getLienImage()));
@@ -342,6 +379,9 @@ public class GameController {
             // Ajoutez le VBox contenant l'image et les informations de la carte à selectedCardsContainer
             selectedCardsContainer.getChildren().add(cardContainer);
             ChargeMain(cartejouer.getNom());
+
+            //ajuste et actualise le mana après avoir joué une carte
+            determinerManaJoueur(cartejouer.getCout());
         }
        
     }
@@ -349,6 +389,13 @@ public class GameController {
     public void combat (){
   
         if (bossSelectione != null && carteSelectionne != null) {
+            for (int i = 0; i < carteAttaquer.size(); i++) {
+               if (carteSelectionne.getNom().equals(carteAttaquer.get(i).getNom())) {
+                    carteSelectionne = null;
+                    bossSelectione = null;
+                   return;
+               }
+            }
             // Une carte monstre est déjà sélectionnée, déclenchez le combat
             // Calculez les dégâts infligés par le joueur et le monstre
             int degatsJoueur = carteSelectionne.getAttaque();
@@ -361,8 +408,9 @@ public class GameController {
             carteSelectionne.setPV(carteSelectionne.getPV() - degatsMonstre);
             if (bossSelectione.getPv() <= 0) {
                 creature.getChildren().clear();
-                afficherBossAleatoire();
-            }else{
+                afficherPopupVictoire();
+            }
+            else{
                 lstBoss.add(bossSelectione);
                 ChargerBoss(bossSelectione);
             }
@@ -374,13 +422,36 @@ public class GameController {
                 Chargeplateau();
                 
             }
-            
+            carteAttaquer.add(carteSelectionne);
+            commentaireCombat.setText(carteSelectionne.getNom()+" effectue "+String.valueOf(carteSelectionne.getAttaque()) + "degats à "+bossSelectione.getNom());
             // Réinitialisez les cartes sélectionnées pour la prochaine itération
             carteSelectionne = null;
             bossSelectione = null;
         }
         
     }
+
+    private void afficherPopupVictoire() {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Victoire !");
+        alert.setHeaderText(null);
+        alert.setContentText("Félicitations, vous avez gagné le combat !");
+        alert.showAndWait();
+        System.exit(0);
+    }
+
+    private void afficherPopupDefaite(){
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Defaite !");
+        alert.setHeaderText(null);
+        alert.setContentText("Désolé, vous avez perdu le combat !");
+        alert.showAndWait();
+        System.exit(0);
+    }
+
+
+        
+
     public void ChargerBoss(CreaBoss bossSelectionne){
         creature.getChildren().clear();
         VBox bossInfo = new VBox();
@@ -424,11 +495,12 @@ public class GameController {
         nomLabel.setVisible(false);
 
         // Affichez les informations de la carte
+        Label manaLabel = new Label("Mana: "+ plateau.get(i).getCout());
         Label pvLabel = new Label("PV: " + plateau.get(i).getPV());
         Label attaqueLabel = new Label("Attaque: " + plateau.get(i).getAttaque());
     
         // Ajoutez les labels au VBox
-        cardInfo.getChildren().addAll(pvLabel, attaqueLabel,nomLabel);
+        cardInfo.getChildren().addAll(manaLabel,pvLabel, attaqueLabel,nomLabel);
     
         // Chargez l'image de la carte
         Image image = new Image(getClass().getResourceAsStream(plateau.get(i).getLienImage()));
@@ -509,6 +581,9 @@ public class GameController {
             VBox cardInfo = new VBox();
             cardInfo.setAlignment(Pos.CENTER);
             cardInfo.setSpacing(5);
+
+            Label manaLabel= new Label("Mana:" + currentCard.getCout());
+            manaLabel.setId("manaLabel_" + i);
         
             Label nomLabel = new Label(currentCard.getNom());
             nomLabel.setId("nomLabel_" + i); // Identifiant unique pour nomLabel
@@ -520,7 +595,7 @@ public class GameController {
             attaqueLabel.setId("attaqueLabel_" + i); // Identifiant unique pour attaqueLabel
         
             // Ajouter les labels au VBox
-            cardInfo.getChildren().addAll(nomLabel, pvLabel, attaqueLabel);
+            cardInfo.getChildren().addAll(manaLabel,nomLabel, pvLabel, attaqueLabel);
         
             // Charger l'image de la carte
             Image image = new Image(getClass().getResourceAsStream(currentCard.getLienImage()));
@@ -550,45 +625,73 @@ public class GameController {
      public void attaqueBoss(){
         Label monstre = (Label) creature.lookup("#nomLabelBoss");
         CreaBoss bossSelectione2 = getBossFromLabel(monstre.getText());
-        lstBoss.remove(bossSelectione2);
         carte test = null;
-        if( plateau.size())
-        // Effectuez le combat entre le joueur et le monstre
-        for (int i = 0; i < plateau.size(); i++) {
-            if (plateau.get(i).getAttaque() < bossSelectione2.getPv() ){
-                if(plateau.get(i).getPV() < bossSelectione2.getAttaque() ){
-                    test = plateau.get(i); 
-                    break;
-                }
+        if (plateau.isEmpty()) {
+            JoueurActuel.pertePv(bossSelectione2.getAttaque());
+            playerHealthLabel.setText("Points de vie du joueur"+JoueurActuel.getPv());
+            if (JoueurActuel.getPv()<=0){
+                afficherPopupDefaite();
 
             }
+            return;
         }
-        if (test == null) {
-            test = plateau.get(0);
-           
-        }
-        bossSelectione2.setPv(bossSelectione2.getPv() - test.getAttaque());
-        test.setPV(test.getPV() - bossSelectione2.getAttaque()); 
+        else{
+            Random rand = new Random();
+            int randomNumber = rand.nextInt(100) + 1;
+            if (randomNumber>25){
+                // Effectuez le combat entre le joueur et le monstre
+                commentaireCombat.setText(bossSelectione2.getNom()+" effectue une attaque ciblée");
+                for (int i = 0; i < plateau.size(); i++) {
+                    if (plateau.get(i).getAttaque() < bossSelectione2.getPv() ){
+                        if(plateau.get(i).getPV() < bossSelectione2.getAttaque() ){
+                            test = plateau.get(i); 
+                            break;
+                        }
 
-        plateau.remove(test);
-        if (bossSelectione2.getPv() <= 0) {
+                    }
+                }
+                if (test == null) {
+                    test = plateau.get(0);
+                
+                }
+                bossSelectione2.setPv(bossSelectione2.getPv() - test.getAttaque());
+                test.setPV(test.getPV() - bossSelectione2.getAttaque()); 
 
-            creature.getChildren().clear();
-            afficherBossAleatoire();
-        }else{
-            lstBoss.add(bossSelectione2);
-            ChargerBoss(bossSelectione2);
+                plateau.remove(test);
+                if (bossSelectione2.getPv() <= 0) {
+
+                    creature.getChildren().clear();
+                    afficherPopupVictoire();
+                }else{
+                    lstBoss.add(bossSelectione2);
+                    ChargerBoss(bossSelectione2);
+                }
+                if (test.getPV() <= 0) {
+                    
+                    selectedCardsContainer.getChildren().clear();
+                    Chargeplateau();
+                }else{
+                    plateau.add(test);
+                    Chargeplateau();
+                    
+                }
+            }
+            else{
+                //attaque de zone
+                commentaireCombat.setText(bossSelectione2.getNom()+" effectue une attaque de zone");
+                List<carte> copiePlateau = new ArrayList<>(plateau); // Copie de la liste plateau
+                for ( carte selectCarte : copiePlateau) {
+                    selectCarte.setPV(selectCarte.getPV() - bossSelectione2.getAttaque());
+                    if (selectCarte.getPV() <= 0) {
+                        plateau.remove(selectCarte); 
+                        selectedCardsContainer.getChildren().clear();
+                        Chargeplateau();
+                    } else {
+                        Chargeplateau();
+                    }
+                }
+            }
         }
-        if (test.getPV() <= 0) {
-            
-            selectedCardsContainer.getChildren().clear();
-            Chargeplateau();
-        }else{
-            plateau.add(test);
-            Chargeplateau();
-            
-        }
-        
 
      }
     private int getIndexCarteDansMain(String nomCarte) {
@@ -695,63 +798,5 @@ public class GameController {
         Moloch initializeMoloch=new Moloch(130,80,"","","imageProjet/Moloch.jpeg",fact.get(2),"");
         lstBoss.add(initializeMoloch);
 
-    }
-    // Autres méthodes nécessaires pour le fonctionnement du jeu
-    public  List<CreaMonstre> rencontreMonstre(){
-        Random rand = new Random();
-        List<CreaMonstre> monstresRencontres = new ArrayList<>();
-        int nombreAleatoire = rand.nextInt(8);
-        monstresRencontres.add(lstMonster.get(nombreAleatoire));
-        return monstresRencontres;        
-    }
-
-    public boolean combatMonstre(List<CreaMonstre> lstRencontreMonstre){
-        int nbMonstreBattu=0;
-        while (nbMonstreBattu<lstRencontreMonstre.size()){
-            nbMonstreBattu=0;
-            for (int i=0;i<lstRencontreMonstre.size();i++){
-                if (lstRencontreMonstre.get(i).getPv()==0){
-                    nbMonstreBattu+=1;
-                }
-
-            }
-            if (JoueurActuel.getPv()==0){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean combatBoss(CreaBoss pBoss){
-        while (pBoss.getPv()!=0 && JoueurActuel.getPv()!=0)
-        {
-            if (pBoss.getPv()==0){
-                return true;
-            }
-        }
-        return false;
-        
-    }
-
-    public boolean Game(){
-        Random rand = new Random();
-        int nbBossVaincu=0;
-        while (nbBossVaincu!=3){
-            for (int i = 0; i < 3; i++) {
-                int nbMonstreRencontree = rand.nextInt(3) + 1;
-                for(int j=0; j<nbMonstreRencontree;j++){
-                    if(combatMonstre(lstMonster)==false){
-                        return false;
-                    }
-                }
-                if(combatBoss(lstBoss.get(i))==false){
-                    return false;
-                }
-                else{
-                    nbBossVaincu+=1;
-                }
-            }
-        }
-        return true;
     }
 }
