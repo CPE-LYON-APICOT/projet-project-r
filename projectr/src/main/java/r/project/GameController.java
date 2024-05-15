@@ -637,7 +637,7 @@ public class GameController {
         else{
             Random rand = new Random();
             int randomNumber = rand.nextInt(100) + 1;
-            if (randomNumber>80){
+            if (randomNumber>25){
                 // Effectuez le combat entre le joueur et le monstre
                 commentaireCombat.setText(bossSelectione2.getNom()+" effectue une attaque ciblée");
                 for (int i = 0; i < plateau.size(); i++) {
