@@ -6,7 +6,6 @@ import java.util.stream.Stream;
 import java.util.stream.Collectors;
 
 
-@Component
 public class DeckBuilder {
     private Stream<carte> stream;
 

@@ -1,71 +1,27 @@
 package r.project;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 import javafx.geometry.Pos;
 
 
 public class GameController {
 
-    @FXML
-    private Label card1LabelPV;
-
-    @FXML
-    private Label card2LabelPV;
-    
-    @FXML
-    private Label card3LabelPV;
-    
-    @FXML
-    private Label card4LabelPV;
-    
-    @FXML
-    private Label card5LabelPV;
-    
-    @FXML
-    private Label card1LabelAttaque;
-    @FXML
-    private Label card2LabelAttaque;
-    @FXML
-    private Label card3LabelAttaque;
-    @FXML
-    private Label card4LabelAttaque;
-    @FXML
-    private Label card5LabelAttaque;
-
-    @FXML
-    private Label card1LabelNom;
-    @FXML
-    private Label card2LabelNom;
-    @FXML
-    private Label card3LabelNom;
-    @FXML
-    private Label card4LabelNom;
-    @FXML
-    private Label card5LabelNom;
     
     @FXML
     private Label manaTour;
@@ -75,37 +31,14 @@ public class GameController {
     private Button finTour;
     @FXML
     private Label commentaireCombat;
-
-    @FXML
-    private StackPane selectedCardPane;
-    @FXML
-    private FlowPane playerCardPane;
-
-    @FXML
-    private FlowPane monsterCardPane;
-
-    @FXML
-    private StackPane gameBoard;
     @FXML
     private HBox selectedCardsContainer;
     @FXML
     private HBox mainDuJoueur;
     @FXML
-    private HBox statDuJoueur;
-    @FXML
     private HBox creature;
     @FXML
-    private  ImageView card1Image;
-    @FXML
-    private  ImageView card2Image;
-    @FXML
-    private  ImageView card3Image;
-    @FXML
-    private  ImageView card4Image;
-    @FXML
-    private  ImageView card5Image;
-    @FXML
-    private  Label playerHealthLabel;
+    private Label playerHealthLabel;
     
     carte carteSelectionne = null;
     CreaBoss bossSelectione = null;
@@ -142,7 +75,6 @@ public class GameController {
         ArrayList<Integer> chosenIndices = new ArrayList<>(); // Keep track of chosen card indices
         paquet.addAll(JoueurActuel.getLstDeck());
         setCreature();
-        paquet.addAll(JoueurActuel.getLstDeck());
        
         playerHealthLabel.setText("Points de vie du joueur : "+JoueurActuel.getPv());
 
@@ -161,7 +93,9 @@ public class GameController {
                 VBox cardInfo = new VBox();
                 cardInfo.setAlignment(Pos.CENTER);
                 cardInfo.setSpacing(5);
-                
+                Label LabelId = new Label(String.valueOf(currentCard.hashCode()));
+                LabelId.setId("LabelId_" + i);
+                LabelId.setVisible(false);
                 Label manaLabel = new Label("Mana: " + currentCard.getCout());
                 manaLabel.setId("manaLabel_" + i); // Identifiant unique pour attaqueLabel
 
@@ -176,7 +110,7 @@ public class GameController {
 
             
                 // Ajoutez les labels au VBox
-                cardInfo.getChildren().addAll(manaLabel,nomLabel,pvLabel, attaqueLabel);
+                cardInfo.getChildren().addAll(manaLabel,nomLabel,pvLabel, attaqueLabel, LabelId);
             
                 // Chargez l'image de la carte
                 Image image = new Image(getClass().getResourceAsStream(currentCard.getLienImage()));
@@ -284,24 +218,24 @@ public class GameController {
         // Déterminez quelle carte a été sélectionnée en fonction de l'identifiant unique de l'ImageView
         switch (card.getId()) {
             case "selectedCardView_0":
-                Label nomLabel = (Label) mainDuJoueur.lookup("#nomLabel_0");
-                cartejouer = getCarteFromLabel(nomLabel.getText());
+                Label nomLabel = (Label) mainDuJoueur.lookup("#LabelId_0");
+                cartejouer = getCarteFromHashCode(Integer.parseInt(nomLabel.getText()));
                 break;
             case "selectedCardView_1":
-                Label nomLabel2 = (Label) mainDuJoueur.lookup("#nomLabel_1");
-                cartejouer = getCarteFromLabel(nomLabel2.getText());
+                Label nomLabel2 = (Label) mainDuJoueur.lookup("#LabelId_1");
+                cartejouer = getCarteFromHashCode(Integer.parseInt(nomLabel2.getText()));
                 break;
             case "selectedCardView_2":
-                Label nomLabel3 = (Label) mainDuJoueur.lookup("#nomLabel_2");
-                cartejouer = getCarteFromLabel(nomLabel3.getText());
+                Label nomLabel3 = (Label) mainDuJoueur.lookup("#LabelId_2");
+                cartejouer = getCarteFromHashCode(Integer.parseInt(nomLabel3.getText()));
                 break;
             case "selectedCardView_3":
-                Label nomLabel4 = (Label) mainDuJoueur.lookup("#nomLabel_3");
-                cartejouer = getCarteFromLabel(nomLabel4.getText());
+                Label nomLabel4 = (Label) mainDuJoueur.lookup("#LabelId_3");
+                cartejouer = getCarteFromHashCode(Integer.parseInt(nomLabel4.getText()));
                 break;
             case "selectedCardView_4":
-                Label nomLabel5 = (Label) mainDuJoueur.lookup("#nomLabel_4");
-                cartejouer = getCarteFromLabel(nomLabel5.getText());
+                Label nomLabel5 = (Label) mainDuJoueur.lookup("#LabelId_4");
+                cartejouer = getCarteFromHashCode(Integer.parseInt(nomLabel5.getText()));
                 break;
             default:
                 break;
@@ -313,7 +247,9 @@ public class GameController {
             VBox cardInfo = new VBox();
             cardInfo.setAlignment(Pos.CENTER);
             cardInfo.setSpacing(5);
-
+            Label LabelId = new Label(String.valueOf(cartejouer.hashCode()));
+            LabelId.setId("LabelId_" + plateau.size());
+            LabelId.setVisible(false);
             Label nomLabel = new Label(cartejouer.getNom());
             nomLabel.setId("nomLabel_"  + plateau.size()); // Identifiant unique pour nomLabel
             nomLabel.setVisible(false);
@@ -324,7 +260,7 @@ public class GameController {
             Label attaqueLabel = new Label("Attaque: " + cartejouer.getAttaque());
         
             // Ajoutez les labels au VBox
-            cardInfo.getChildren().addAll(manaLabel,pvLabel, attaqueLabel,nomLabel);
+            cardInfo.getChildren().addAll(manaLabel,pvLabel, attaqueLabel,nomLabel,LabelId);
         
             // Chargez l'image de la carte
             Image image = new Image(getClass().getResourceAsStream(cartejouer.getLienImage()));
@@ -344,24 +280,24 @@ public class GameController {
                 // Déterminez quelle carte a été sélectionnée en fonction de l'identifiant unique de l'ImageView
                 switch (card2.getId()) {
                     case "selectedCardView_0":
-                        Label nomLabel0 = (Label) selectedCardsContainer.lookup("#nomLabel_0");
-                        cartejouer2 = getCarteFromLabel(nomLabel0.getText());
+                        Label nomLabel0 = (Label) selectedCardsContainer.lookup("#LabelId_0");
+                        cartejouer2 = getCarteFromHashCode(Integer.parseInt(nomLabel0.getText()));
                         break;
                     case "selectedCardView_1":
-                        Label nomLabel20 = (Label) selectedCardsContainer.lookup("#nomLabel_1");
-                        cartejouer2 = getCarteFromLabel(nomLabel20.getText());
+                        Label nomLabel20 = (Label) selectedCardsContainer.lookup("#LabelId_1");
+                        cartejouer2 = getCarteFromHashCode(Integer.parseInt(nomLabel20.getText()));
                         break;
                     case "selectedCardView_2":
-                        Label nomLabel30 = (Label) selectedCardsContainer.lookup("#nomLabel_2");
-                        cartejouer2 = getCarteFromLabel(nomLabel30.getText());
+                        Label nomLabel30 = (Label) selectedCardsContainer.lookup("#LabelId_2");
+                        cartejouer2 = getCarteFromHashCode(Integer.parseInt(nomLabel30.getText()));
                         break;
                     case "selectedCardView_3":
-                        Label nomLabel40 = (Label) selectedCardsContainer.lookup("#nomLabel_3");
-                        cartejouer2 = getCarteFromLabel(nomLabel40.getText());
+                        Label nomLabel40 = (Label) selectedCardsContainer.lookup("#LabelId_3");
+                        cartejouer2 = getCarteFromHashCode(Integer.parseInt(nomLabel40.getText()));
                         break;
                     case "selectedCardView_4":
-                        Label nomLabel50 = (Label) selectedCardsContainer.lookup("#nomLabel_4");
-                        cartejouer2 = getCarteFromLabel(nomLabel50.getText());
+                        Label nomLabel50 = (Label) selectedCardsContainer.lookup("#LabelId_4");
+                        cartejouer2 = getCarteFromHashCode(Integer.parseInt(nomLabel50.getText()));
                         break;
                     default:
                         break;
@@ -386,7 +322,7 @@ public class GameController {
         
             // Ajoutez le VBox contenant l'image et les informations de la carte à selectedCardsContainer
             selectedCardsContainer.getChildren().add(cardContainer);
-            ChargeMain(cartejouer.getNom());
+            ChargeMain(cartejouer.hashCode());
 
             //ajuste et actualise le mana après avoir joué une carte
             determinerManaJoueur(cartejouer.getCout());
@@ -415,6 +351,7 @@ public class GameController {
             // Mettez à jour les points de vie des cartes
             bossSelectione.setPv(bossSelectione.getPv() - degatsJoueur);
             carteSelectionne.setPV(carteSelectionne.getPV() - degatsMonstre);
+
             if (bossSelectione.getPv() <= 0) {
                 creature.getChildren().clear();
                 afficherPopupVictoire();
@@ -425,19 +362,7 @@ public class GameController {
             }
             if (carteSelectionne.getPV() <= 0) {
                 selectedCardsContainer.getChildren().clear();
-                for (int i = 0; i < paquet.size(); i++) {
-                    System.out.println(paquet.get(i).getNom());
-
-                    if (paquet.get(i).getNom().equals(carteSelectionne.getNom())) {
-                        System.out.println(paquet.get(i).getNom());
-                        if (paquet.get(i).getPV() <= 0){
-                            System.out.println("effacer");
-
-                            paquet.remove(i);
-
-                        }
-                    }
-                }
+                //paquet.remove(carteSelectionne);
                 ChargePlateau();
             }else{
                 plateau.add(carteSelectionne);
@@ -445,7 +370,7 @@ public class GameController {
                 
             }
             carteAttaquer.add(carteSelectionne);
-            commentaireCombat.setText(carteSelectionne.getNom()+" effectue "+String.valueOf(carteSelectionne.getAttaque()) + "degats à "+bossSelectione.getNom());
+            commentaireCombat.setText(carteSelectionne.getNom()+" effectue "+String.valueOf(carteSelectionne.getAttaque()) + " degats à "+bossSelectione.getNom());
             // Réinitialisez les cartes sélectionnées pour la prochaine itération
             carteSelectionne = null;
             bossSelectione = null;
@@ -511,6 +436,9 @@ public class GameController {
         VBox cardInfo = new VBox();
         cardInfo.setAlignment(Pos.CENTER);
         cardInfo.setSpacing(5);
+        Label LabelId = new Label(String.valueOf(plateau.get(i).hashCode()));
+        LabelId.setId("LabelId_" + i);
+        LabelId.setVisible(false);
 
         Label nomLabel = new Label(plateau.get(i).getNom());
         nomLabel.setId("nomLabel_"  + i); // Identifiant unique pour nomLabel
@@ -522,7 +450,7 @@ public class GameController {
         Label attaqueLabel = new Label("Attaque: " + plateau.get(i).getAttaque());
     
         // Ajoutez les labels au VBox
-        cardInfo.getChildren().addAll(manaLabel,pvLabel, attaqueLabel,nomLabel);
+        cardInfo.getChildren().addAll(manaLabel,pvLabel, attaqueLabel,nomLabel,LabelId);
     
         // Chargez l'image de la carte
         Image image = new Image(getClass().getResourceAsStream(plateau.get(i).getLienImage()));
@@ -533,7 +461,7 @@ public class GameController {
         // Définissez la taille souhaitée
         selectedCardView.setId("selectedCardView_" + i); // Identifiant unique pour selectedCardView
         selectedCardView.setFitWidth(130); // Largeur souhaitée
-        selectedCardView.setFitHeight(150); // Hauteur souhaitée
+         selectedCardView.setFitHeight(150); // Hauteur souhaitée
         selectedCardView.setOnMouseClicked(ev -> {
             ImageView card2 = (ImageView) ev.getSource();
             carte cartejouer2 = null;
@@ -542,24 +470,24 @@ public class GameController {
             // Déterminez quelle carte a été sélectionnée en fonction de l'identifiant unique de l'ImageView
             switch (card2.getId()) {
                 case "selectedCardView_0":
-                    Label nomLabel0 = (Label) selectedCardsContainer.lookup("#nomLabel_0");
-                    cartejouer2 = getCarteFromLabel(nomLabel0.getText());
+                    Label nomLabel0 = (Label) selectedCardsContainer.lookup("#LabelId_0");
+                    cartejouer2 = getCarteFromHashCode(Integer.parseInt(nomLabel0.getText()));
                     break;
                 case "selectedCardView_1":
-                    Label nomLabel20 = (Label) selectedCardsContainer.lookup("#nomLabel_1");
-                    cartejouer2 = getCarteFromLabel(nomLabel20.getText());
+                    Label nomLabel20 = (Label) selectedCardsContainer.lookup("#LabelId_1");
+                    cartejouer2 = getCarteFromHashCode(Integer.parseInt(nomLabel20.getText()));
                     break;
                 case "selectedCardView_2":
-                    Label nomLabel30 = (Label) selectedCardsContainer.lookup("#nomLabel_2");
-                    cartejouer2 = getCarteFromLabel(nomLabel30.getText());
+                    Label nomLabel30 = (Label) selectedCardsContainer.lookup("#LabelId_2");
+                    cartejouer2 = getCarteFromHashCode(Integer.parseInt(nomLabel30.getText()));
                     break;
                 case "selectedCardView_3":
-                    Label nomLabel40 = (Label) selectedCardsContainer.lookup("#nomLabel_3");
-                    cartejouer2 = getCarteFromLabel(nomLabel40.getText());
+                    Label nomLabel40 = (Label) selectedCardsContainer.lookup("#LabelId_3");
+                    cartejouer2 = getCarteFromHashCode(Integer.parseInt(nomLabel40.getText()));
                     break;
                 case "selectedCardView_4":
-                    Label nomLabel50 = (Label) selectedCardsContainer.lookup("#nomLabel_4");
-                    cartejouer2 = getCarteFromLabel(nomLabel50.getText());
+                    Label nomLabel50 = (Label) selectedCardsContainer.lookup("#LabelId_4");
+                    cartejouer2 = getCarteFromHashCode(Integer.parseInt(nomLabel50.getText()));
                     break;
                 default:
                     break;
@@ -586,8 +514,8 @@ public class GameController {
         }
     }
 
-    public void ChargeMain(String nomcarte){
-        if (nomcarte != null) {
+    public void ChargeMain(int nomcarte){
+        if (nomcarte != 0) {
             // Retirer la carte de la main
             int cartearetirer = getIndexCarteDansMain(nomcarte);
 
@@ -603,6 +531,9 @@ public class GameController {
             VBox cardInfo = new VBox();
             cardInfo.setAlignment(Pos.CENTER);
             cardInfo.setSpacing(5);
+            Label LabelId = new Label(String.valueOf(currentCard.hashCode()));
+            LabelId.setId("LabelId_" + i);
+            LabelId.setVisible(false);
 
             Label manaLabel= new Label("Mana:" + currentCard.getCout());
             manaLabel.setId("manaLabel_" + i);
@@ -617,7 +548,7 @@ public class GameController {
             attaqueLabel.setId("attaqueLabel_" + i); // Identifiant unique pour attaqueLabel
         
             // Ajouter les labels au VBox
-            cardInfo.getChildren().addAll(manaLabel,nomLabel, pvLabel, attaqueLabel);
+            cardInfo.getChildren().addAll(manaLabel,nomLabel, pvLabel, attaqueLabel,LabelId);
         
             // Charger l'image de la carte
             Image image = new Image(getClass().getResourceAsStream(currentCard.getLienImage()));
@@ -647,7 +578,7 @@ public class GameController {
      public void attaqueBoss(){
         Label monstre = (Label) creature.lookup("#nomLabelBoss");
         CreaBoss bossSelectione2 = getBossFromLabel(monstre.getText());
-        carte test = null;
+        carte carteContreLeboss = null;
         if (plateau.isEmpty()) {
             JoueurActuel.pertePv(bossSelectione2.getAttaque());
             playerHealthLabel.setText("Points de vie du joueur"+JoueurActuel.getPv());
@@ -666,20 +597,22 @@ public class GameController {
                 for (int i = 0; i < plateau.size(); i++) {
                     if (plateau.get(i).getAttaque() < bossSelectione2.getPv() ){
                         if(plateau.get(i).getPV() < bossSelectione2.getAttaque() ){
-                            test = plateau.get(i); 
+                            carteContreLeboss = plateau.get(i); 
                             break;
                         }
 
                     }
                 }
-                if (test == null) {
-                    test = plateau.get(0);
+                if (carteContreLeboss == null) {
+                    carteContreLeboss = plateau.get(0);
                 
                 }
-                bossSelectione2.setPv(bossSelectione2.getPv() - test.getAttaque());
-                test.setPV(test.getPV() - bossSelectione2.getAttaque()); 
+                plateau.remove(carteContreLeboss);
+                
 
-                plateau.remove(test);
+                bossSelectione2.setPv(bossSelectione2.getPv() - carteContreLeboss.getAttaque());
+                carteContreLeboss.setPV(carteContreLeboss.getPV() - bossSelectione2.getAttaque()); 
+
                 if (bossSelectione2.getPv() <= 0) {
 
 
@@ -689,13 +622,13 @@ public class GameController {
                     lstBoss.add(bossSelectione2);
                     ChargerBoss(bossSelectione2);
                 }
-                if (test.getPV() <= 0) {
-                    
+                if (carteContreLeboss.getPV() <= 0) {
+                    //paquet.remove(carteContreLeboss);
                     selectedCardsContainer.getChildren().clear();
-                    Chargeplateau();
+                    ChargePlateau();
                 }else{
-                    plateau.add(test);
-                    Chargeplateau();
+                    plateau.add(carteContreLeboss);
+                    ChargePlateau();
                     
                 }
             }
@@ -705,12 +638,17 @@ public class GameController {
                 List<carte> copiePlateau = new ArrayList<>(plateau); // Copie de la liste plateau
                 for ( carte selectCarte : copiePlateau) {
                     selectCarte.setPV(selectCarte.getPV() - bossSelectione2.getAttaque());
+                    plateau.remove(selectCarte); 
+
                     if (selectCarte.getPV() <= 0) {
-                        plateau.remove(selectCarte); 
+                      
+                        paquet.remove(selectCarte);
                         selectedCardsContainer.getChildren().clear();
-                        Chargeplateau();
+                        ChargePlateau();
                     } else {
-                        Chargeplateau();
+                        plateau.add(selectCarte);
+
+                        ChargePlateau();
                     }
                 }
             }
@@ -718,10 +656,10 @@ public class GameController {
         }
 
      }
-    private int getIndexCarteDansMain(String nomCarte) {
+    private int getIndexCarteDansMain(int nomCarte) {
         for (int i = 0; i < main.size(); i++) {
             carte carte = main.get(i);
-            if (carte.getNom().equals(nomCarte)) {
+            if (carte.hashCode() == nomCarte) {
                 return i; // Retourne l'index de la carte si le nom correspond
             }
         }
@@ -745,9 +683,9 @@ public class GameController {
         }
         return null;
     }
-    private carte getCarteFromLabel(String label) {
-        for (carte card : paquet) {
-            if (card.getNom().equals(label)) {
+    private carte getCarteFromHashCode(int label) {
+        for (carte card : JoueurActuel.getLstDeck()) {
+            if (card.hashCode() == label) {
                 return card;
             }
         }
@@ -781,7 +719,7 @@ public class GameController {
             paquet.remove(0);
             main.add(cartePiochee);
             
-            ChargeMain(null);
+            ChargeMain(0);
         }
         
     }
@@ -798,7 +736,7 @@ public class GameController {
             paquet.remove(0);
             main.add(cartePiochee);
         
-            ChargeMain(null);
+            ChargeMain(0);
         }
     
 }

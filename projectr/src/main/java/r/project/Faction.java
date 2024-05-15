@@ -1,6 +1,7 @@
 package r.project;
 
-abstract class Faction {
+
+public abstract class Faction {
     private String nom;
     private String description;
     private String couleur;

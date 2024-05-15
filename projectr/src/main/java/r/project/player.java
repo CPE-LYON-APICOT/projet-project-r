@@ -2,10 +2,7 @@ package r.project;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Observer;
 
-
-// import java.util.stream.Stream;
 
 public class player implements IKeyObservable{
     private int pv;

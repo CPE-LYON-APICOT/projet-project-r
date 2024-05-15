@@ -47,6 +47,5 @@ public class VictoryObserver implements IKeyObserver {
 
     private void afficherPopupVictoire() {
         System.out.println("Victoire !");
-        // Ici vous pouvez ajouter le code pour afficher un popup de victoire
     }
 }
