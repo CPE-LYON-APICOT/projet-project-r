@@ -321,7 +321,7 @@ public class GameController {
   
         if (bossSelectione != null && carteSelectionne != null) {
             for (int i = 0; i < carteAttaquer.size(); i++) {
-               if (carteSelectionne.getNom().equals(carteAttaquer.get(i).getNom())) {
+               if (carteAttaquer.get(i).hashCode() == carteSelectionne.hashCode() ){
                     carteSelectionne = null;
                     bossSelectione = null;
                    return;
@@ -415,7 +415,8 @@ public class GameController {
             bossSelectione = getBossFromLabel(monstre.getText());
            
             
-     
+            combat();
+
         }); 
         bossInfo.getChildren().add(bossImageView);
         Label nomLabel = new Label(bossSelectionne.getNom());
