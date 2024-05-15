@@ -22,7 +22,7 @@
 
     <!-- Zone du monstre -->
     <top>
-        <VBox alignment="CENTER" spacing="10" style="-fx-padding: 200 0 0 0;">
+        <VBox alignment="CENTER" spacing="10" style="-fx-padding: 50 0 0 0;">
             <HBox fx:id="creature" alignment="CENTER">
             </HBox>
         </VBox>
