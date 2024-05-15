@@ -56,6 +56,8 @@ public class InventoryController {
     @FXML
     private ImageView imageHero;
     
+    @FXML
+    private Label selectedCardCountLabel;
 
     Random rand = new Random();
     private ArrayList<carte> cartes = new ArrayList<>();
@@ -130,6 +132,8 @@ public class InventoryController {
                 selectedCardsListView.getItems().add(selectedCard);
             }
         }
+        NbCarte();
+
 
 
 }
@@ -140,11 +144,13 @@ public class InventoryController {
     if (selectedIndex >= 0) {
         selectedCardsListView.getItems().remove(selectedIndex);
     }
+    NbCarte();
 }
     
     @FXML
     protected void clearDeck() {
     selectedCardsListView.getItems().clear();
+    NbCarte();
 }
     
     @FXML
@@ -197,6 +203,7 @@ public class InventoryController {
     protected void exit() {
     System.exit(0);
 }
+
 
 
 @FXML
@@ -254,7 +261,9 @@ protected void creatFactionChaos() {
             }
         }
     
-    }}
+    }
+    NbCarte();
+}
 
 
 
@@ -280,6 +289,8 @@ protected void createFactionNeant() {
         }
     }
 }
+NbCarte();
+
 }
 
 
@@ -306,10 +317,13 @@ protected void createFactionOrdre() {
         if (index <3){
         selectedCardsListView.getItems().add(objetAleatoire.getNom());}}
     }
+    NbCarte();
 
     }
 
-
+    protected void NbCarte() {
+        selectedCardCountLabel.setText("Nombre de cartes dans le deck: " + selectedCardsListView.getItems().size());
+    }
 @FXML
 protected void sortCardsByFactionChaos() {
         cardNames.clear();
