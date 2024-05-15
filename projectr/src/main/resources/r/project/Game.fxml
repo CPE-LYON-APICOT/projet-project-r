@@ -60,10 +60,10 @@
     </right>
 
     <left>
-        <VBox alignment="CENTER" spacing="10" style="-fx-padding: 0 0 200 0;">
+        <VBox alignment="CENTER" spacing="10" style="-fx-padding: 0 0 0 100px;">
             <Label fx:id="commentaireCombat" />
         </VBox>
     </left>
-    
+
 </BorderPane>
 

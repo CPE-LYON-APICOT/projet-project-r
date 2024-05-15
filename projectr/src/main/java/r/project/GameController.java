@@ -423,6 +423,7 @@ public class GameController {
                 
             }
             carteAttaquer.add(carteSelectionne);
+            commentaireCombat.setText(carteSelectionne.getNom()+" effectue "+String.valueOf(carteSelectionne.getAttaque()) + "degats à "+bossSelectione.getNom());
             // Réinitialisez les cartes sélectionnées pour la prochaine itération
             carteSelectionne = null;
             bossSelectione = null;
