@@ -57,6 +57,9 @@ public class InventoryController {
     private ImageView imageHero;
     
     @FXML
+    private ComboBox<String> comboBoxPioche;
+
+    @FXML
     private Label selectedCardCountLabel;
 
     Random rand = new Random();
@@ -69,7 +72,8 @@ public class InventoryController {
 
     private ArrayList<String> cardNames  = new ArrayList<>();    
     private ArrayList<Hero> LstHeroes= new ArrayList<>();
-    private ArrayList<String> heroNames = new ArrayList<>();   
+    private ArrayList<String> heroNames = new ArrayList<>();
+    private ArrayList<String> pioche = new ArrayList<>();   
 
   @FXML
     private ListView<String> selectedCardsListView;
@@ -83,8 +87,11 @@ public class InventoryController {
         
         setCartesEtFaction();
         
+        pioche.add("Pioche Aléatoire");
+        pioche.add("Pioche Basique");
+        comboBoxPioche.setItems(FXCollections.observableArrayList(pioche));
+        comboBoxPioche.setPromptText("Sélectionner une pioche");
 
-       
          cardComboBox.setItems(FXCollections.observableArrayList(cardNames));
          cardComboBox.setPromptText("Sélectionner une carte");
          heroComboBox.setItems(FXCollections.observableArrayList(heroNames));
@@ -183,8 +190,8 @@ public class InventoryController {
         player dataObject =  new player(40,new DeckBuilder(DeckPlayer).build(),heroChoisi); // Créez votre objet avec les données nécessaires
         fxmlLoader.setControllerFactory(controllerClass -> {
         try {
-            Constructor<?> constructor = controllerClass.getConstructor(player.class,fact.getClass());
-         return constructor.newInstance(dataObject,fact);
+            Constructor<?> constructor = controllerClass.getConstructor(player.class,fact.getClass(),comboBoxPioche.getValue().getClass());
+         return constructor.newInstance(dataObject,fact,comboBoxPioche.getValue());
         } catch (Exception exc) {
             throw new RuntimeException(exc);
         }

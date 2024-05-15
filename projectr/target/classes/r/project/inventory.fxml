@@ -49,6 +49,7 @@
             <HBox spacing="10">
                 <Button text="Enlever du deck" onAction="#removeFromDeck"/>
                 <Button text="Vider le deck" onAction="#clearDeck"/>
+                <ComboBox fx:id="comboBoxPioche"/>
                 <Button text="Sauvegarder le deck et lancer la partie" onAction="#saveDeck"/>
                 <Label fx:id="selectedCardCountLabel" text="Nombre de cartes dans le deck: 0 "  />
             </HBox>

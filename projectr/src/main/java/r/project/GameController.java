@@ -114,6 +114,7 @@ public class GameController {
     private ArrayList<CreaBoss> lstBoss = new ArrayList<>();
     private player JoueurActuel;
     private ArrayList<Faction> fact = new ArrayList<>();
+    private String pioche;
     ArrayList<carte> paquet= new ArrayList<>();
     ArrayList<carte> main= new ArrayList<>();
     ArrayList<carte> defausse= new ArrayList<>();
@@ -123,9 +124,10 @@ public class GameController {
     private int manaparTour;
     private int manaDuJoueur;
 
-    public GameController(player dataObject,ArrayList<Faction> dataList) {
+    public GameController(player dataObject,ArrayList<Faction> dataList, String pioche) {
         this.JoueurActuel = dataObject;
         this.fact = dataList;
+        this.pioche = pioche;
         
        
         
@@ -243,7 +245,12 @@ public class GameController {
     private void handleFinTour(){
         attaqueBoss();
         incrementationManaTour();
-        piocheAléatoire();
+        if(pioche.equals("Pioche Basique")){
+            piocherCartes();
+        }
+        else if(pioche.equals("Pioche Aléatoire")){
+            piocheAléatoire();
+        }
         carteAttaquer.clear();
     }
 
