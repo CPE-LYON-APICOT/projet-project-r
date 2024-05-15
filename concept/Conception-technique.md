@@ -126,7 +126,6 @@ public class DeckBuilder {
 ```
 </pre>
 
-]
 
 ---
 # Partie pédagogique
@@ -140,7 +139,7 @@ Minimum 10 lignes (personnalisé en fonction de votre projet)]
 La Poo nous a permis de facilement dupliquer des objets Carte, ainsi que définir différents types de cartes directement grâce à l'héritage. Principe que l'on retrouve aussi dans la classe Creature, qui nous a permit de faire une différenciation entre monstre et boss. Grâce à l'héritage cela nous a permis de créer de nouveaux paramètres qu'on les boss mais pas les créatures. Le polymorphisme, unique à la POO nous a aussi permis de surcharger certaines méthodes comme par exemple le boss Neron qui peut surcharger sa méthode compétence (cela permet donc d'avoir des fonctions ayant des fonctionnalités similaires avec des classes n'ayant pas de rapport entre elles).
 La Poo me permet facilement de créer de nouveau boss à volonté, juste en créant une nouvelle classe, ce qui est beaucoup plus long et fastidieux sans.
 Au niveau des factions ainsi que pour les héros que nous voulions ajouter, cela aurait été plus difficile de les créer comme dit précédemment, mais aussi plus difficile de les rattacher, car les factions ont des attributs. 
-Pour finir, sans la programmation orientée objet, le projet aurait été beaucoup plus difficile et nous aurions certainement dû changer pas mal de choses au fur et à mesure du projet.
+Pour finir, sans la programmation orientée objet, le projet aurait été beaucoup plus laborieux et nous aurions certainement dû changer pas mal de choses au fur et à mesure du projet.
 
 
 ### Conclusion
