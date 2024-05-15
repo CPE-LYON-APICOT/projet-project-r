@@ -138,24 +138,9 @@ public class GameController {
     public void initialize(){
         ArrayList<carte> cartesList = new ArrayList<>(JoueurActuel.getLstDeck());
         ArrayList<Integer> chosenIndices = new ArrayList<>(); // Keep track of chosen card indices
+        paquet.addAll(JoueurActuel.getLstDeck());
         setCreature();
         paquet.addAll(JoueurActuel.getLstDeck());
-
-        // Button piocherButton = new Button("Piocher");
-        // piocherButton.setOnAction(event -> piocherCartes());
-       
-        // // Ajoutez le bouton "Piocher" à mainDuJoueur
-        // statDuJoueur.getChildren().add(piocherButton);
-        
-        // Button piocherAllButton = new Button("Piocher aléatoirement");
-        // piocherAllButton.setOnAction(event -> piocheAléatoire());
-         
-        // statDuJoueur.getChildren().add(piocherAllButton);
-        // // Ajoutez le bouton "Piocher" à mainDuJoueur
-
-        // Button attaqueBoss = new Button("tour du boss");
-        // attaqueBoss.setOnAction(event -> attaqueBoss());
-        // statDuJoueur.getChildren().add(attaqueBoss);
        
         playerHealthLabel.setText("Points de vie du joueur : "+JoueurActuel.getPv());
 
@@ -424,6 +409,7 @@ public class GameController {
            
             lstBoss.remove(bossSelectione);
             plateau.remove(carteSelectionne);
+            
             // Mettez à jour les points de vie des cartes
             bossSelectione.setPv(bossSelectione.getPv() - degatsJoueur);
             carteSelectionne.setPV(carteSelectionne.getPV() - degatsMonstre);
@@ -437,10 +423,23 @@ public class GameController {
             }
             if (carteSelectionne.getPV() <= 0) {
                 selectedCardsContainer.getChildren().clear();
-                Chargeplateau();
+                for (int i = 0; i < paquet.size(); i++) {
+                    System.out.println(paquet.get(i).getNom());
+
+                    if (paquet.get(i).getNom().equals(carteSelectionne.getNom())) {
+                        System.out.println(paquet.get(i).getNom());
+                        if (paquet.get(i).getPV() <= 0){
+                            System.out.println("effacer");
+
+                            paquet.remove(i);
+
+                        }
+                    }
+                }
+                ChargePlateau();
             }else{
                 plateau.add(carteSelectionne);
-                Chargeplateau();
+                ChargePlateau();
                 
             }
             carteAttaquer.add(carteSelectionne);
@@ -502,7 +501,7 @@ public class GameController {
         bossInfo.getChildren().addAll(nomBossLabel, pvBossLabel, attaqueBossLabel,nomLabel);
         creature.getChildren().add(bossInfo);
     }
-    public void Chargeplateau(){
+    public void ChargePlateau(){
         selectedCardsContainer.getChildren().clear();
         for (int i = 0; i < plateau.size(); i++) {
         // Créez un VBox pour contenir les informations de la carte
@@ -682,11 +681,27 @@ public class GameController {
         }
         if (test.getPV() <= 0) {
             
+           
+            for (int i = 0; i < paquet.size(); i++) {
+                System.out.println(paquet.get(i).getNom());
+
+                if (paquet.get(i).getNom().equals(test.getNom())) {
+                    System.out.println(paquet.get(i).getNom());
+                    if (paquet.get(i).getPV() <= 0){
+                        System.out.println("effacer");
+
+                        paquet.remove(i);
+                        break;
+
+                    }
+                }
+            }
             selectedCardsContainer.getChildren().clear();
-            Chargeplateau();
+            
+            ChargePlateau();
         }else{
             plateau.add(test);
-            Chargeplateau();
+            ChargePlateau();
             
         }
         
@@ -720,7 +735,7 @@ public class GameController {
         return null;
     }
     private carte getCarteFromLabel(String label) {
-        for (carte card : JoueurActuel.getLstDeck()) {
+        for (carte card : paquet) {
             if (card.getNom().equals(label)) {
                 return card;
             }

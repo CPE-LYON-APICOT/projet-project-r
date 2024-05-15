@@ -170,7 +170,7 @@ public class InventoryController {
         for (carte carte : cartes) {
             for (String cartep : selectedCardsListView.getItems()){
                 if (cartep == carte.getNom()){
-                    DeckPlayer.add(carte);
+                    DeckPlayer.add(new carteMonstre(carte.getNom(), carte.getCout(), carte.getDescription(), carte.getAttaque(), carte.getPV(), carte.getLienImage(), carte.getFaction()));
                 }
             }
     
