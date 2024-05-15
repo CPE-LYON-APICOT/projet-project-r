@@ -99,35 +99,82 @@ Le design pattern présent ici permet de créer le deck et de l'ajouter à une c
 
 <pre>
 ```java
-public class DeckBuilder {
-    private Stream<carte> stream;
+    public class DeckBuilder {
+        private Stream<carte> stream;
 
-    public DeckBuilder(ArrayList<carte> cartesInitiales){
-        this.stream = cartesInitiales.stream();
-    }
-    public DeckBuilder filterByFaction(String faction){
-        this.stream = this.stream.filter(carte -> true);
-        return this;
-    }
-    public DeckBuilder filterByType(String type){
-        this.stream = this.stream.filter(carte -> true);
-        return this;
-    }
+        public DeckBuilder(ArrayList<carte> cartesInitiales){
+            this.stream = cartesInitiales.stream();
+        }
+        public DeckBuilder filterByFaction(String faction){
+            this.stream = this.stream.filter(carte -> true);
+            return this;
+        }
+        public DeckBuilder filterByType(String type){
+            this.stream = this.stream.filter(carte -> true);
+            return this;
+        }
 
-    public Collection<carte> build(){
-        // return this.stream.toList();
-        return this.stream.collect(Collectors.toList());
-        
+        public Collection<carte> build(){
+            // return this.stream.toList();
+            return this.stream.collect(Collectors.toList());
+            
+        }
     }
-
-    
-
-}
 ```
 </pre>
 
-]
+#### 2. [Observer]
 
+
+Notre observer nous permet de déclancher une muisque de fin lors de l'apparition de la pop up de victoire
+
+Appele de addobserver dans initialize et scan pour attendre la notification
+```java
+ public void addObserver(IObserver observer) {
+        observers.add(observer);
+    }
+```
+Appelle de addObserver
+```java
+addObserver(new musicVictoire());
+```
+Envoie de la notification à l'observer
+```java
+    private void notifyObservers() {
+        for (IObserver observer : observers) {
+            observer.update();
+        }
+    }
+```
+Appelle lorsque la pop up apparait
+```java
+    private void afficherPopupVictoire() {
+        notifyObservers();
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Victoire !");
+        alert.setHeaderText(null);
+        alert.setContentText("Félicitations, vous avez gagné le combat !");
+        alert.showAndWait();
+        System.exit(0);
+    }
+```
+
+lance la musique
+```java
+    public class musicVictoire implements IObserver{
+        @Override
+        public void update() {
+            try {
+                String musicPath = "C:\\Users\\thoma\\Music\\victoryTheme.mp3";
+                Media sound = new Media(new File(musicPath).toURI().toString());
+                MediaPlayer mediaPlayer = new MediaPlayer(sound);
+                mediaPlayer.play();
+            } catch (Exception e) {
+                System.out.println("Une erreur s'est produite lors de la lecture de la musique : ");
+            }
+        }
+    }
+```
 ---
 # Partie pédagogique
 
