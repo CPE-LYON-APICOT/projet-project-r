@@ -1,5 +1,4 @@
 package r.project;
-
 public class Aria extends CreaBoss{
     public Aria(int pPv, int pAttaque,String pNom, String pDescription, String pLienImage, Faction pFaction,String pSousNom) {
         super(pPv, pAttaque,pNom, pDescription, pLienImage, pFaction,pSousNom);

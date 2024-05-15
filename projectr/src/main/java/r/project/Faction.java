@@ -1,5 +1,6 @@
 package r.project;
 
+
 abstract class Faction {
     private String nom;
     private String description;

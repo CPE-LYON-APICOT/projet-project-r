@@ -10,15 +10,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import java.util.Random;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
-
-
-
-// import javafx.scene.Parent;
-// import javafx.fxml.FXMLLoader;
-// import javafx.scene.control.Button;
 import javafx.collections.ObservableList;
 
 import java.io.IOException;
@@ -197,7 +189,6 @@ public class InventoryController {
         }
         });
         scene = new Scene(fxmlLoader.load(), 640, 480);
-        //scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         Stage stage = new Stage();
         stage.setFullScreen(true);
         stage.setScene(scene);
