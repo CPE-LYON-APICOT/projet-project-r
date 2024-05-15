@@ -56,6 +56,11 @@ public class InventoryController {
     @FXML
     private ImageView imageHero;
     
+    @FXML
+    private ComboBox<String> comboBoxPioche;
+
+    @FXML
+    private Label selectedCardCountLabel;
 
     Random rand = new Random();
     private ArrayList<carte> cartes = new ArrayList<>();
@@ -67,7 +72,8 @@ public class InventoryController {
 
     private ArrayList<String> cardNames  = new ArrayList<>();    
     private ArrayList<Hero> LstHeroes= new ArrayList<>();
-    private ArrayList<String> heroNames = new ArrayList<>();   
+    private ArrayList<String> heroNames = new ArrayList<>();
+    private ArrayList<String> pioche = new ArrayList<>();   
 
   @FXML
     private ListView<String> selectedCardsListView;
@@ -81,8 +87,11 @@ public class InventoryController {
         
         setCartesEtFaction();
         
+        pioche.add("Pioche Aléatoire");
+        pioche.add("Pioche Basique");
+        comboBoxPioche.setItems(FXCollections.observableArrayList(pioche));
+        comboBoxPioche.setPromptText("Sélectionner une pioche");
 
-       
          cardComboBox.setItems(FXCollections.observableArrayList(cardNames));
          cardComboBox.setPromptText("Sélectionner une carte");
          heroComboBox.setItems(FXCollections.observableArrayList(heroNames));
@@ -130,6 +139,8 @@ public class InventoryController {
                 selectedCardsListView.getItems().add(selectedCard);
             }
         }
+        NbCarte();
+
 
 
 }
@@ -140,11 +151,13 @@ public class InventoryController {
     if (selectedIndex >= 0) {
         selectedCardsListView.getItems().remove(selectedIndex);
     }
+    NbCarte();
 }
     
     @FXML
     protected void clearDeck() {
     selectedCardsListView.getItems().clear();
+    NbCarte();
 }
     
     @FXML
@@ -157,7 +170,7 @@ public class InventoryController {
         for (carte carte : cartes) {
             for (String cartep : selectedCardsListView.getItems()){
                 if (cartep == carte.getNom()){
-                    DeckPlayer.add(carte);
+                    DeckPlayer.add(new carteMonstre(carte.getNom(), carte.getCout(), carte.getDescription(), carte.getAttaque(), carte.getPV(), carte.getLienImage(), carte.getFaction()));
                 }
             }
     
@@ -177,8 +190,8 @@ public class InventoryController {
         player dataObject =  new player(40,new DeckBuilder(DeckPlayer).build(),heroChoisi); // Créez votre objet avec les données nécessaires
         fxmlLoader.setControllerFactory(controllerClass -> {
         try {
-            Constructor<?> constructor = controllerClass.getConstructor(player.class,fact.getClass());
-         return constructor.newInstance(dataObject,fact);
+            Constructor<?> constructor = controllerClass.getConstructor(player.class,fact.getClass(),comboBoxPioche.getValue().getClass());
+         return constructor.newInstance(dataObject,fact,comboBoxPioche.getValue());
         } catch (Exception exc) {
             throw new RuntimeException(exc);
         }
@@ -197,6 +210,7 @@ public class InventoryController {
     protected void exit() {
     System.exit(0);
 }
+
 
 
 @FXML
@@ -254,7 +268,9 @@ protected void creatFactionChaos() {
             }
         }
     
-    }}
+    }
+    NbCarte();
+}
 
 
 
@@ -280,6 +296,8 @@ protected void createFactionNeant() {
         }
     }
 }
+NbCarte();
+
 }
 
 
@@ -306,10 +324,13 @@ protected void createFactionOrdre() {
         if (index <3){
         selectedCardsListView.getItems().add(objetAleatoire.getNom());}}
     }
+    NbCarte();
 
     }
 
-
+    protected void NbCarte() {
+        selectedCardCountLabel.setText("Nombre de cartes dans le deck: " + selectedCardsListView.getItems().size());
+    }
 @FXML
 protected void sortCardsByFactionChaos() {
         cardNames.clear();

@@ -116,6 +116,7 @@ public class GameController {
     private ArrayList<CreaBoss> lstBoss = new ArrayList<>();
     private player JoueurActuel;
     private ArrayList<Faction> fact = new ArrayList<>();
+    private String pioche;
     ArrayList<carte> paquet= new ArrayList<>();
     ArrayList<carte> main= new ArrayList<>();
     ArrayList<carte> defausse= new ArrayList<>();
@@ -125,9 +126,10 @@ public class GameController {
     private int manaparTour;
     private int manaDuJoueur;
 
-    public GameController(player dataObject,ArrayList<Faction> dataList) {
+    public GameController(player dataObject,ArrayList<Faction> dataList, String pioche) {
         this.JoueurActuel = dataObject;
         this.fact = dataList;
+        this.pioche = pioche;
         
        
         
@@ -138,6 +140,7 @@ public class GameController {
     public void initialize(){
         ArrayList<carte> cartesList = new ArrayList<>(JoueurActuel.getLstDeck());
         ArrayList<Integer> chosenIndices = new ArrayList<>(); // Keep track of chosen card indices
+        paquet.addAll(JoueurActuel.getLstDeck());
         setCreature();
         paquet.addAll(JoueurActuel.getLstDeck());
        
@@ -229,7 +232,12 @@ public class GameController {
     private void handleFinTour(){
         attaqueBoss();
         incrementationManaTour();
-        piocheAléatoire();
+        if(pioche.equals("Pioche Basique")){
+            piocherCartes();
+        }
+        else if(pioche.equals("Pioche Aléatoire")){
+            piocheAléatoire();
+        }
         carteAttaquer.clear();
     }
 
@@ -403,6 +411,7 @@ public class GameController {
            
             lstBoss.remove(bossSelectione);
             plateau.remove(carteSelectionne);
+            
             // Mettez à jour les points de vie des cartes
             bossSelectione.setPv(bossSelectione.getPv() - degatsJoueur);
             carteSelectionne.setPV(carteSelectionne.getPV() - degatsMonstre);
@@ -416,10 +425,23 @@ public class GameController {
             }
             if (carteSelectionne.getPV() <= 0) {
                 selectedCardsContainer.getChildren().clear();
-                Chargeplateau();
+                for (int i = 0; i < paquet.size(); i++) {
+                    System.out.println(paquet.get(i).getNom());
+
+                    if (paquet.get(i).getNom().equals(carteSelectionne.getNom())) {
+                        System.out.println(paquet.get(i).getNom());
+                        if (paquet.get(i).getPV() <= 0){
+                            System.out.println("effacer");
+
+                            paquet.remove(i);
+
+                        }
+                    }
+                }
+                ChargePlateau();
             }else{
                 plateau.add(carteSelectionne);
-                Chargeplateau();
+                ChargePlateau();
                 
             }
             carteAttaquer.add(carteSelectionne);
@@ -482,7 +504,7 @@ public class GameController {
         bossInfo.getChildren().addAll(nomBossLabel, pvBossLabel, attaqueBossLabel,nomLabel);
         creature.getChildren().add(bossInfo);
     }
-    public void Chargeplateau(){
+    public void ChargePlateau(){
         selectedCardsContainer.getChildren().clear();
         for (int i = 0; i < plateau.size(); i++) {
         // Créez un VBox pour contenir les informations de la carte
@@ -660,6 +682,7 @@ public class GameController {
                 plateau.remove(test);
                 if (bossSelectione2.getPv() <= 0) {
 
+
                     creature.getChildren().clear();
                     afficherPopupVictoire();
                 }else{
@@ -691,6 +714,7 @@ public class GameController {
                     }
                 }
             }
+
         }
 
      }
@@ -722,7 +746,7 @@ public class GameController {
         return null;
     }
     private carte getCarteFromLabel(String label) {
-        for (carte card : JoueurActuel.getLstDeck()) {
+        for (carte card : paquet) {
             if (card.getNom().equals(label)) {
                 return card;
             }
