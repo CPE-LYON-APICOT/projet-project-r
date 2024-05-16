@@ -84,7 +84,7 @@ Notre difficulté principale concernait l'utilisation de javafx dont nous n'avio
 
 #### 3. [Distribution de cartes]
 
-Nous voulions proposer 2 manières de distribuer à nos joueurs pour rajouter de la diversité à notre jeu. Cependant, nous voulions éviter de faire 2 copier collé de code, nous avons donc opté pour un design patern builder pour régler le problème.
+Nous voulions proposer 2 manières de distribuer à nos joueurs pour rajouter de la diversité à notre jeu. Cependant, nous voulions éviter de faire 2 copier collé de code, nous avons donc opté pour un design patern stratégie pour régler le problème.
 
 #### 4. [organisation]
 
@@ -94,40 +94,127 @@ Le projet était ambitieux donc nous avons commis une erreur d'organisation en v
 
 #### 1. [builder]
 Le design pattern présent ici permet de créer le deck et de l'ajouter à une collection de cartes. Cela facilite le passage des cartes du joueur de manière plus simple et évite de s'emmêler les pinceaux. 
-[Décrivez ici brièvement le design pattern utilisé et pourquoi]
-[Ajouter éventuellement des exemples de code pour montrer l'élégence de votre solution, pour cela vous pouvez écrire en Markdown votre code ainsi :
 
-<pre>
+
 ```java
-public class DeckBuilder {
-    private Stream<carte> stream;
+    public class DeckBuilder {
+        private Stream<carte> stream;
 
-    public DeckBuilder(ArrayList<carte> cartesInitiales){
-        this.stream = cartesInitiales.stream();
-    }
-    public DeckBuilder filterByFaction(String faction){
-        this.stream = this.stream.filter(carte -> true);
-        return this;
-    }
-    public DeckBuilder filterByType(String type){
-        this.stream = this.stream.filter(carte -> true);
-        return this;
-    }
+        public DeckBuilder(ArrayList<carte> cartesInitiales){
+            this.stream = cartesInitiales.stream();
+        }
+        public DeckBuilder filterByFaction(String faction){
+            this.stream = this.stream.filter(carte -> true);
+            return this;
+        }
+        public DeckBuilder filterByType(String type){
+            this.stream = this.stream.filter(carte -> true);
+            return this;
+        }
 
-    public Collection<carte> build(){
-        // return this.stream.toList();
-        return this.stream.collect(Collectors.toList());
+        public Collection<carte> build(){
+            // return this.stream.toList();
+            return this.stream.collect(Collectors.toList());
+            
+        }
+    }
+```
+
+#### 2. [Observer]
+
+
+Notre observer nous permet de déclancher une muisque de fin lors de l'apparition de la pop up de victoire
+
+Appele de addobserver dans initialize et scan pour attendre la notification
+```java
+ public void addObserver(IObserver observer) {
+        observers.add(observer);
+    }
+```
+Appelle de addObserver
+```java
+addObserver(new musicVictoire());
+```
+Envoie de la notification à l'observer
+```java
+    private void notifyObservers() {
+        for (IObserver observer : observers) {
+            observer.update();
+        }
+    }
+```
+Appelle lorsque la pop up apparait
+```java
+    private void afficherPopupVictoire() {
+        notifyObservers();
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Victoire !");
+        alert.setHeaderText(null);
+        alert.setContentText("Félicitations, vous avez gagné le combat !");
+        alert.showAndWait();
+        System.exit(0);
+    }
+```
+
+lance la musique
+```java
+    public class musicVictoire implements IObserver{
+        @Override
+        public void update() {
+            try {
+                String musicPath = "C:\\Users\\thoma\\Music\\victoryTheme.mp3";
+                Media sound = new Media(new File(musicPath).toURI().toString());
+                MediaPlayer mediaPlayer = new MediaPlayer(sound);
+                mediaPlayer.play();
+            } catch (Exception e) {
+                System.out.println("Une erreur s'est produite lors de la lecture de la musique : ");
+            }
+        }
+    }
+```
+
+
+
+#### 3. [Stratégie]
+Le design pattern utilisé ici permet de choisir entre deux méthodes de pioche : soit une pioche aléatoire parmi toutes les cartes du paquet, soit la prise de la première carte du paquet.
+
+Voici la méthode pour piocher la première carte du paquet :
+```java
+ public void piocherCartes() {
+        if (main.size() < 5) {
+            
+            carte cartePiochee = paquet.get(0);
+            paquet.remove(0);
+            main.add(cartePiochee);
+            
+            ChargeMain(0);
+        }
         
     }
 
-    
-
-}
 ```
-</pre>
+
+Voici la méthode pour la pioche aléatoire :
+```java
+    public void piocheAléatoire() {
+        // Mélanger aléatoirement les cartes
+        Collections.shuffle(paquet);
+        if (main.size()< 5) {
+         
+            carte cartePiochee = paquet.get(0);
+            paquet.remove(0);
+            main.add(cartePiochee);
+        
+            ChargeMain(0);
+        }
+    
+}
 
 
+```
 ---
+
+
 # Partie pédagogique
 
 

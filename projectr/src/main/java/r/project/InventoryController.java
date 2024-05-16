@@ -7,18 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import java.util.Random;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
-
-
-
-// import javafx.scene.Parent;
-// import javafx.fxml.FXMLLoader;
-// import javafx.scene.control.Button;
 import javafx.collections.ObservableList;
 
 import java.io.IOException;
@@ -33,29 +24,14 @@ public class InventoryController {
     @FXML
     private ComboBox<String> heroComboBox;
     @FXML
-    private TextField  cardNameTextField;
-    @FXML
-    private Label detailsLabel;
-    @FXML
-    private TextField costTextField;
-    @FXML
-    private TextField hpTextField;
-    @FXML
-    private TextField attackTextField;
-    @FXML
-    private TextField imageNameTextField;
-    
+    private Label detailsLabel;    
     @FXML
     private Label detailsLabelHere;
-    
-
-    @FXML
-    private ComboBox<String> factionComboBox;
     @FXML
     private ImageView imageView;
     @FXML
     private ImageView imageHero;
-    
+
     @FXML
     private ComboBox<String> comboBoxPioche;
 
@@ -75,7 +51,7 @@ public class InventoryController {
     private ArrayList<String> heroNames = new ArrayList<>();
     private ArrayList<String> pioche = new ArrayList<>();   
 
-  @FXML
+    @FXML
     private ListView<String> selectedCardsListView;
     private static Scene scene;
         
@@ -129,7 +105,7 @@ public class InventoryController {
         int indexAleatoire1=0;
         String selectedCard = cardComboBox.getValue();
         ObservableList<String> items = selectedCardsListView.getItems();
-        if (selectedCard != null && !selectedCard.isEmpty() && selectedCardsListView.getItems().size() <= 30){
+        if (selectedCard != null && !selectedCard.isEmpty() && selectedCardsListView.getItems().size() < 30){
             for ( String carte : items ){
                 if (carte == selectedCard ){
                     indexAleatoire1+=1;
@@ -187,7 +163,7 @@ public class InventoryController {
 
 
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("Game.fxml"));
-        player dataObject =  new player(40,new DeckBuilder(DeckPlayer).build(),heroChoisi); // Créez votre objet avec les données nécessaires
+        player dataObject =  new player(40,new DeckBuilder(DeckPlayer).build(),heroChoisi); 
         fxmlLoader.setControllerFactory(controllerClass -> {
         try {
             Constructor<?> constructor = controllerClass.getConstructor(player.class,fact.getClass(),comboBoxPioche.getValue().getClass());
@@ -197,7 +173,6 @@ public class InventoryController {
         }
         });
         scene = new Scene(fxmlLoader.load(), 640, 480);
-        //scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         Stage stage = new Stage();
         stage.setFullScreen(true);
         stage.setScene(scene);
@@ -257,7 +232,7 @@ protected void creatFactionChaos() {
         int indexAleatoire = rand.nextInt(cartesChaos.size());
 
         carte objetAleatoire = cartesChaos.get(indexAleatoire);
-        if (selectedCardsListView.getItems().size() <=30){
+        if (selectedCardsListView.getItems().size() <30){
             for ( String carte : items ){
                 if (carte == objetAleatoire.getNom() ){
                     index+=1;
@@ -285,7 +260,7 @@ protected void createFactionNeant() {
     int indexAleatoire = rand.nextInt(cartesNeant.size());
 
     carte objetAleatoire = cartesNeant.get(indexAleatoire);
-    if (selectedCardsListView.getItems().size() <=30){
+    if (selectedCardsListView.getItems().size() <30){
         for ( String carte : items ){
             if (carte == objetAleatoire.getNom() ){
                 index+=1;
@@ -315,7 +290,7 @@ protected void createFactionOrdre() {
 
     carte objetAleatoire = cartesOrdre.get(indexAleatoire);
 
-    if (selectedCardsListView.getItems().size() <=30){
+    if (selectedCardsListView.getItems().size() <30){
         for ( String carte : items ){
             if (carte == objetAleatoire.getNom() ){
                 index+=1;
@@ -331,9 +306,11 @@ protected void createFactionOrdre() {
     protected void NbCarte() {
         selectedCardCountLabel.setText("Nombre de cartes dans le deck: " + selectedCardsListView.getItems().size());
     }
+
 @FXML
 protected void sortCardsByFactionChaos() {
         cardNames.clear();
+
     for (carte carte : cartes) {
         if (carte.getFaction().GetNom() == "Chaos"){
             cardNames.add(carte.getNom());

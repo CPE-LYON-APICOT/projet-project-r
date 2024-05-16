@@ -2,9 +2,7 @@ package r.project;
 import java.util.Collection;
 
 
-// import java.util.stream.Stream;
-
-public class player{
+public class player {
     private int pv;
     private Collection<carte> lstDeck;
     private Hero hero;

@@ -57,7 +57,7 @@
                 <Button text="Trier par Faction : Ordre" onAction="#sortCardsByFactionOrdre"/>
                 <Button text="Trier par Faction : Neant" onAction="#sortCardsByFactionNeant"/>
                 <Button text="Trier par Faction : Chaos" onAction="#sortCardsByFactionChaos"/>
-                <Button text="crée un deck orde" onAction="#createFactionOrdre"/>
+                <Button text="crée un deck ordre" onAction="#createFactionOrdre"/>
                 <Button text="crée un deck neant" onAction="#createFactionNeant"/>
                 <Button text="crée un deck chaos" onAction="#creatFactionChaos"/>            
             </HBox>

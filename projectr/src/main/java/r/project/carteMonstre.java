@@ -2,10 +2,9 @@ package r.project;
 
 
 class carteMonstre extends carte {
-    // Properties and methods specific to monster cards
     private int PV;    
     
-    // Constructor
+
     public carteMonstre(String name, int cost, String desc, int attack, int pv, String lienImage, Faction faction) {
         super( name, cost,  desc, attack, lienImage, faction);
         this.PV = pv;
@@ -21,7 +20,6 @@ class carteMonstre extends carte {
     }
     @Override
     public void jouer() {
-        // Code for playing a monster card
     }
     @Override
     public String afficher() {
