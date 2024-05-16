@@ -84,7 +84,7 @@ Notre difficulté principale concernait l'utilisation de javafx dont nous n'avio
 
 #### 3. [Distribution de cartes]
 
-Nous voulions proposer 2 manières de distribuer à nos joueurs pour rajouter de la diversité à notre jeu. Cependant, nous voulions éviter de faire 2 copier collé de code, nous avons donc opté pour un design patern builder pour régler le problème.
+Nous voulions proposer 2 manières de distribuer à nos joueurs pour rajouter de la diversité à notre jeu. Cependant, nous voulions éviter de faire 2 copier collé de code, nous avons donc opté pour un design patern stratégie pour régler le problème.
 
 #### 4. [organisation]
 
