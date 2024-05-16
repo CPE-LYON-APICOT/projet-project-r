@@ -1,7 +1,6 @@
 package r.project;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -49,7 +48,6 @@ public class GameController {
     private ArrayList<CreaBoss> lstBoss = new ArrayList<>();
     private player JoueurActuel;
     private ArrayList<Faction> fact = new ArrayList<>();
-    private String pioche;
     ArrayList<carte> paquet= new ArrayList<>();
     ArrayList<carte> main= new ArrayList<>();
     ArrayList<carte> plateau= new ArrayList<>();
@@ -58,11 +56,12 @@ public class GameController {
     
     private int manaparTour;
     private int manaDuJoueur;
+    private TypePioche typeDePioche;
 
-    public GameController(player dataObject,ArrayList<Faction> dataList, String pioche) {
+    public GameController(player dataObject,ArrayList<Faction> dataList, TypePioche pioche) {
         this.JoueurActuel = dataObject;
         this.fact = dataList;
-        this.pioche = pioche;
+        this.typeDePioche=  pioche;
         
        
         
@@ -157,18 +156,7 @@ public class GameController {
         }
     }
 
-    @FXML
-    private void handleFinTour(){
-        attaqueBoss();
-        incrementationManaTour();
-        if(pioche.equals("Pioche Basique")){
-            piocherCartes();
-        }
-        else if(pioche.equals("Pioche Aléatoire")){
-            piocheAléatoire();
-        }
-        carteAttaquer.clear();
-    }
+    
 
 
     public void afficherBossAleatoire() {
@@ -692,30 +680,15 @@ public class GameController {
        
     }
 
-    public void piocherCartes() {
-        if (main.size() < 5) {
-            
-            carte cartePiochee = paquet.get(0);
-            paquet.remove(0);
-            main.add(cartePiochee);
-            
-            ChargeMain(0);
-        }
-        
+    @FXML
+    private void handleFinTour(){
+        attaqueBoss();
+        incrementationManaTour();
+        typeDePioche.piocherCartes(main, paquet);
+        ChargeMain(0);
+
+        carteAttaquer.clear();
     }
-    public void piocheAléatoire() {
-        // Mélanger aléatoirement les cartes
-        Collections.shuffle(paquet);
-        if (main.size()< 5) {
-         
-            carte cartePiochee = paquet.get(0);
-            paquet.remove(0);
-            main.add(cartePiochee);
-        
-            ChargeMain(0);
-        }
-    
-}
 
     public void setCreature(){
         //Monster
