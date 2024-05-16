@@ -1,0 +1,129 @@
+
+@startuml uml
+
+
+abstract class  jeu implements IjouerPartie  {
+
+}
+
+class plateau {
+
+}
+
+interface IchoixDeck{
+    void choixDeck()
+}
+class player extends plateau implements IjouerPartie, IchoixDeck, ImanipulationCarte{
+    int id
+    Deck deck
+    int PV
+
+}
+interface IjouerPartie{
+    void IjouerPartie()
+}
+
+ class   Deck  implements IchoixDeck,iAPourFaction{
+    list<carte> carte
+    hero Hero
+    faction faction
+
+    void ajouterCarte ()
+    void supprimerCarte()
+    
+}
+
+ abstract class   carte  implements ImanipulationCarte, iAPourFaction{
+    int id
+    String nom
+    String description
+    int cout 
+    faction factionCarte   
+}
+
+class carteSort extends carte{
+    String effet
+}
+
+class carteUnité extends carte{
+   
+    int PV
+}
+
+interface ImanipulationCarte{
+    void piocher()
+    void defausser()
+}
+
+
+
+class hero implements iAPourFaction{
+    int PV
+    int attaque
+    int armure
+    faction faction
+
+}
+
+interface iAPourFaction{
+    public Faction APourFaction()
+}
+abstract class faction{
+    String nom
+    String description
+    String couleur
+}
+ 
+class orde extends faction{
+    String nom = "orde"
+    String description = "faction des orcs"
+    String couleur = "rouge"
+}
+
+class neant extends faction{
+    String nom = "neant"
+    String description = "faction des demons"
+    String couleur = "violet"
+}
+
+class chaos extends faction{
+    String nom = "chaos"
+    String description = "faction des demons"
+    String couleur = "noir"
+}
+
+
+interface Iattaque{
+    void attaque()
+}
+@enduml
+
+abstract class Combat{
+
+}
+
+class CombatBoss extends combat{
+    
+}
+
+class CombatPetit extends combat{
+    
+}
+
+abstract class Creature{
+    int pv
+    int attaque
+    void competences()
+}
+
+abstract class CreaBoss extends Creature{
+
+}
+
+class RoiOrq extends CreaBoss{
+    
+}
+
+class CreaMonstre extends Creature{
+    
+}
