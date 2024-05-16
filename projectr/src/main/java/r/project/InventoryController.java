@@ -138,7 +138,7 @@ public class InventoryController {
              Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Erreur !");
             alert.setHeaderText(null);
-            alert.setContentText("Vous n'avez pas selectionner 30 cartes ou une pioche !");
+            alert.setContentText("Vous n'avez pas sélectionné 30 cartes ou sélectionner une pioche !");
             alert.showAndWait();
             return;
         }
