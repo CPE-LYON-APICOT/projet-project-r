@@ -163,7 +163,7 @@ public class InventoryController {
 
 
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("Game.fxml"));
-        player dataObject =  new player(40,new DeckBuilder(DeckPlayer).build(),heroChoisi); 
+        player dataObject = player.getInstance(40, new DeckBuilder(DeckPlayer).build(), heroChoisi);
         fxmlLoader.setControllerFactory(controllerClass -> {
         try {
             Constructor<?> constructor = controllerClass.getConstructor(player.class,fact.getClass(),comboBoxPioche.getValue().getClass());

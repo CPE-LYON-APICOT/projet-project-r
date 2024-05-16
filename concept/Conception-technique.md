@@ -172,10 +172,40 @@ lance la musique
         }
     }
 ```
+#### 3. [Singleton]
 
+Ce design pattern est utilisé dans notre cas pour avoir un joueur unique.
 
+Instance statique unique 
+```java
+    private static player instance;
+```
 
-#### 3. [Stratégie]
+Constructeur privé
+```java
+    private player(int pPv, Collection<carte> pLstDeck, Hero pHero) {
+            this.pv = pPv;
+            this.lstDeck = pLstDeck;
+            this.hero = pHero;
+        }
+```
+
+Méthode publique statique pour vérifier l'instance
+```java
+    public static player getInstance(int pPv, Collection<carte> pLstDeck, Hero pHero) {
+            if (instance == null) {
+                instance = new player(pPv, pLstDeck, pHero);
+            }
+            return instance;
+        }
+```
+
+Appeler l'instance
+```java
+    player dataObject = player.getInstance(40, new DeckBuilder(DeckPlayer).build(), heroChoisi);
+```
+
+#### 4. [Stratégie]
 Le design pattern utilisé ici permet de choisir entre deux méthodes de pioche : soit une pioche aléatoire parmi toutes les cartes du paquet, soit la prise de la première carte du paquet.
 
 Voici la méthode pour piocher la première carte du paquet :
