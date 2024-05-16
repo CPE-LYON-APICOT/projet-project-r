@@ -1,7 +1,7 @@
 
 # Retro-conception
 
-**Binome 1 : [Languebien Theo]**
+**Binome 1 : [Languebien Teo]**
 **Binome 2 : [Bourcet Thomas]**
 
 Complétez ce document pour décrire votre projet, les difficultés rencontrées, les design patterns mis en oeuvre, les améliorations possibles, et en quoi la POO vous a été utile.
@@ -166,7 +166,7 @@ lance la musique
         @Override
         public void update() {
             try {
-                String musicPath = "C:\\Users\\thoma\\Music\\victoryTheme.mp3";
+                String musicPath = "projectr/src/main/java/r/project/musique/victoryTheme.mp3";
                 Media sound = new Media(new File(musicPath).toURI().toString());
                 MediaPlayer mediaPlayer = new MediaPlayer(sound);
                 mediaPlayer.play();
