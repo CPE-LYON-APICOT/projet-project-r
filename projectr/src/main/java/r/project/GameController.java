@@ -633,7 +633,6 @@ public class GameController {
 
                     if (selectCarte.getPV() <= 0) {
                       
-                        paquet.remove(selectCarte);
                         selectedCardsContainer.getChildren().clear();
                         ChargePlateau();
                     } else {
@@ -694,13 +693,9 @@ public class GameController {
        
     }
 
-    @FXML
     public void piocherCartes() {
-        if (main.size() >= 5) {
+        if (main.size() < 5) {
             
-             
-        } else {
-             
             carte cartePiochee = paquet.get(0);
             paquet.remove(0);
             main.add(cartePiochee);
@@ -712,10 +707,7 @@ public class GameController {
     public void piocheAléatoire() {
         // Mélanger aléatoirement les cartes
         Collections.shuffle(paquet);
-        if (main.size() >= 5) {
-        
-         
-        } else {
+        if (main.size()< 5) {
          
             carte cartePiochee = paquet.get(0);
             paquet.remove(0);

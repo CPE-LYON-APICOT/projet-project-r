@@ -94,10 +94,8 @@ Le projet était ambitieux donc nous avons commis une erreur d'organisation en v
 
 #### 1. [builder]
 Le design pattern présent ici permet de créer le deck et de l'ajouter à une collection de cartes. Cela facilite le passage des cartes du joueur de manière plus simple et évite de s'emmêler les pinceaux. 
-[Décrivez ici brièvement le design pattern utilisé et pourquoi]
-[Ajouter éventuellement des exemples de code pour montrer l'élégence de votre solution, pour cela vous pouvez écrire en Markdown votre code ainsi :
 
-<pre>
+
 ```java
     public class DeckBuilder {
         private Stream<carte> stream;
@@ -121,7 +119,6 @@ Le design pattern présent ici permet de créer le deck et de l'ajouter à une c
         }
     }
 ```
-</pre>
 
 #### 2. [Observer]
 
@@ -175,7 +172,49 @@ lance la musique
         }
     }
 ```
+
+
+
+#### 3. [Stratégie]
+Le design pattern utilisé ici permet de choisir entre deux méthodes de pioche : soit une pioche aléatoire parmi toutes les cartes du paquet, soit la prise de la première carte du paquet.
+
+Voici la méthode pour piocher la première carte du paquet :
+```java
+ public void piocherCartes() {
+        if (main.size() < 5) {
+            
+            carte cartePiochee = paquet.get(0);
+            paquet.remove(0);
+            main.add(cartePiochee);
+            
+            ChargeMain(0);
+        }
+        
+    }
+
+```
+
+Voici la méthode pour la pioche aléatoire :
+```java
+    public void piocheAléatoire() {
+        // Mélanger aléatoirement les cartes
+        Collections.shuffle(paquet);
+        if (main.size()< 5) {
+         
+            carte cartePiochee = paquet.get(0);
+            paquet.remove(0);
+            main.add(cartePiochee);
+        
+            ChargeMain(0);
+        }
+    
+}
+
+
+```
 ---
+
+
 # Partie pédagogique
 
 
