@@ -103,7 +103,7 @@ public class InventoryController {
         int indexAleatoire1=0;
         String selectedCard = cardComboBox.getValue();
         ObservableList<String> items = selectedCardsListView.getItems();
-        if (selectedCard != null && !selectedCard.isEmpty() && selectedCardsListView.getItems().size() <= 30){
+        if (selectedCard != null && !selectedCard.isEmpty() && selectedCardsListView.getItems().size() < 30){
             for ( String carte : items ){
                 if (carte == selectedCard ){
                     indexAleatoire1+=1;
@@ -230,7 +230,7 @@ protected void creatFactionChaos() {
         int indexAleatoire = rand.nextInt(cartesChaos.size());
 
         carte objetAleatoire = cartesChaos.get(indexAleatoire);
-        if (selectedCardsListView.getItems().size() <=30){
+        if (selectedCardsListView.getItems().size() <30){
             for ( String carte : items ){
                 if (carte == objetAleatoire.getNom() ){
                     index+=1;
@@ -258,7 +258,7 @@ protected void createFactionNeant() {
     int indexAleatoire = rand.nextInt(cartesNeant.size());
 
     carte objetAleatoire = cartesNeant.get(indexAleatoire);
-    if (selectedCardsListView.getItems().size() <=30){
+    if (selectedCardsListView.getItems().size() <30){
         for ( String carte : items ){
             if (carte == objetAleatoire.getNom() ){
                 index+=1;
@@ -288,7 +288,7 @@ protected void createFactionOrdre() {
 
     carte objetAleatoire = cartesOrdre.get(indexAleatoire);
 
-    if (selectedCardsListView.getItems().size() <=30){
+    if (selectedCardsListView.getItems().size() <30){
         for ( String carte : items ){
             if (carte == objetAleatoire.getNom() ){
                 index+=1;
@@ -309,6 +309,7 @@ protected void createFactionOrdre() {
 @FXML
 protected void sortCardsByFactionChaos() {
         cardNames.clear();
+
     for (carte carte : cartes) {
         if (carte.getFaction().GetNom() == "Chaos"){
             cardNames.add(carte.getNom());
