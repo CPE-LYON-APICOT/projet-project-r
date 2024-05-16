@@ -28,7 +28,7 @@ Dans ces documents, il ne s'agit pas de cacher la poussière sous le tapis, il f
 
 ## Objectif du projet
 
-L'objectif initial du projet de crée un jeux de cartes, avec un systèmes de créateur de deck ou le joueur à le choix de choisir parmis une soisantaine de cartes. Ensuite pouvoir utiliser ses cartes pour combattre un ou plusieur monstre avec des moments contre des boss. Il y a un systemes de tour ainsi qu'un systemes de mana. Nous prevoyons aussi d'avoir un systeme de héro à attribuer à un deck pour pouvoir lui ajouter des bonus.
+L'objectif initial du projet de crée un jeux de cartes, avec un systèmes de créateur de deck ou le joueur à le choix de choisir parmis une soisantaine de cartes. Ensuite pouvoir utiliser ses cartes pour combattre un ou plusieurs monstres avec en plus quelques combats de boss. Il y a un système de tour ainsi qu'un système de mana. Nous prévoyons aussi d'avoir un système de héros à attribuer à un deck pour pouvoir lui ajouter des bonus.
 
 [Décrivez ici l'objectif initial du projet, ne cherchez pas à le minorer si vous n'avez pas tout fini, décrivez ce que vous avez voulu faire]
 
@@ -37,12 +37,13 @@ L'objectif initial du projet de crée un jeux de cartes, avec un systèmes de cr
 Les objectifs atteint sont les suivants:
 - inventaire et choix des cartes pour la partie
 - systemes de combat opérationnel contre les boss
-- systemes de mana et de tour 
+- systemes de mana et de tour
+- Mise en place de nos design pattern 
 
 [Avez vous atteint votre objectif ?]
 
-Nous avons préféré privilégier avec le temps qu'il nous était alloué la création d'un système de combat opérationnel ainsi que la possibilité de créer son propre deck. Nous avons donc délaissé la partie concernant les héros et ajouter certain talents à nos cartes. Nous ne pouvons aussi nous battre que contre des boss alors qu'à l'origine nous contions nous battre contre des monstres.
-Cependant il est important de notifier que nous avons codé la partie sur les héros et les monstres. Ainsi que quelques talents. Nous ne les avons juste pas implémenté dans le rendu final.
+Nous avons préféré privilégier avec le temps qu'il nous était alloué la création d'un système de combat opérationnel ainsi que la possibilité de créer son propre deck. Nous avons donc délaissé la partie concernant les héros et le fait de pouvoir ajouter certains talents à nos cartes. Actuellement, Nous pouvons nous battre que contre des boss alors qu'à l'origine nous contions aussi nous battre contre des monstres.
+Cependant, il est important de notifier que nous avons codé la partie sur les héros et les monstres. Ainsi que quelques talents. Nous ne les avons juste pas implémentés dans le rendu final.
 
 ### Améliorations possibles
 
@@ -69,14 +70,14 @@ Cependant il est important de notifier que nous avons codé la partie sur les h�
 
 Selon nous, nous aurions dû plus séparer notre code car en prenant l'exemple de notre fichier GameController qui fait 800 lignes, on se rend compte que le code est difficilement reprenable par un développeur externe au projet. Nous contions nettoyer le code à la fin du projet mais nous avons préféré nous concentrer sur d'autres fonctionnalités de notre jeu à la place pour rendre le jeu jouable et plaisant. En enlevant quelques bugs par exemple.
 Nous aurions aussi dû dissocier la création des objets de notre code. Ce qui aurait rendu le code plus propre.
-Nous pouvons aussi notifier notre manque de connaissances sur le design Patern singleton, que nous contions incorporer dans le plateau pour ne pas avoir à le recréer à chaque fois. Une partie du code n'est aussi pas forcément très maintenable car manque de temps par rapport.
+ Une partie du code n'est aussi pas forcément très maintenable car manque de temps par rapport.
 
 
 ### Difficultés rencontrées
 
 #### 1. [Génération des cartes sort et monstre]
 
-Nous avions commencé un jeu avec des cartes sort et des cartes monstre qui héritaient de la classe Carte, mais en fonction des cartes, la gestion n'était pas la même en jeu ou lors du passage dans le deck. Nous avons donc laissé les cartes monstres et mis de côté les cartes sort.
+Nous avions commencé un jeu avec des cartes sort et des cartes monstre qui héritaient de la classe Carte, mais en fonction des cartes, la gestion n'était pas la même en jeu ou lors du passage dans le deck. Nous avons donc laissé les cartes monstres et mis de côté les cartes sorts.
 
 #### 2. [utilisation de javafx]
 
@@ -84,11 +85,11 @@ Notre difficulté principale concernait l'utilisation de javafx dont nous n'avio
 
 #### 3. [Distribution de cartes]
 
-Nous voulions proposer 2 manières de distribuer à nos joueurs pour rajouter de la diversité à notre jeu. Cependant, nous voulions éviter de faire 2 copier collé de code, nous avons donc opté pour un design patern stratégie pour régler le problème.
+Nous voulions proposer 2 manières de distribuer à nos joueurs pour rajouter de la diversité à notre jeu. Cependant, nous voulions éviter de faire 2 copier collé de code, nous avons donc opté pour un design patern stratégie pour régler le problème. Ce design pattern a été compliqué à mettre en place.
 
 #### 4. [organisation]
 
-Le projet était ambitieux donc nous avons commis une erreur d'organisation en voulant faire trop de fonctionnalités avant de nous occuper du corps du jeu. Ce qui nous a fait prendre du retard. Le corps du jeu est fini cependant un certain nombre de fonctionnalités ont était commencée mais pas implémentée.
+Le projet était ambitieux donc nous avons commis une erreur d'organisation en voulant faire trop de fonctionnalités avant de nous occuper du corps du jeu. Ce qui nous a fait prendre du retard. Le corps du jeu est fini cependant un certains nombres de fonctionnalités ont était commencée mais pas implémentée.
 
 ### *Design Patterns* mis en oeuvre
 
@@ -121,21 +122,22 @@ Le design pattern présent ici permet de créer le deck et de l'ajouter à une c
 ```
 
 #### 2. [Observer]
-
-
 Notre observer nous permet de déclancher une muisque de fin lors de l'apparition de la pop up de victoire
 
 Appele de addobserver dans initialize et scan pour attendre la notification
+
 ```java
  public void addObserver(IObserver observer) {
         observers.add(observer);
     }
 ```
 Appelle de addObserver
+
 ```java
 addObserver(new musicVictoire());
 ```
 Envoie de la notification à l'observer
+
 ```java
     private void notifyObservers() {
         for (IObserver observer : observers) {
@@ -144,6 +146,7 @@ Envoie de la notification à l'observer
     }
 ```
 Appelle lorsque la pop up apparait
+
 ```java
     private void afficherPopupVictoire() {
         notifyObservers();
@@ -157,6 +160,7 @@ Appelle lorsque la pop up apparait
 ```
 
 lance la musique
+
 ```java
     public class musicVictoire implements IObserver{
         @Override
@@ -173,15 +177,16 @@ lance la musique
     }
 ```
 #### 3. [Singleton]
-
 Ce design pattern est utilisé dans notre cas pour avoir un joueur unique.
 
 Instance statique unique 
+
 ```java
     private static player instance;
 ```
 
 Constructeur privé
+
 ```java
     private player(int pPv, Collection<carte> pLstDeck, Hero pHero) {
             this.pv = pPv;
@@ -191,6 +196,7 @@ Constructeur privé
 ```
 
 Méthode publique statique pour vérifier l'instance
+
 ```java
     public static player getInstance(int pPv, Collection<carte> pLstDeck, Hero pHero) {
             if (instance == null) {
@@ -201,6 +207,7 @@ Méthode publique statique pour vérifier l'instance
 ```
 
 Appeler l'instance
+
 ```java
     player dataObject = player.getInstance(40, new DeckBuilder(DeckPlayer).build(), heroChoisi);
 ```
@@ -209,6 +216,7 @@ Appeler l'instance
 Le design pattern utilisé ici permet de choisir entre deux méthodes de pioche : soit une pioche aléatoire parmi toutes les cartes du paquet, soit la prise de la première carte du paquet.
 
 Voici la méthode pour piocher la première carte du paquet :
+
 ```java
  public class PiocheSimple implements Pioche{
 
@@ -228,6 +236,7 @@ Voici la méthode pour piocher la première carte du paquet :
 ```
 
 Voici la méthode pour la pioche aléatoire :
+
 ```java
    public class PiocheAléatoire implements Pioche {
 
@@ -248,6 +257,7 @@ Voici la méthode pour la pioche aléatoire :
 ```
 
 Voici l'interface qui permet de crée les methodes de pioche :
+
 ```java
 public interface Pioche {
 
