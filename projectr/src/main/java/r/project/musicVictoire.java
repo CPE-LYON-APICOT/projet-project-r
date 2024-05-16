@@ -8,7 +8,7 @@ public class musicVictoire implements IObserver{
     @Override
     public void update() {
         try {
-            String musicPath = "projectr/src/main/java/r/project/musique/victoryTheme.mp3";
+            String musicPath = "projet-project-r/projectr/src/main/java/r/project/musique/victoryTheme.mp3";
             Media sound = new Media(new File(musicPath).toURI().toString());
             MediaPlayer mediaPlayer = new MediaPlayer(sound);
             mediaPlayer.play();
