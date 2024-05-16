@@ -4,6 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -132,7 +134,12 @@ public class InventoryController {
     @FXML
     protected void saveDeck() throws IOException {
         // debut du code pour crée un joueur et qu'il lance sa partie avec son deck
-        if (selectedCardsListView.getItems().size() < 30) {
+        if (selectedCardsListView.getItems().size() < 30 && comboBoxPioche.getValue() == null){
+             Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Erreur !");
+            alert.setHeaderText(null);
+            alert.setContentText("Vous n'avez pas sélectionné 30 cartes ou sélectionner une pioche !");
+            alert.showAndWait();
             return;
         }
         Hero heroChoisi = null;

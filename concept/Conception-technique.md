@@ -218,7 +218,7 @@ Le design pattern utilisé ici permet de choisir entre deux méthodes de pioche 
 Voici la méthode pour piocher la première carte du paquet :
 
 ```java
- public class PiocheSimple implements Pioche{
+ public class PiocheSimple implements TypePioche{
 
     @Override
     public void piocherCartes(ArrayList<carte> main, ArrayList<carte> paquet) {
@@ -238,7 +238,7 @@ Voici la méthode pour piocher la première carte du paquet :
 Voici la méthode pour la pioche aléatoire :
 
 ```java
-   public class PiocheAléatoire implements Pioche {
+   public class PiocheAléatoire implements TypePioche {
 
 
     @Override
@@ -259,7 +259,7 @@ Voici la méthode pour la pioche aléatoire :
 Voici l'interface qui permet de crée les methodes de pioche :
 
 ```java
-public interface Pioche {
+public interface TypePioche {
 
     public void piocherCartes(ArrayList<carte> main, ArrayList<carte> paquet);
 }
