@@ -134,7 +134,6 @@ public class GameController {
         afficherBossAleatoire();
         manaparTour=0;
         incrementationManaTour();   
-        new PopUpMusicOservable();
         addObserver(new musicVictoire());
     }
 
