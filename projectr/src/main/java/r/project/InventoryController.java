@@ -31,8 +31,10 @@ public class InventoryController {
     private ImageView imageView;
     @FXML
     private ImageView imageHero;
+
     @FXML
     private ComboBox<String> comboBoxPioche;
+
     @FXML
     private Label selectedCardCountLabel;
 
@@ -304,7 +306,6 @@ protected void createFactionOrdre() {
     protected void NbCarte() {
         selectedCardCountLabel.setText("Nombre de cartes dans le deck: " + selectedCardsListView.getItems().size());
     }
-
 
 @FXML
 protected void sortCardsByFactionChaos() {

@@ -49,7 +49,9 @@ public class GameController {
     private ArrayList<CreaBoss> lstBoss = new ArrayList<>();
     private player JoueurActuel;
     private ArrayList<Faction> fact = new ArrayList<>();
+    private List<IObserver> observers = new ArrayList<>();
     private String pioche;
+  
     ArrayList<carte> paquet= new ArrayList<>();
     ArrayList<carte> main= new ArrayList<>();
     ArrayList<carte> plateau= new ArrayList<>();
@@ -72,6 +74,7 @@ public class GameController {
     @FXML
     public void initialize(){
         ArrayList<carte> cartesList = new ArrayList<>(JoueurActuel.getLstDeck());
+
         ArrayList<Integer> chosenIndices = new ArrayList<>(); 
         paquet.addAll(JoueurActuel.getLstDeck());
         setCreature();
@@ -136,6 +139,7 @@ public class GameController {
         incrementationManaTour();   
         new PopUpMusicOservable();
         addObserver(new musicVictoire());
+
     }
 
     private void incrementationManaTour(){
@@ -349,6 +353,20 @@ public class GameController {
             }
             if (carteSelectionne.getPV() <= 0) {
                 selectedCardsContainer.getChildren().clear();
+
+                for (int i = 0; i < paquet.size(); i++) {
+                    System.out.println(paquet.get(i).getNom());
+
+                    if (paquet.get(i).getNom().equals(carteSelectionne.getNom())) {
+                        System.out.println(paquet.get(i).getNom());
+                        if (paquet.get(i).getPV() <= 0){
+                            System.out.println("effacer");
+
+                            paquet.remove(i);
+
+                        }
+                    }
+                }
                 ChargePlateau();
             }else{
                 plateau.add(carteSelectionne);
@@ -364,7 +382,9 @@ public class GameController {
         
     }
 
+
     public void addObserver(@SuppressWarnings("exports") IObserver observer) {
+
         observers.add(observer);
     }
 
@@ -373,8 +393,6 @@ public class GameController {
             observer.update();
         }
     }
-
-
 
     private void afficherPopupVictoire() {
         notifyObservers();
@@ -619,6 +637,7 @@ public class GameController {
                     ChargePlateau();
                 }else{
                     plateau.add(carteContreLeboss);
+
                     ChargePlateau();
                     
                 }
@@ -636,7 +655,7 @@ public class GameController {
                         selectedCardsContainer.getChildren().clear();
                         ChargePlateau();
                     } else {
-                        plateau.add(selectCarte);
+                         plateau.add(selectCarte);
 
                         ChargePlateau();
                     }
@@ -644,6 +663,49 @@ public class GameController {
             }
 
         }
+
+        if (test == null) {
+            test = plateau.get(0);
+           
+        }
+        bossSelectione2.setPv(bossSelectione2.getPv() - test.getAttaque());
+        test.setPV(test.getPV() - bossSelectione2.getAttaque()); 
+
+        plateau.remove(test);
+        if (bossSelectione2.getPv() <= 0) {
+
+            creature.getChildren().clear();
+            afficherPopupVictoire();
+        }else{
+            lstBoss.add(bossSelectione2);
+            ChargerBoss(bossSelectione2);
+        }
+        if (test.getPV() <= 0) {
+            
+           
+            for (int i = 0; i < paquet.size(); i++) {
+                System.out.println(paquet.get(i).getNom());
+
+                if (paquet.get(i).getNom().equals(test.getNom())) {
+                    System.out.println(paquet.get(i).getNom());
+                    if (paquet.get(i).getPV() <= 0){
+                        System.out.println("effacer");
+
+                        paquet.remove(i);
+                        break;
+
+                    }
+                }
+            }
+            selectedCardsContainer.getChildren().clear();
+            
+            ChargePlateau();
+        }else{
+            plateau.add(test);
+            ChargePlateau();
+            
+        }
+        
 
      }
     private int getIndexCarteDansMain(int nomCarte) {
@@ -671,9 +733,11 @@ public class GameController {
         }
         return null;
     }
+
     private carte getCarteFromHashCode(int label) {
         for (carte card : JoueurActuel.getLstDeck()) {
             if (card.hashCode() == label) {
+
                 return card;
             }
         }
@@ -730,11 +794,11 @@ public class GameController {
         lstMonster.add(new CreaMonstre(10, 4, "Behemoth des montagnes", "Une bête titanesque parcourant les sommets en détruisant tout sur son passage. Ses rugissements déclenchent des éboulements.", "lien_image_behemoth_des_montagnes", fact.get(0)));
         lstMonster.add(new CreaMonstre(3, 4, "Liche maudite", "Un sorcier mort-vivant ayant acquis un pouvoir sinistre. Il lance des malédictions et invoque des âmes tourmentées pour combattre.", "lien_image_liche_maudite", fact.get(1)));
         //Boss
-        Aria initializeAria=new Aria(230, 15, "", "", "imageProjet/Aria.jpeg", fact.get(0),"");
+        Aria initializeAria=new Aria(30, 15, "", "", "imageProjet/Aria.jpeg", fact.get(0),"");
         lstBoss.add(initializeAria);
-        Neron initializeNeron=new Neron(300, 30, "", "", "imageProjet/Neron.jpeg", fact.get(1), "");
+        Neron initializeNeron=new Neron(30, 30, "", "", "imageProjet/Neron.jpeg", fact.get(1), "");
         lstBoss.add(initializeNeron);
-        Moloch initializeMoloch=new Moloch(130,80,"","","imageProjet/Moloch.jpeg",fact.get(2),"");
+        Moloch initializeMoloch=new Moloch(30,80,"","","imageProjet/Moloch.jpeg",fact.get(2),"");
         lstBoss.add(initializeMoloch);
 
     }
