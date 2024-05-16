@@ -180,36 +180,49 @@ Le design pattern utilisé ici permet de choisir entre deux méthodes de pioche 
 
 Voici la méthode pour piocher la première carte du paquet :
 ```java
- public void piocherCartes() {
+ public class PiocheSimple implements Pioche{
+
+    @Override
+    public void piocherCartes(ArrayList<carte> main, ArrayList<carte> paquet) {
         if (main.size() < 5) {
             
             carte cartePiochee = paquet.get(0);
             paquet.remove(0);
             main.add(cartePiochee);
             
-            ChargeMain(0);
         }
-        
     }
+}
+
 
 ```
 
 Voici la méthode pour la pioche aléatoire :
 ```java
-    public void piocheAléatoire() {
-        // Mélanger aléatoirement les cartes
+   public class PiocheAléatoire implements Pioche {
+
+
+    @Override
+    public void piocherCartes(ArrayList<carte> main, ArrayList<carte> paquet) {
         Collections.shuffle(paquet);
         if (main.size()< 5) {
          
             carte cartePiochee = paquet.get(0);
             paquet.remove(0);
             main.add(cartePiochee);
-        
-            ChargeMain(0);
-        }
-    
-}
 
+        
+        }
+    }
+}
+```
+
+Voici l'interface qui permet de crée les methodes de pioche :
+```java
+public interface Pioche {
+
+    public void piocherCartes(ArrayList<carte> main, ArrayList<carte> paquet);
+}
 
 ```
 ---

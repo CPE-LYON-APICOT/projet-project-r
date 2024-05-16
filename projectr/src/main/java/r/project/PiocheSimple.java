@@ -12,7 +12,6 @@ public class PiocheSimple implements Pioche{
             paquet.remove(0);
             main.add(cartePiochee);
             
-            
         }
     }
 }
