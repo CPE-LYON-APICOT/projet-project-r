@@ -56,9 +56,9 @@ public class GameController {
     
     private int manaparTour;
     private int manaDuJoueur;
-    private Pioche typeDePioche;
+    private TypePioche typeDePioche;
 
-    public GameController(player dataObject,ArrayList<Faction> dataList, Pioche pioche) {
+    public GameController(player dataObject,ArrayList<Faction> dataList, TypePioche pioche) {
         this.JoueurActuel = dataObject;
         this.fact = dataList;
         this.typeDePioche=  pioche;

@@ -3,7 +3,7 @@ package r.project;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class PiocheAléatoire implements Pioche {
+public class PiocheAléatoire implements TypePioche {
 
 
     @Override

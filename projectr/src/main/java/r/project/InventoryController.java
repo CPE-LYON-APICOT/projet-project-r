@@ -157,8 +157,8 @@ public class InventoryController {
         player dataObject = new player(40, new DeckBuilder(DeckPlayer).build(), heroChoisi);
         fxmlLoader.setControllerFactory(controllerClass -> {
             try {
-                Constructor<?> constructor = controllerClass.getConstructor(player.class, fact.getClass(), Pioche.class);
-                Pioche tyPioche = null;
+                Constructor<?> constructor = controllerClass.getConstructor(player.class, fact.getClass(), TypePioche.class);
+                TypePioche tyPioche = null;
                 switch (comboBoxPioche.getValue()) {
                     case "Pioche Aléatoire":
                         tyPioche = new PiocheAléatoire();

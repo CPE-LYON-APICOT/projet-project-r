@@ -2,7 +2,7 @@ package r.project;
 
 import java.util.ArrayList;
 
-public class PiocheSimple implements Pioche{
+public class PiocheSimple implements TypePioche{
 
     @Override
     public void piocherCartes(ArrayList<carte> main, ArrayList<carte> paquet) {
