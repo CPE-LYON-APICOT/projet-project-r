@@ -6,6 +6,7 @@ public class player {
     private int pv;
     private Collection<carte> lstDeck;
     private Hero hero;
+
     
     public player(int pPv,Collection<carte> pLstDeck, Hero pHero)
     {
